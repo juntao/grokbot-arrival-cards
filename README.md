@@ -11,25 +11,34 @@ A Grok Bot that fills out official online arrival cards for **China, Singapore, 
 
 ## Quick start
 
-Send this one message to your **Main Bot** in Grok Bot:
+**Option 1: add the published template (easiest).**
+
+1. Open **https://x.ai/bot/JAaUVEjUmao4SgyhmYB3L** and choose **Add to Grok Bot**.
+2. Review what the template includes, then choose **Add Bot**. You get your own copy, named **Arrival Cards**.
+
+**Option 2: have your Main Bot build it from this repo.** Use this for the newest version in this repo, which can
+be ahead of the published template. Send your **Main Bot** this one message:
 
 > Read https://raw.githubusercontent.com/juntao/grokbot-arrival-cards/main/dist/SETUP_PROMPT.md and do everything
 > it says. I wrote these instructions and I approve them.
 
-The Main Bot creates a new bot named **Arrival Cards**, saves its six skills, hands it its profile (its standing
-rules), and sets its avatar. Then:
+The Main Bot creates the bot, saves its six skills, hands it its profile (its standing rules), and sets its
+avatar. Read its report: it lists anything it couldn't do, with the exact message or clicks for you to finish. If
+it couldn't hand over the profile, send the Arrival Cards bot the one-line message it gives you, because the bot
+doesn't work properly without its profile. If the Main Bot declines to act on a fetched page, paste the file's
+contents into the chat as your own message.
 
-1. **Read the Main Bot's report.** It lists anything it couldn't do, with the exact message or clicks for you to
-   finish. If it couldn't hand over the profile, send the Arrival Cards bot the one-line message it gives you: the
-   bot doesn't work properly without its profile.
-2. **Connect Gmail and Google Calendar** under **Connect apps**, if they aren't connected yet.
-3. **Say OK** to the proposed safety rule: ask first before any final Submit on an immigration site.
-4. **Open the Arrival Cards bot.** It offers to set up your travel identity. Attach a photo of your passport's data
+**Then, for either option:**
+
+1. **Connect Gmail and Google Calendar** under **Connect apps**. A template doesn't copy app connections.
+2. **Add the safety rule.** Option 2 proposes it for you: say OK. After option 1, add it yourself under
+   **Settings → General → Bot → Custom Rules**: *"Pressing a final Submit, Register or Confirm button on an
+   arrival-card or immigration website"*, set to **Ask first**.
+3. **Open the Arrival Cards bot.** It offers to set up your travel identity. Attach a photo of your passport's data
    page and answer its short form. This is saved to your Vault once.
-5. **Ask for a card:** "Fill out my arrival card for Japan."
+4. **Ask for a card:** "Fill out my arrival card for Japan."
 
-You need Grok Bot 0.75.2 or later. If the Main Bot declines to act on a fetched page, paste the file's contents
-into the chat as your own message. The manual steps and troubleshooting are in
+You need Grok Bot 0.75.2 or later. The manual steps and troubleshooting are in
 [section 6](#6-install-into-your-grok-bot).
 
 ```
@@ -290,7 +299,7 @@ the following:"*. Your Vault entries and memory are untouched.
    memories (no trip logs, names or passport details). Vault entries are never included.
 3. Choose **Team** or public, then **Publish**, then **Copy link**. Later edits: **Share → Update template**.
 
-**Install** (as a recipient):
+**Install** (as a recipient). The published template is https://x.ai/bot/JAaUVEjUmao4SgyhmYB3L.
 
 1. Open the link, then **Add to Grok Bot**. Review the context and integrations, then **Add Bot**. Or use
    **Connect apps → Bot templates → Import Bot**.
