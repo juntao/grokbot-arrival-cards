@@ -145,7 +145,7 @@ key = "visa"
 label = "Visa or residence permit for this country (number, or 'none')"
 tier = "vault"
 vault_slot = "hint"
-note = "Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH; 'none' when visa-exempt."
+note = "Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH / visa_ID; 'none' when visa-exempt."
 
 [[field]]
 key = "vjw_login"
@@ -290,6 +290,13 @@ save = "trip"
 find = "Domestic connecting flights / train tickets in email within the trip dates; usually none."
 
 [[field]]
+key = "seat_number"
+label = "Seat number on the arriving flight"
+tier = "recall"
+save = "trip"
+find = "Boarding pass or check-in confirmation email; optional, leave empty before check-in."
+
+[[field]]
 key = "companions"
 label = "Travel companions on this trip"
 tier = "recall"
@@ -402,3 +409,30 @@ key = "yellow_fever_cert"
 label = "Do you have a Yellow Fever Vaccination Certificate (and its vaccination date)?"
 tier = "ask"
 note = "Thailand shows this only when a visited country, the boarding country or the nationality is on its yellow-fever list."
+
+[[field]]
+key = "recent_travel_21d"
+label = "Country of origin, transit and other countries visited within 21 days before arrival (list them)"
+tier = "ask"
+note = "Indonesia asks this; at least the country the flight left from. The bot may suggest trips found in email/calendar, but the user confirms."
+
+[[field]]
+key = "other_passport_nationality"
+label = "Have you ever used a passport of a different nationality to enter this country?"
+tier = "ask"
+
+[[field]]
+key = "baggage_count"
+label = "Number of bags arriving with you (checked and carry-on)"
+tier = "ask"
+
+[[field]]
+key = "customs_declarable"
+label = "Do you carry goods that must be declared to Customs (restricted items, cash over the limit, alcohol/tobacco or purchases over the allowance, trade goods)?"
+tier = "ask"
+
+[[field]]
+key = "imei_devices"
+label = "Bringing phones or tablets bought abroad to use on local mobile networks (IMEI registration)?"
+tier = "ask"
+note = "Indonesia: not required for foreign visitors staying under 90 days, but the question must still be answered."

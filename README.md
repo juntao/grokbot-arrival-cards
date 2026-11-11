@@ -1,6 +1,7 @@
 # Arrival Card Bot: a Grok Bot template
 
-A Grok Bot that fills out official online arrival cards for **China, Singapore, Japan, Taiwan, Korea and Thailand**:
+A Grok Bot that fills out official online arrival cards for **China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia and
+Indonesia**:
 
 0. **On first open**, it offers to set up your travel identity: a passport photo plus a few questions, saved to
    the **Vault** once.
@@ -22,7 +23,7 @@ be ahead of the published template. Send your **Main Bot** this one message:
 > Read https://raw.githubusercontent.com/juntao/grokbot-arrival-cards/main/dist/SETUP_PROMPT.md and do everything
 > it says. I wrote these instructions and I approve them.
 
-The Main Bot creates the bot, saves its eight skills, hands it its profile (its standing rules), and sets its
+The Main Bot creates the bot, saves its ten skills, hands it its profile (its standing rules), and sets its
 avatar. Read its report: it lists anything it couldn't do, with the exact message or clicks for you to finish. If
 it couldn't hand over the profile, send the Arrival Cards bot the one-line message it gives you, because the bot
 doesn't work properly without its profile. If the Main Bot declines to act on a fetched page, paste the file's
@@ -43,8 +44,8 @@ You need Grok Bot 0.75.2 or later. The manual steps and troubleshooting are in
 
 ```
 catalog/            source of truth: every field on every card, with its tier
-  fields.toml       63 canonical fields (one answer serves all cards)
-  cards/{cn,jp,kr,sg,th,tw}.toml each site's pages, labels, formats and options
+  fields.toml       69 canonical fields (one answer serves all cards)
+  cards/*.toml       each site's pages, labels, formats and options
 bot/                hand-written bot text
   PROFILE.md        job, sources, rules, autonomy
   SETUP_HEADER.md   setup steps for the user's Main Bot (top of SETUP_PROMPT.md)
@@ -63,7 +64,7 @@ this template.
 
 | Capability | What the docs say | How this template uses it |
 |---|---|---|
-| **Cloud computer** | Each account has one cloud computer: browser, command line, `/workspace`. Each Bot gets its own screen. You can watch, or **Take control**. | Fills the six official sites. Saves proof to `/workspace/arrival-cards/<trip>/`. |
+| **Cloud computer** | Each account has one cloud computer: browser, command line, `/workspace`. Each Bot gets its own screen. You can watch, or **Take control**. | Fills the eight official sites. Saves proof to `/workspace/arrival-cards/<trip>/`. |
 | **Memory** | Each Bot has its own memory: preferences, rules, and a dated work log. Name and time zone are shared across Bots. Logins and cards don't belong there. | Trip facts go in the trip log, lasting preferences as preferences. Declarations are never stored. |
 | **Vault** (≥ 0.75.2) | Three entry types: **Logins**, **Cards**, **Contact info** (name, address, phone, email), each with a nickname and **Hints**. A Bot *can* create and update contact info, nicknames and hints. Passwords and card numbers are filled without the Bot seeing them. | One Contact info entry per traveller, `Travel identity · GIVEN SURNAME`. Passport data goes in `key=value` hint lines (see §4). The Visit Japan Web account is a Vault Login. |
 | **Secure Form** | For values only you can give. Values go straight into the page and are never shown to the Bot. A "Securely save to Bot's vault" box appears for logins, cards and contact info. | Used automatically by Grok Bot for site passwords. |
@@ -79,7 +80,7 @@ Sources: [How Grok Bot works](https://docs.x.ai/grok-bot/how-grok-bot-works) ·
 [Skills & routines](https://docs.x.ai/grok-bot/skills-routines-and-automations) ·
 [Templates for Grok Bot](https://x.ai/bot/guides/templates-for-grok-bot).
 
-## 2. The six cards
+## 2. The eight cards
 
 | | Card | Official URL | Window | Handed to you |
 |---|---|---|---|---|
@@ -89,8 +90,10 @@ Sources: [How Grok Bot works](https://docs.x.ai/grok-bot/how-grok-bot-works) ·
 | TW | Taiwan Arrival Card | twac.immigration.gov.tw | **7** days before, arrival day included | email code (unless it's in your Gmail), Submit |
 | KR | Korea e-Arrival Card | e-arrivalcard.go.kr | 3 days before (Korea time); lapses after 72 h | CAPTCHA, email code (unless it's in your Gmail), Submit |
 | TH | Thailand Digital Arrival Card | tdac.immigration.go.th | 3 days before, arrival day included | Cloudflare check at the start, Submit |
+| MY | Malaysia Digital Arrival Card | imigresen-online.imi.gov.my/mdac | 3 days before, arrival day included | slider puzzle, Submit |
+| ID | All Indonesia arrival card | allindonesia.imigrasi.go.id | 3 days before | image CAPTCHA, certification tick, Submit |
 
-The field lists come from live-site walks of SG, CN and TW (Oct–Nov 2026), and for KR and TH from the sites' own
+The field lists come from live-site walks of SG, CN and TW (Oct–Nov 2026), and for KR, TH, MY and ID from the sites' own
 form code, label bundles and manuals. They were re-checked on 2026-11-11
 against the sites' own JS and i18n bundles, plus the Digital Agency VJW manual and Japan Customs form C5360 for JP.
 Each card file records its own `verified` date and sources.
@@ -130,14 +133,14 @@ it's found, and which of the 4 cards need it.
   machine-readable lines at the bottom of the page. It keeps a copy in `/workspace/arrival-cards/identity/` only if
   you say yes, because China's card requires an upload. Note that `/workspace` is shared by all your Bots.
 - **Declarations are never cached.** Health, the SG 6-day yellow-fever list, China's 2-year travel history, JP
-  immigration and customs Yes/No questions, China's lost-passport question, and Thailand's two-week travel list are
-  all asked fresh. These are legal
+  immigration and customs Yes/No questions, China's lost-passport question, Thailand's two-week travel list, and Indonesia's health, quarantine and customs
+  questions are all asked fresh. These are legal
   declarations, and a stale "No" is a false statement. For China's travel history, trips found in email may be
   offered as a starting list.
 - **The bot stops before Submit.** It fills everything, then submits only after you reply "submit". The setup also
   proposes an Auto Review *Ask first* rule, so the stop is enforced by the platform and not only by the prompt.
 - **One answer, all cards.** Cards point to canonical keys, so a passport number given for Singapore fills Japan,
-  China, Taiwan, Korea and Thailand too.
+  every other card too.
 
 ## 5. Build
 
@@ -193,7 +196,7 @@ Taiwan's email verification code also has to be typed by you.
 
 ### Step 4: Give the bot its profile and skills
 
-Use **one** of the three methods. All of them load the same content: the profile and eight skills.
+Use **one** of the three methods. All of them load the same content: the profile and ten skills.
 
 [`dist/SETUP_PROMPT.md`](dist/SETUP_PROMPT.md) is the bot's full definition in one file: setup steps written for
 your Main Bot, then the profile, then the skills. The **profile is required**, not optional: the skills say how to
@@ -211,14 +214,14 @@ you the exact message or clicks to finish. Grok Bot treats only your own message
 decline to act on a fetched page. If it does, use method B.
 
 **Method B: one paste.** Open [`dist/SETUP_PROMPT.md`](dist/SETUP_PROMPT.md), click **Raw**, copy everything
-(about 87 KB), and paste it as one message, either to your Main Bot or straight to the new Arrival Cards bot. The
+(about 106 KB), and paste it as one message, either to your Main Bot or straight to the new Arrival Cards bot. The
 file tells each of them what to do. If the chat refuses a message that long, use method C.
 
-**Method C: piece by piece** (nine messages).
+**Method C: piece by piece** (eleven messages).
 
 1. Paste the contents of [`dist/PROFILE.md`](dist/PROFILE.md), then add the line:
    *"Remember all of this as your standing rules."*
-2. For each of the eight files in [`dist/skills/`](dist/skills/), send:
+2. For each of the ten files in [`dist/skills/`](dist/skills/), send:
    *"Save the following as a private skill named `<file name without .md>`:"* followed by the file's contents.
    Do them in this order:
 
@@ -232,6 +235,8 @@ file tells each of them what to do. If the chat refuses a message that long, use
    | 6 | `tw-arrival-card` | Taiwan site walkthrough |
    | 7 | `kr-arrival-card` | Korea site walkthrough |
    | 8 | `th-arrival-card` | Thailand site walkthrough |
+   | 9 | `my-arrival-card` | Malaysia site walkthrough |
+   | 10 | `id-arrival-card` | Indonesia site walkthrough |
 
 3. Send: *"Propose an Auto Review rule, Ask first: pressing a final Submit, Register or Confirm button on an
    arrival-card or immigration website. Then run the arrival-card-onboarding skill."*
@@ -242,7 +247,7 @@ The bot should reply with a checklist. Confirm it yourself:
 
 1. Ask: *"What are your standing rules?"* It should mention searching Vault, memory, email and calendar before
    asking, one form, and stopping before Submit.
-2. Ask: *"List your skills."* All eight names from the table above should appear. If one is missing, open
+2. Ask: *"List your skills."* All ten names from the table above should appear. If one is missing, open
    **Connect apps**, select the connected count next to the title, and enable it for this bot under **Private
    skills**. If it isn't there either, repeat method C for that skill.
 
@@ -262,7 +267,7 @@ The setup ends by starting onboarding, and every new conversation starts with th
 1. Attach the photo of your passport's data page. The bot reads your name, passport number, dates and
    nationality.
 2. Answer its one form for what a passport doesn't show: phone, email, home city, occupation, and any visas for
-   China, Japan, Taiwan, Korea or Thailand.
+   the countries that need one.
 3. Say Yes or No to keeping a copy of the photo. China's card requires a passport photo upload, so No means you'll
    be asked for it on every China trip.
 4. Repeat for anyone who usually travels with you, or say "done".
@@ -271,14 +276,14 @@ The setup ends by starting onboarding, and every new conversation starts with th
 
 ### Step 8: First real card
 
-1. With a real trip coming up, say: *"Fill out my arrival card for Singapore"* (or China, Japan, Taiwan, Korea, Thailand).
+1. With a real trip coming up, say: *"Fill out my arrival card for Singapore"* (or any of the other seven countries).
 2. The bot shows an **Already known** block with the source of each value, then a numbered form for the gaps and
    the declaration questions. Correct anything wrong and answer the form.
 3. Watch it fill the site: open the computer preview in the right-hand panel. If it asks you to **Take control**
    (CAPTCHA, signature, 2-factor code), do only that step and tell it to continue.
 4. On the review page it sends you a summary and waits. Reply **submit** to file, or tell it what to change.
 
-If the card's window isn't open yet (Singapore, Korea and Thailand 3 days, Taiwan 7 days before arrival), the bot keeps your answers
+If the card's window isn't open yet (3 days before arrival for most, 7 for Taiwan), the bot keeps your answers
 and offers a routine that files on the opening day.
 
 ### If something goes wrong
@@ -322,9 +327,13 @@ the following:"*. Your Vault entries and memory are untouched.
 - **TH:** the form sits behind a Cloudflare check that only you can pass, so it has not been walked live. Its
   labels come from the site's own label bundle, but several dropdown lists were not verified. The bot reads the
   options from the page.
+- **MY:** Singapore citizens and some pass holders are reported exempt, but that list comes from press and embassy
+  notices, not the form. The web form takes one traveller per submission and can't be edited afterwards.
+- **ID:** the card is not a visa. Visa on Arrival and the Bali tourist levy are separate, and the bot doesn't pay
+  for either.
 - **KR:** travellers with a valid K-ETA don't file this card. The bot asks, and doesn't apply for K-ETA.
-- **Multiple travellers:** SG, TW, KR and TH batch travellers in one submission, and JP uses account family members. CN
-  needs one card per person.
+- **Multiple travellers:** SG, TW, KR, TH and ID batch travellers in one submission, and JP uses account family members. CN
+  and MY need one card per person.
 - **Adding a country:** add `catalog/cards/<cc>.toml` and `bot/skills/<skill>.md` with the six headings and a
   `<!-- FIELDS -->` marker. Reuse the canonical keys, and add new ones only when needed. Then run `check` and
   `render`.

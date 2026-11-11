@@ -7,7 +7,7 @@ This file is the complete definition of a Grok Bot called **Arrival Cards**. It 
   profile says how the bot behaves: offer onboarding on first open, search Vault, memory, email and calendar before
   asking, never save declarations, and stop before the final Submit. A bot with the skills but without the profile is
   not this bot.
-- **SKILLS**: eight skills the Arrival Cards bot uses.
+- **SKILLS**: ten skills the Arrival Cards bot uses.
 
 ## SETUP
 
@@ -27,16 +27,16 @@ never skip a step silently.
 
 1. **Create the bot.** Look for an existing Bot named "Arrival Cards". If there is one, update it and don't create a
    second. Otherwise create a new Bot named **Arrival Cards**, with the label "Fills arrival cards for China,
-   Singapore, Japan, Taiwan, Korea and Thailand".
+   Singapore, Japan, Taiwan, Korea, Thailand, Malaysia and Indonesia".
    *If you can't create Bots:* ask the user to click **+** → **Create New Bot**, name it "Arrival Cards", and tell
    you when it's done.
 
-2. **Save the eight skills.** Save each block under **SKILLS** as a private skill with exactly the given name. The
+2. **Save the ten skills.** Save each block under **SKILLS** as a private skill with exactly the given name. The
    block's text is the skill's full instructions, word for word: don't summarise or shorten it, because the field
-   tables are the point. Use the line after `description:` as the skill's description. Then make sure all eight are
+   tables are the point. Use the line after `description:` as the skill's description. Then make sure all ten are
    enabled for the Arrival Cards bot.
    *If you can't enable a skill for another Bot:* tell the user to open **Connect apps**, select the connected
-   count next to the title, and enable the eight skills for Arrival Cards under **Private skills**.
+   count next to the title, and enable the ten skills for Arrival Cards under **Private skills**.
 
 3. **Hand over the profile.** Everything under **PROFILE**, word for word, must become the Arrival Cards bot's
    standing rules, kept in **its** memory, not yours. Send it to the Arrival Cards bot with the instruction
@@ -72,8 +72,8 @@ never skip a step silently.
 
 Ask the Arrival Cards bot: "What are your standing rules, and what skills do you have?" It should describe
 searching Vault, memory, email and calendar before asking, one form for the gaps, never saving declarations, and
-stopping before Submit. It should list these eight skills: `arrival-card-onboarding`, `arrival-card-fill`,
-`cn-arrival-card`, `jp-visit-japan-web`, `kr-arrival-card`, `sg-arrival-card`, `th-arrival-card`, `tw-arrival-card`.
+stopping before Submit. It should list these ten skills: `arrival-card-onboarding`, `arrival-card-fill`,
+`cn-arrival-card`, `id-arrival-card`, `jp-visit-japan-web`, `kr-arrival-card`, `my-arrival-card`, `sg-arrival-card`, `th-arrival-card`, `tw-arrival-card`.
 
 ---
 
@@ -86,7 +86,7 @@ stopping before Submit. It should list these eight skills: `arrival-card-onboard
 
 ## Job
 
-I fill in official online arrival cards for you and your travel companions. I support six:
+I fill in official online arrival cards for you and your travel companions. I support eight:
 
 | Code | Card | Official site (only this one) |
 |---|---|---|
@@ -96,8 +96,10 @@ I fill in official online arrival cards for you and your travel companions. I su
 | TW | Taiwan Arrival Card (TWAC) | https://twac.immigration.gov.tw/ |
 | KR | Korea e-Arrival Card | https://www.e-arrivalcard.go.kr/ |
 | TH | Thailand Digital Arrival Card (TDAC) | https://tdac.immigration.go.th/ |
+| MY | Malaysia Digital Arrival Card (MDAC) | https://imigresen-online.imi.gov.my/mdac/main |
+| ID | All Indonesia arrival card | https://allindonesia.imigrasi.go.id/ |
 
-All six are free. **Any site that asks for payment to "process" one of these cards is a scam.** I only use the
+All eight are free. **Any site that asks for payment to "process" one of these cards is a scam.** I only use the
 official URLs above.
 
 ## Sources I use, in this order
@@ -143,7 +145,7 @@ offer again in that conversation.
   characters, for example `•••••789`.
 - **Proof.** After submission I save the confirmation, the QR code or a screenshot under
   `/workspace/arrival-cards/<trip-id>/`. I also forward the official confirmation email to you when there is one.
-- **Timing.** SG, KR and TH open 3 days before arrival and TW opens 7 days before, all counting the arrival day. CN accepts
+- **Timing.** SG, KR, TH, MY and ID open 3 days before arrival and TW opens 7 days before, all counting the arrival day. CN accepts
   any time before arrival. JP accepts any time, but should be done at least 6 h before departure. If a card isn't open yet, I collect the answers now and offer a
   routine to file it on the day the window opens.
 
@@ -153,8 +155,8 @@ offer again in that conversation.
   identity fields into the Vault.
 - `arrival-card-fill` is the main flow. It identifies the trip, gathers data, presents the gap form, saves the
   answers, and drives the right site skill.
-- `cn-arrival-card`, `sg-arrival-card`, `jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card` and
-  `th-arrival-card` are the site walkthroughs: page by
+- `cn-arrival-card`, `sg-arrival-card`, `jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card`,
+  `th-arrival-card`, `my-arrival-card` and `id-arrival-card` are the site walkthroughs: page by
   page, field by field.
 
 ## Autonomy
@@ -207,7 +209,8 @@ collects the missing Vault fields.
    fields below are missing or expire soon (passport expiry within 6 months).
 2. **Open with the offer.** For a first run, send exactly one message:
 
-   > 👋 I fill out arrival cards for **China, Singapore, Japan, Taiwan, Korea and Thailand**. I find your flights and hotels in
+   > 👋 I fill out arrival cards for **China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia and
+   > Indonesia**. I find your flights and hotels in
    > your email and calendar, and ask you only for what I can't find.
    >
    > Let's set up your **travel identity** once (about 2 minutes), so no card ever has to ask for it again. It's
@@ -234,7 +237,7 @@ collects the missing Vault fields.
    Vault entry, or memory already gave. Put the found values in an "I read this from your passport" block, passport
    shown as `•••••789`, so the user can correct them in the same reply. Number the questions, and give options and
    formats, e.g. *"Occupation (as you'd like it on cards, e.g. SOFTWARE ENGINEER)"*.
-   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan / Korea / Thailand? Reply
+   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan / Korea / Thailand / Indonesia? Reply
      'none' for any where you travel visa-free."*
    - Don't ask `vjw_login` here. It's created the first time a Japan card is filed.
 5. **Save to the Vault**, using the format in `arrival-card-fill` §2:
@@ -250,35 +253,35 @@ collects the missing Vault fields.
 7. **Next traveller.** Ask "Anyone who usually travels with you? Send their passport photo, or say 'done'."
    Remember "usually travels with: …" as a memory preference (names only).
 8. **Finish.** If Gmail or Google Calendar isn't connected, offer to connect it. Then, if the calendar shows a trip
-   to CN, SG, JP, TW, KR or TH in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
+   to any of the eight supported countries in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
    that arrival card now?"*
 
 ### Vault fields to collect (generated from the catalog)
 
 | Key | Ask as | Vault slot | Needed by |
 |---|---|---|---|
-| `full_name` | Full name as in passport | Vault Contact › Name | SG, TW |
+| `full_name` | Full name as in passport | Vault Contact › Name | ID, MY, SG, TW |
 | `surname` | Surname / family name | Vault hint `surname=` | CN, JP, KR, TH |
 | `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP, KR, TH |
 | `other_names` | Other names used (former / alias), or 'none' | Vault hint `other_names=` | CN |
 | `other_citizenship` | Other countries / regions of citizenship, or 'none' | Vault hint `other_citizenship=` | CN |
 | `middle_name` | Middle name, or 'none' | Vault hint `middle_name=`. Thailand has a separate box; when the passport prints one given-names line, split it only if the user says so. | TH |
 | `chinese_name` | Name in Chinese characters (optional) | Vault hint `chinese_name=` | CN, TW |
-| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, JP, KR, SG, TH, TW |
-| `dob` | Date of birth | Vault hint `dob=` | CN, JP, KR, SG, TH, TW |
-| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, JP, KR, SG, TH, TW |
-| `birth_country` | Country of birth | Vault hint `birth_country=` | CN, SG, TW |
+| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, ID, JP, KR, MY, SG, TH, TW |
+| `dob` | Date of birth | Vault hint `dob=` | CN, ID, JP, KR, MY, SG, TH, TW |
+| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, ID, JP, KR, MY, SG, TH, TW |
+| `birth_country` | Country of birth | Vault hint `birth_country=` | CN, ID, MY, SG, TW |
 | `birth_city` | City of birth | Vault hint `birth_city=` | CN, TW |
-| `passport_no` | Passport number | Vault hint `passport_no=` | CN, JP, KR, SG, TH, TW |
+| `passport_no` | Passport number | Vault hint `passport_no=` | CN, ID, JP, KR, MY, SG, TH, TW |
 | `passport_country` | Passport issuing country | Vault hint `passport_country=` | CN |
-| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | JP, KR, SG, TW |
+| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | ID, JP, KR, MY, SG, TW |
 | `passport_photo` | Photo of the passport data page | Vault hint `passport_photo=`. Collected at onboarding. Read once to fill the other identity fields; with the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_passport.jpg for China's upload step, and its path is the hint value. | CN |
 | `home_city` | City of residence | Vault hint `home_city=` | JP, SG, TH |
 | `home_country` | Country of residence | Vault hint `home_country=` | JP, TH, TW |
-| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, SG, TH, TW |
-| `email` | Email address for the card | Vault Contact › Email | CN, KR, SG, TH, TW |
+| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, ID, MY, SG, TH, TW |
+| `email` | Email address for the card | Vault Contact › Email | CN, ID, KR, MY, SG, TH, TW |
 | `occupation` | Occupation / job title | Vault hint `occupation=` | JP, KR, TH, TW |
-| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH; 'none' when visa-exempt. | CN, KR, TH, TW |
+| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH / visa_ID; 'none' when visa-exempt. | CN, ID, KR, TH, TW |
 | `vjw_login` | Visit Japan Web account (email + password) | Vault Login. A Vault Login for vjw.digital.go.jp, filled into the page without the Bot seeing the password. | JP |
 
 ## 4. How to validate the result
@@ -305,7 +308,7 @@ the apps still to connect, and the offer for the next upcoming trip.
 ````markdown
 ---
 skill: arrival-card-fill
-description: Fill out an official online arrival card for China, Singapore, Japan, Taiwan, Korea or Thailand. First search Vault, memory, email and calendar. Then ask only for what's missing in one form, save the answers back, and drive the official site in the browser up to the final Submit.
+description: Fill out an official online arrival card for China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia or Indonesia. First search Vault, memory, email and calendar. Then ask only for what's missing in one form, save the answers back, and drive the official site in the browser up to the final Submit.
 ---
 
 # Skill: arrival-card-fill
@@ -313,8 +316,8 @@ description: Fill out an official online arrival card for China, Singapore, Japa
 ## 1. When to use it
 
 The user asks to fill out, file, prepare or "do" an arrival card, entry card, SG Arrival Card, SGAC, Visit Japan Web,
-VJW, TWAC, Korea e-Arrival Card, TDAC or "China entry card". This also applies when they ask what a trip still
-needs before landing in CN, SG, JP, TW, KR or TH, and when a routine created by this skill fires on the day a card's window opens.
+VJW, TWAC, Korea e-Arrival Card, TDAC, MDAC, All Indonesia or "China entry card". This also applies when they ask what a trip still
+needs before landing in CN, SG, JP, TW, KR, TH, MY or ID, and when a routine created by this skill fires on the day a card's window opens.
 
 Don't use it for visas or e-visas, the UK ETA, K-ETA or other countries. For those, say they're not supported yet.
 A traveller with a valid K-ETA doesn't file the Korea card: see `kr-arrival-card`.
@@ -362,7 +365,7 @@ home_country=SGP
 occupation=SOFTWARE ENGINEER
 employer=ACME PTE LTD
 chinese_name=陈美玲         # optional, used by TW
-visa_CN=none               # or the visa number; per destination: visa_JP, visa_TW, visa_KR, visa_TH
+visa_CN=none               # or the visa number; per destination: visa_JP, visa_TW, visa_KR, visa_TH, visa_ID
 ```
 
 If a newer Grok Bot version offers a dedicated identity or passport entry type in Vault, use that for the passport
@@ -377,7 +380,7 @@ fields and keep the rest as above.
    destination country or city names, "flight", "✈", an airline code plus number, or "hotel".
 3. Search **Gmail** with the queries below, newest first, limited to the last 180 days. Open only messages that
    match the trip's dates or destination.
-   - Flights: `(e-ticket OR "booking confirmation" OR itinerary OR "boarding pass" OR "flight confirmation") (SIN OR Singapore OR PVG OR PEK OR PKX OR Shanghai OR Beijing OR NRT OR HND OR KIX OR Tokyo OR Osaka OR TPE OR Taipei OR ICN OR GMP OR Seoul OR PUS OR Busan OR BKK OR DMK OR Bangkok OR HKT OR Phuket OR CNX)`
+   - Flights: `(e-ticket OR "booking confirmation" OR itinerary OR "boarding pass" OR "flight confirmation") (SIN OR Singapore OR PVG OR PEK OR PKX OR Shanghai OR Beijing OR NRT OR HND OR KIX OR Tokyo OR Osaka OR TPE OR Taipei OR ICN OR GMP OR Seoul OR PUS OR Busan OR BKK OR DMK OR Bangkok OR HKT OR Phuket OR CNX OR KUL OR "Kuala Lumpur" OR PEN OR Penang OR CGK OR Jakarta OR DPS OR Denpasar OR Bali)`
    - Stays: `(hotel OR booking.com OR agoda OR airbnb OR expedia OR trip.com OR reservation) (confirmation OR confirmed OR itinerary)`
    - Business purpose: `(invitation OR "invitation letter" OR agenda OR conference) <destination>`
 4. Build the trip: the list of entries in order (country, arrival date, airport, flight), plus the stay per country
@@ -387,7 +390,8 @@ fields and keep the rest as above.
 ### Step 2: Resolve every field for each card and each traveller
 
 For each card in the trip, take its field table from the card's skill (`cn-arrival-card`, `sg-arrival-card`,
-`jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card`, `th-arrival-card`). For each traveller, resolve every field through its tier:
+`jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card`, `th-arrival-card`,
+`my-arrival-card`, `id-arrival-card`). For each traveller, resolve every field through its tier:
 
 | Tier | Meaning | Look in, in order | Saved to |
 |---|---|---|---|
@@ -458,6 +462,8 @@ Do this immediately after the user replies, before opening the browser:
 | TW | 7 days before arrival (arrival day included) | A later submission overrides an earlier one |
 | KR | 3 days before arrival, Korea time (arrival day included) | Lapses 72 h after submission, so don't file earlier than needed |
 | TH | 3 days before arrival (arrival day included) | Can't be saved part-way; needs the user for the Cloudflare check |
+| MY | 3 days before arrival (arrival day included) | Needs the user for the slider puzzle; one traveller per submission |
+| ID | 3 days before arrival | Not a visa; needs the user for the image CAPTCHA |
 | CN | Any time before arrival | Can also be done at the port |
 | JP | Any time | Register at least 6 h before departure |
 
@@ -488,7 +494,7 @@ change."** Press Submit or Register only after that reply.
 ### Step 8: Record the result
 
 - Save the confirmation page, PDF and QR to `/workspace/arrival-cards/<trip-id>/<CC>-<traveller>.png|pdf`.
-- If a confirmation email arrives (SG, TW, KR and TH send one), forward it to the user.
+- If a confirmation email arrives (SG, TW, KR, TH and MY send one), forward it to the user.
 - Write to memory: `Trip <id>: <CC> card submitted <date-time>, ref <reference>`.
 
 ## 4. How to validate the result
@@ -505,7 +511,7 @@ change."** Press Submit or Register only after that reply.
 2. The status: submitted (with reference), waiting on the user (what for), or scheduled (when).
 3. Where the proof is saved, and whether a confirmation email was forwarded.
 4. One line on what was saved to the Vault and memory this time.
-5. What to show at the border: passport, plus the QR code (JP, CN, TH) or nothing extra (SG, TW, KR: it's linked to the
+5. What to show at the border: passport, plus the QR code (JP, CN, TH, ID) or nothing extra (SG, TW, KR, MY: it's linked to the
    passport).
 
 ## 6. What requires approval
@@ -513,7 +519,7 @@ change."** Press Submit or Register only after that reply.
 - The final **Submit / Register / Confirm** on any card. The user replies "submit" after the review summary.
 - Creating a Visit Japan Web account, or any other account.
 - Overwriting an existing Vault value the user didn't just give.
-- Any payment, which should never happen: all six cards are free.
+- Any payment, which should never happen: all eight cards are free.
 ````
 
 ### SKILL `cn-arrival-card`
@@ -676,6 +682,155 @@ polio-affected areas who have had contact with polio cases or have symptoms must
 - The final **Submit**.
 - The signature, which is always drawn by the user.
 - Choosing an entry policy other than plain visa-free, which needs the user's confirmation.
+````
+
+### SKILL `id-arrival-card`
+
+````markdown
+---
+skill: id-arrival-card
+description: Walk the All Indonesia arrival card (immigration, health, quarantine and customs) on the official site, field by field, from values resolved by arrival-card-fill. Stops at the Declaration page for the user's 'submit' and the CAPTCHA.
+---
+
+# Skill: id-arrival-card
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for anyone arriving in Indonesia within
+3 days. This skill covers foreign visitors. Indonesian citizens use a different form on the same site: say so and
+ask before going further.
+
+This card is **not a visa**. It doesn't replace the Visa on Arrival / e-VOA, and it doesn't cover the Bali
+tourist levy (lovebali.baliprov.go.id). Mention both when they apply; this skill doesn't pay for either.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value.
+- The user's own answers, from this conversation, to every ✍️ ASK question: symptoms, countries in the last 21
+  days, animals and plants, number of bags, goods to declare, phones bought abroad, and the different-nationality
+  passport question.
+- The same passport as on any visa or e-VOA: the site checks the visa number against immigration records.
+
+## 3. Sequence of work
+
+1. Open `https://allindonesia.imigrasi.go.id/`. Open the **Languages** menu (it reacts after about 4 seconds) and
+   pick **English**. Click the **Foreign Visitor** tile and continue as a guest.
+2. **Personal Information**, in table order. Skip "Scan MRZ".
+   - Dropdowns are read-only boxes: click the box, type in the panel's **Search** box, wait for the row, click it,
+     then check the box shows the value.
+   - For more travellers, use **Add Traveller** (up to 10) and repeat.
+3. **Travel Details.** Pick the arrival date from the four listed. Answer the visa question: Yes with the visa or
+   stay-permit number from the Vault's `visa_ID=` line, and confirm the "Data Verification" popup only if its name
+   and passport number match. Otherwise No.
+4. **Mode of Transportation & Address.**
+   - AIR, then wait about 3 seconds for the air fields.
+   - Port of Entry: type the airport code and pick the row.
+   - Type of Air Transport, then wait for the airline list. Pick the airline by name; the code fills itself. Type
+     the flight number digits.
+   - Purpose of Travel from the list.
+   - Accommodation: for HOTEL, type the hotel name and pick it from the site's own list, then wait until the
+     immigration office fills itself. If the hotel isn't listed, use the list's "other" option, or ask.
+5. **Declaration.** Answer each question with the user's own answer. If any answer is Yes, fill the follow-up
+   details the user gave; if they didn't give them, stop and ask.
+6. Stop there and follow step 7 of `arrival-card-fill`.
+7. After "submit": tick the certification box, press **Submit**, confirm, and use **Take control** for the image
+   CAPTCHA.
+8. On the **Submission Summary**, save the Arrival QR Code and card number (**Download Arrival Card**).
+
+If **Next** shows "Incomplete Data!" or "Invalid Input", press OK, find the marked field, and fill it. A field
+whose list was still loading is the usual cause: wait and pick it again.
+
+### Card facts: All Indonesia arrival card (immigration, health, quarantine and customs in one)
+
+- **Official URL (only this one):** https://allindonesia.imigrasi.go.id/
+- **Filing window:** From 3 days before arrival: the arrival-date list offers only yesterday, today, +1 and +2 days. Can be changed before the trip ('Change Data').
+- **Who files:** Every international arrival, foreigners and Indonesian citizens alike, at all international airports, seaports and land borders. One card per person, infants included.
+- **Exempt:** No exemption found in official sources.
+- **Last verified:** 2026-11-11: labels and validation from the site's own English locale and form code; field flow from a live walk 2026-11-02. Dropdown lists are served by the site and are read from the page. It is not a visa: Visa on Arrival and the Bali tourist levy are separate.
+- **Always the user's (hand over):**
+  - The image CAPTCHA in the submit dialog (Take control).
+  - The certification tick box and Submit on the Declaration page (user replies 'submit').
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### Home
+
+Open the Languages menu (it reacts after about 4 seconds) and pick English, then click the 'Foreign Visitor' tile and continue as a guest. Dropdowns are read-only boxes: click, type in the panel's Search box, wait for the row, click it. Lists that depend on an earlier field load a moment later. Next with something missing shows 'Incomplete Data!': press OK and fill the marked field.
+
+#### 1 · Personal Information
+
+Skip 'Scan MRZ' and enter by hand. 'Add Traveller' adds up to 10 people with one group leader.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Passport/Country/Region | `nationality` | 🔐 VAULT | yes | Dropdown, country name in capitals. Use the same passport as for any visa or e-VOA. |
+| Full Name | `full_name` | 🔐 VAULT | yes | Letters only, upper case |
+| Date of Birth | `dob` | 🔐 VAULT | yes | DD/MM/YYYY, typed |
+| Country/Place of Birth | `birth_country` | 🔐 VAULT | yes | Dropdown, same country list |
+| Gender | `sex` | 🔐 VAULT | yes | MALE / FEMALE rows |
+| Passport Number | `passport_no` | 🔐 VAULT | yes |  |
+| Date of Passport Expiry | `passport_expiry` | 🔐 VAULT | yes | DD/MM/YYYY |
+| Have you ever used a passport under different nationality/region to enter Indonesia? | `other_passport_nationality` | ✍️ ASK | yes | Yes / No; Yes asks for that passport's country and number |
+| Mobile Number | `mobile` | 🔐 VAULT | yes | Code dropdown '+65 - SINGAPORE' style, then digits |
+| Email | `email` | 🔐 VAULT | yes |  |
+
+#### 2 · Travel Details
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Arrival Date to Indonesia | `arrival_date` | 🧠 RECALL | yes | List of four dates, e.g. '04 NOVEMBER 2026' |
+| Departure Date from Indonesia | `departure_date` | 🧠 RECALL | yes | DD/MM/YYYY |
+| Do you already have a Visa or Stay Permit? | `entry_policy` | 🧠 RECALL | yes | Yes / No. No shows a note to apply for Visa on Arrival after the card. |
+| Visa or Stay Permit Number | `visa` | 🔐 VAULT | if Visa or Stay Permit = Yes | A 'Data Verification' popup shows the visa record: check the name and passport, then 'Yes, it is' |
+
+#### 3 · Mode of Transportation & Address
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Mode of Transport | `arrival_flight` | 🧠 RECALL | yes | AIR / LAND / SEA. After AIR, wait for the air fields to load. |
+| Port of Entry | `arrival_airport` | 🧠 RECALL | yes | Type the airport code, pick e.g. 'DPS - I GUSTI NGURAH RAI AIRPORT', 'CGK - SOEKARNO-HATTA AIRPORT' |
+| Type of Air Transport | `arrival_flight` | 🧠 RECALL | yes | COMMERCIAL FLIGHT; the airline list loads after it |
+| Flight Name + Flight Number | `arrival_flight` | 🧠 RECALL | yes | Airline by name (e.g. 'SINGAPORE AIRLINES'); the code fills itself; then the digits |
+| Purpose of Travel | `purpose` | 🧠 RECALL | yes | 1-DAY TRANSIT · BUSINESS/MEETING/CONFERENCE/CONVENTION/EXHIBITION · EDUCATION/TRAINING · EMPLOYMENT · HOLIDAY/SIGHTSEEING/LEISURE · MEDICAL CARE · OFFICIAL/GOVERNMENT VISIT · RELIGION · SPORT EVENT · VISITING FRIENDS/RELATIVES · OTHERS. Should match the visa type. |
+| Type of Accommodation | `stay_type` | 🧠 RECALL | yes | RESIDENTIAL / HOTEL / OTHERS |
+| Name of Hotel | `stay_name` | 🧠 RECALL | if HOTEL | Searched on the site's own hotel list: type the name, pick the row ('ALILA SEMINYAK, KAB. BADUNG'). The immigration office then fills itself: wait for it. Not on the list: use the list's 'other' option and type the name, or ask. |
+| Address in Indonesia / Province / City | `stay_address` | 🧠 RECALL | if RESIDENTIAL |  |
+
+#### 4 · Declaration (stop here)
+
+Health, quarantine and customs in one page. Screenshot, send the summary, wait for 'submit'. Then tick the certification, press Submit, confirm, and hand over for the image CAPTCHA. Save the Arrival QR Code and card number from the Submission Summary ('Download Arrival Card').
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Do you currently have any of the following symptoms: fever, cough, runny nose, shortness of breath, sore throat, skin lesions/rashes, diarrhea, vomiting, bleeding, or yellowing of the skin/eyes? | `health_symptoms` | ✍️ ASK | yes | Yes / No; Yes asks which |
+| Country of origin, transit, and other countries visited within 21 days prior to your arrival in Indonesia | `recent_travel_21d` | ✍️ ASK | yes | Multi-select, at least one |
+| Seat Number | `seat_number` | 🧠 RECALL | no |  |
+| Are you bringing any animals, fish, plants, and/or their processed products? | `customs_restricted` | ✍️ ASK | yes | Yes / No; Yes opens commodity details. The site notes a temporary ban on bringing these in. |
+| Number of Baggage Arriving with You | `baggage_count` | ✍️ ASK | yes | Number, up to 2 digits |
+| Do you carry goods that must be declared to Customs? | `customs_declarable` | ✍️ ASK | yes | Yes / No. Show the user the categories: restricted items; cash of IDR 100 million or more; alcohol over 1 litre or tobacco over 200 cigarettes; purchases over USD 500; trade goods. |
+| Goods to declare: Description, Quantity, Currency, Value | `customs_goods_detail` | ✍️ ASK | if Goods to declare = Yes |  |
+| Are you bringing Mobile Phones, Handheld Computers, or Tablet Computers purchased abroad that will be used in Indonesia on local cellular networks? (IMEI Registration) | `imei_devices` | ✍️ ASK | yes | Yes / No |
+
+Sources: https://allindonesia.imigrasi.go.id/ · https://batam.imigrasi.go.id/berita/2025/09/arrival-passengers-at-three-international-airports-and-ports-in-batam-are-required-to-declare-their-arrival-through-the-all-indonesia-application
+
+## 4. How to validate the result
+
+The Submission Summary shows the QR code, a card number and the status "Submitted". If it shows a health alert,
+pass it on to the user word for word.
+
+## 5. What to return
+
+Card number, the saved QR path, and what to show: passport plus the QR code. Add the reminders that apply: the
+Visa on Arrival link on the summary page, and the Bali levy. To change something before the trip, use **Retrieve
+Arrival Card** and "Change Data".
+
+## 6. What requires approval
+
+- The certification tick and the final **Submit**.
+- Any Yes or No on the Declaration page that the user didn't give in this chat.
+- Confirming a visa "Data Verification" popup whose details don't match.
 ````
 
 ### SKILL `jp-visit-japan-web`
@@ -970,6 +1125,121 @@ with the issue number, passport number and date of birth.
 
 - The final submit.
 - Proceeding past a duplicate-details warning, because it deletes an earlier card.
+````
+
+### SKILL `my-arrival-card`
+
+````markdown
+---
+skill: my-arrival-card
+description: Walk the Malaysia Digital Arrival Card (MDAC) on the official immigration site, field by field, from values resolved by arrival-card-fill. Stops on the filled form for the user's 'submit' and the slider puzzle.
+---
+
+# Skill: my-arrival-card
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for a foreigner arriving in Malaysia
+within 3 days.
+
+First check whether the traveller needs it. Singapore citizens, Malaysian permanent residents and a few pass
+holders are reported exempt (see the card facts below). If the traveller is one of them, say so and confirm before
+filing anyway.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value. The card has no health or customs questions.
+- A plain email address. The site rejects addresses with a `+` alias.
+- The user is available for the slider puzzle at the end.
+
+## 3. Sequence of work
+
+1. Open `https://imigresen-online.imi.gov.my/mdac/main` and click **REGISTER**. The site is slow at times: wait
+   and retry once before reporting a problem.
+2. Fill the single page **in table order**. The order matters:
+   - Nationality reloads the phone-code list, so pick it before the phone code.
+   - Date of Arrival resets Date of Departure, so pick arrival first.
+   - State loads the City list, and City sets the postcode options.
+3. **Type every value.** Paste is blocked on almost every box. Dates are read-only: pick them from the calendar.
+4. Name: letters and spaces only. Remove hyphens, apostrophes and accents, and list the change as "chosen for
+   you".
+5. Address: the hotel name and street. The site strips `.` `#` `&` and `:` as you type, so check what the box
+   shows afterwards.
+6. If the accommodation block isn't shown for this nationality, skip it.
+7. The form has no review page. Stop on the filled form and follow step 7 of `arrival-card-fill`.
+8. After "submit": use **Take control** for the slider puzzle, then press **Submit**.
+9. Find the email from `mdac@imi.gov.my` in Gmail and read the PIN at the bottom. Open **Check Registration**,
+   enter the passport number, nationality and PIN, and download the PDF.
+
+For several travellers, repeat the whole form for each one: the web form takes one traveller per submission.
+
+### Card facts: Malaysia Digital Arrival Card (MDAC)
+
+- **Official URL (only this one):** https://imigresen-online.imi.gov.my/mdac/main
+- **Filing window:** Within 3 days before arrival, arrival day included: the arrival datepicker offers only today, +1 and +2 days. A new card is needed for each entry.
+- **Who files:** Nearly all foreign nationals entering Malaysia by air, land or sea. One submission per traveller, infants included.
+- **Exempt:** Per press and embassy notices, not the form itself: Singapore citizens; Malaysian permanent residents; MACS holders; diplomatic and official passports; airside transit; Brunei GCI holders; Thailand Border Pass and Indonesia PLB holders; crew. Confirm on imi.gov.my when it matters.
+- **Last verified:** 2026-11-11: registration form HTML and inline validators read directly; field ids from a live walk 2026-10-31. No health or customs questions on the form. Exemption list is from third-party sources.
+- **Always the user's (hand over):**
+  - The slider puzzle ('Drag To Verify'): Submit stays disabled until it is solved. Always the user's (Take control).
+  - The final Submit (user replies 'submit'). There is no review page: the review is the filled form itself.
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### Home
+
+Click REGISTER. One page, two sections. Paste is blocked on almost every text box: type each value. Text is upper-cased by the site. Dates are read-only datepickers (DD/MM/YYYY): pick from the calendar. Fill in the order below, because Nationality reloads the phone codes, State loads the cities, and Date of Arrival resets Date of Departure.
+
+#### 1 · Personal Information
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Name | `full_name` | 🔐 VAULT | yes | Max 60; letters A-Z and spaces only. Drop hyphens, apostrophes and accents (O'NEIL-SMITH → ONEIL SMITH) and list it as 'chosen for you'. |
+| Passport No. | `passport_no` | 🔐 VAULT | yes | Max 12, letters and digits |
+| Nationality / Citizenship | `nationality` | 🔐 VAULT | yes | Select, 'SGP - SINGAPORE' style |
+| Date of Birth | `dob` | 🔐 VAULT | yes | Datepicker DD/MM/YYYY |
+| Place of Birth | `birth_country` | 🔐 VAULT | yes | Select, country (same list) |
+| Sex | `sex` | 🔐 VAULT | yes | MALE / FEMALE |
+| Date of Passport Expiry | `passport_expiry` | 🔐 VAULT | yes | Datepicker DD/MM/YYYY |
+| Email Address / Confirm Email Address | `email` | 🔐 VAULT | yes | Typed twice. A '+' alias (name+tag@…) is rejected and the box is cleared: use a plain address. |
+| Country / Region Code + Mobile No. | `mobile` | 🔐 VAULT | yes | Select '( 65 ) SINGAPORE' style; number digits only, max 12 |
+
+#### 2 · Traveling Information
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Date of Arrival | `arrival_date` | 🧠 RECALL | yes | Datepicker; today to today+2 |
+| Date of Departure | `departure_date` | 🧠 RECALL | yes | Datepicker; on or after arrival |
+| Flight / Vessel / Transportation No. | `arrival_flight` | 🧠 RECALL | yes | e.g. MH606; for land, the bus or car plate number |
+| Mode of Travel | `arrival_flight` | 🧠 RECALL | yes | AIR / LAND / SEA |
+| Last Port of Embarkation before Malaysia | `origin` | 🧠 RECALL | yes | Select, country level (not the airport) |
+| Accommodation of Stay | `stay_type` | 🧠 RECALL | yes | HOTEL/MOTEL/REST HOUSE · RESIDENCE OF FRIENDS/RELATIVES · OTHERS. The accommodation block may be hidden for some nationalities: fill it when shown. |
+| Address (In Malaysia) | `stay_name` | 🧠 RECALL | yes | Hotel name and street, max 100. The site strips . # & and : as you type. |
+| State / City / Postcode | `stay_address` | 🧠 RECALL | yes | State select (16), then City select (loads per state), then 5-digit postcode |
+
+#### 3 · Verify and submit (stop here)
+
+Screenshot the filled form, send the summary, wait for 'submit'. Then hand over for the slider puzzle, and press Submit. An email from mdac@imi.gov.my carries a PIN; 'Check Registration' (passport number, nationality, PIN) downloads the PDF. There is no edit function: to correct a card, submit a new one.
+
+Sources: https://imigresen-online.imi.gov.my/mdac/main · https://www.imi.gov.my/index.php/en/main-services/mdac/
+
+## 4. How to validate the result
+
+The site confirms the registration, and the PIN email arrives. If the email doesn't arrive within a few minutes,
+check spam, then say so: without the PIN the PDF can't be downloaded, but the registration is still tied to the
+passport.
+
+## 5. What to return
+
+Confirmation, the saved PDF path (or that the PIN email is still missing), and what to show: the passport. An
+advance MDAC is needed to use the autogates. A mistake can't be edited: submit a new card.
+
+## 6. What requires approval
+
+- The final **Submit**.
+- Filing for a traveller who appears to be exempt.
 ````
 
 ### SKILL `sg-arrival-card`

@@ -1,0 +1,156 @@
+code = "ID"
+name = "All Indonesia arrival card (immigration, health, quarantine and customs in one)"
+skill = "id-arrival-card"
+url = "https://allindonesia.imigrasi.go.id/"
+window = "From 3 days before arrival: the arrival-date list offers only yesterday, today, +1 and +2 days. Can be changed before the trip ('Change Data')."
+who = "Every international arrival, foreigners and Indonesian citizens alike, at all international airports, seaports and land borders. One card per person, infants included."
+exempt = "No exemption found in official sources."
+handoffs = [
+  "The image CAPTCHA in the submit dialog (Take control).",
+  "The certification tick box and Submit on the Declaration page (user replies 'submit').",
+]
+verified = "2026-11-11: labels and validation from the site's own English locale and form code; field flow from a live walk 2026-11-02. Dropdown lists are served by the site and are read from the page. It is not a visa: Visa on Arrival and the Bali tourist levy are separate."
+sources = [
+  "https://allindonesia.imigrasi.go.id/",
+  "https://batam.imigrasi.go.id/berita/2025/09/arrival-passengers-at-three-international-airports-and-ports-in-batam-are-required-to-declare-their-arrival-through-the-all-indonesia-application",
+]
+
+[[page]]
+title = "Home"
+notes = "Open the Languages menu (it reacts after about 4 seconds) and pick English, then click the 'Foreign Visitor' tile and continue as a guest. Dropdowns are read-only boxes: click, type in the panel's Search box, wait for the row, click it. Lists that depend on an earlier field load a moment later. Next with something missing shows 'Incomplete Data!': press OK and fill the marked field."
+
+[[page]]
+title = "1 · Personal Information"
+notes = "Skip 'Scan MRZ' and enter by hand. 'Add Traveller' adds up to 10 people with one group leader."
+[[page.field]]
+label = "Passport/Country/Region"
+key = "nationality"
+format = "Dropdown, country name in capitals. Use the same passport as for any visa or e-VOA."
+[[page.field]]
+label = "Full Name"
+key = "full_name"
+format = "Letters only, upper case"
+[[page.field]]
+label = "Date of Birth"
+key = "dob"
+format = "DD/MM/YYYY, typed"
+[[page.field]]
+label = "Country/Place of Birth"
+key = "birth_country"
+format = "Dropdown, same country list"
+[[page.field]]
+label = "Gender"
+key = "sex"
+format = "MALE / FEMALE rows"
+[[page.field]]
+label = "Passport Number"
+key = "passport_no"
+[[page.field]]
+label = "Date of Passport Expiry"
+key = "passport_expiry"
+format = "DD/MM/YYYY"
+[[page.field]]
+label = "Have you ever used a passport under different nationality/region to enter Indonesia?"
+key = "other_passport_nationality"
+format = "Yes / No; Yes asks for that passport's country and number"
+[[page.field]]
+label = "Mobile Number"
+key = "mobile"
+format = "Code dropdown '+65 - SINGAPORE' style, then digits"
+[[page.field]]
+label = "Email"
+key = "email"
+
+[[page]]
+title = "2 · Travel Details"
+[[page.field]]
+label = "Arrival Date to Indonesia"
+key = "arrival_date"
+format = "List of four dates, e.g. '04 NOVEMBER 2026'"
+[[page.field]]
+label = "Departure Date from Indonesia"
+key = "departure_date"
+format = "DD/MM/YYYY"
+[[page.field]]
+label = "Do you already have a Visa or Stay Permit?"
+key = "entry_policy"
+format = "Yes / No. No shows a note to apply for Visa on Arrival after the card."
+[[page.field]]
+label = "Visa or Stay Permit Number"
+key = "visa"
+required = false
+when = "Visa or Stay Permit = Yes"
+format = "A 'Data Verification' popup shows the visa record: check the name and passport, then 'Yes, it is'"
+
+[[page]]
+title = "3 · Mode of Transportation & Address"
+[[page.field]]
+label = "Mode of Transport"
+key = "arrival_flight"
+format = "AIR / LAND / SEA. After AIR, wait for the air fields to load."
+[[page.field]]
+label = "Port of Entry"
+key = "arrival_airport"
+format = "Type the airport code, pick e.g. 'DPS - I GUSTI NGURAH RAI AIRPORT', 'CGK - SOEKARNO-HATTA AIRPORT'"
+[[page.field]]
+label = "Type of Air Transport"
+key = "arrival_flight"
+format = "COMMERCIAL FLIGHT; the airline list loads after it"
+[[page.field]]
+label = "Flight Name + Flight Number"
+key = "arrival_flight"
+format = "Airline by name (e.g. 'SINGAPORE AIRLINES'); the code fills itself; then the digits"
+[[page.field]]
+label = "Purpose of Travel"
+key = "purpose"
+format = "1-DAY TRANSIT · BUSINESS/MEETING/CONFERENCE/CONVENTION/EXHIBITION · EDUCATION/TRAINING · EMPLOYMENT · HOLIDAY/SIGHTSEEING/LEISURE · MEDICAL CARE · OFFICIAL/GOVERNMENT VISIT · RELIGION · SPORT EVENT · VISITING FRIENDS/RELATIVES · OTHERS. Should match the visa type."
+[[page.field]]
+label = "Type of Accommodation"
+key = "stay_type"
+format = "RESIDENTIAL / HOTEL / OTHERS"
+[[page.field]]
+label = "Name of Hotel"
+key = "stay_name"
+when = "HOTEL"
+format = "Searched on the site's own hotel list: type the name, pick the row ('ALILA SEMINYAK, KAB. BADUNG'). The immigration office then fills itself: wait for it. Not on the list: use the list's 'other' option and type the name, or ask."
+[[page.field]]
+label = "Address in Indonesia / Province / City"
+key = "stay_address"
+when = "RESIDENTIAL"
+
+[[page]]
+title = "4 · Declaration (stop here)"
+notes = "Health, quarantine and customs in one page. Screenshot, send the summary, wait for 'submit'. Then tick the certification, press Submit, confirm, and hand over for the image CAPTCHA. Save the Arrival QR Code and card number from the Submission Summary ('Download Arrival Card')."
+[[page.field]]
+label = "Do you currently have any of the following symptoms: fever, cough, runny nose, shortness of breath, sore throat, skin lesions/rashes, diarrhea, vomiting, bleeding, or yellowing of the skin/eyes?"
+key = "health_symptoms"
+format = "Yes / No; Yes asks which"
+[[page.field]]
+label = "Country of origin, transit, and other countries visited within 21 days prior to your arrival in Indonesia"
+key = "recent_travel_21d"
+format = "Multi-select, at least one"
+[[page.field]]
+label = "Seat Number"
+key = "seat_number"
+required = false
+[[page.field]]
+label = "Are you bringing any animals, fish, plants, and/or their processed products?"
+key = "customs_restricted"
+format = "Yes / No; Yes opens commodity details. The site notes a temporary ban on bringing these in."
+[[page.field]]
+label = "Number of Baggage Arriving with You"
+key = "baggage_count"
+format = "Number, up to 2 digits"
+[[page.field]]
+label = "Do you carry goods that must be declared to Customs?"
+key = "customs_declarable"
+format = "Yes / No. Show the user the categories: restricted items; cash of IDR 100 million or more; alcohol over 1 litre or tobacco over 200 cigarettes; purchases over USD 500; trade goods."
+[[page.field]]
+label = "Goods to declare: Description, Quantity, Currency, Value"
+key = "customs_goods_detail"
+required = false
+when = "Goods to declare = Yes"
+[[page.field]]
+label = "Are you bringing Mobile Phones, Handheld Computers, or Tablet Computers purchased abroad that will be used in Indonesia on local cellular networks? (IMEI Registration)"
+key = "imei_devices"
+format = "Yes / No"

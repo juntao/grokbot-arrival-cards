@@ -1,0 +1,98 @@
+code = "MY"
+name = "Malaysia Digital Arrival Card (MDAC)"
+skill = "my-arrival-card"
+url = "https://imigresen-online.imi.gov.my/mdac/main"
+window = "Within 3 days before arrival, arrival day included: the arrival datepicker offers only today, +1 and +2 days. A new card is needed for each entry."
+who = "Nearly all foreign nationals entering Malaysia by air, land or sea. One submission per traveller, infants included."
+exempt = "Per press and embassy notices, not the form itself: Singapore citizens; Malaysian permanent residents; MACS holders; diplomatic and official passports; airside transit; Brunei GCI holders; Thailand Border Pass and Indonesia PLB holders; crew. Confirm on imi.gov.my when it matters."
+handoffs = [
+  "The slider puzzle ('Drag To Verify'): Submit stays disabled until it is solved. Always the user's (Take control).",
+  "The final Submit (user replies 'submit'). There is no review page: the review is the filled form itself.",
+]
+verified = "2026-11-11: registration form HTML and inline validators read directly; field ids from a live walk 2026-10-31. No health or customs questions on the form. Exemption list is from third-party sources."
+sources = [
+  "https://imigresen-online.imi.gov.my/mdac/main",
+  "https://www.imi.gov.my/index.php/en/main-services/mdac/",
+]
+
+[[page]]
+title = "Home"
+notes = "Click REGISTER. One page, two sections. Paste is blocked on almost every text box: type each value. Text is upper-cased by the site. Dates are read-only datepickers (DD/MM/YYYY): pick from the calendar. Fill in the order below, because Nationality reloads the phone codes, State loads the cities, and Date of Arrival resets Date of Departure."
+
+[[page]]
+title = "1 · Personal Information"
+[[page.field]]
+label = "Name"
+key = "full_name"
+format = "Max 60; letters A-Z and spaces only. Drop hyphens, apostrophes and accents (O'NEIL-SMITH → ONEIL SMITH) and list it as 'chosen for you'."
+[[page.field]]
+label = "Passport No."
+key = "passport_no"
+format = "Max 12, letters and digits"
+[[page.field]]
+label = "Nationality / Citizenship"
+key = "nationality"
+format = "Select, 'SGP - SINGAPORE' style"
+[[page.field]]
+label = "Date of Birth"
+key = "dob"
+format = "Datepicker DD/MM/YYYY"
+[[page.field]]
+label = "Place of Birth"
+key = "birth_country"
+format = "Select, country (same list)"
+[[page.field]]
+label = "Sex"
+key = "sex"
+format = "MALE / FEMALE"
+[[page.field]]
+label = "Date of Passport Expiry"
+key = "passport_expiry"
+format = "Datepicker DD/MM/YYYY"
+[[page.field]]
+label = "Email Address / Confirm Email Address"
+key = "email"
+format = "Typed twice. A '+' alias (name+tag@…) is rejected and the box is cleared: use a plain address."
+[[page.field]]
+label = "Country / Region Code + Mobile No."
+key = "mobile"
+format = "Select '( 65 ) SINGAPORE' style; number digits only, max 12"
+
+[[page]]
+title = "2 · Traveling Information"
+[[page.field]]
+label = "Date of Arrival"
+key = "arrival_date"
+format = "Datepicker; today to today+2"
+[[page.field]]
+label = "Date of Departure"
+key = "departure_date"
+format = "Datepicker; on or after arrival"
+[[page.field]]
+label = "Flight / Vessel / Transportation No."
+key = "arrival_flight"
+format = "e.g. MH606; for land, the bus or car plate number"
+[[page.field]]
+label = "Mode of Travel"
+key = "arrival_flight"
+format = "AIR / LAND / SEA"
+[[page.field]]
+label = "Last Port of Embarkation before Malaysia"
+key = "origin"
+format = "Select, country level (not the airport)"
+[[page.field]]
+label = "Accommodation of Stay"
+key = "stay_type"
+format = "HOTEL/MOTEL/REST HOUSE · RESIDENCE OF FRIENDS/RELATIVES · OTHERS. The accommodation block may be hidden for some nationalities: fill it when shown."
+[[page.field]]
+label = "Address (In Malaysia)"
+key = "stay_name"
+format = "Hotel name and street, max 100. The site strips . # & and : as you type."
+[[page.field]]
+label = "State / City / Postcode"
+key = "stay_address"
+format = "State select (16), then City select (loads per state), then 5-digit postcode"
+
+[[page]]
+title = "3 · Verify and submit (stop here)"
+notes = "Screenshot the filled form, send the summary, wait for 'submit'. Then hand over for the slider puzzle, and press Submit. An email from mdac@imi.gov.my carries a PIN; 'Check Registration' (passport number, nationality, PIN) downloads the PDF. There is no edit function: to correct a card, submit a new one."

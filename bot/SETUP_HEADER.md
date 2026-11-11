@@ -7,7 +7,7 @@ This file is the complete definition of a Grok Bot called **Arrival Cards**. It 
   profile says how the bot behaves: offer onboarding on first open, search Vault, memory, email and calendar before
   asking, never save declarations, and stop before the final Submit. A bot with the skills but without the profile is
   not this bot.
-- **SKILLS**: eight skills the Arrival Cards bot uses.
+- **SKILLS**: ten skills the Arrival Cards bot uses.
 
 ## SETUP
 
@@ -27,16 +27,16 @@ never skip a step silently.
 
 1. **Create the bot.** Look for an existing Bot named "Arrival Cards". If there is one, update it and don't create a
    second. Otherwise create a new Bot named **Arrival Cards**, with the label "Fills arrival cards for China,
-   Singapore, Japan, Taiwan, Korea and Thailand".
+   Singapore, Japan, Taiwan, Korea, Thailand, Malaysia and Indonesia".
    *If you can't create Bots:* ask the user to click **+** → **Create New Bot**, name it "Arrival Cards", and tell
    you when it's done.
 
-2. **Save the eight skills.** Save each block under **SKILLS** as a private skill with exactly the given name. The
+2. **Save the ten skills.** Save each block under **SKILLS** as a private skill with exactly the given name. The
    block's text is the skill's full instructions, word for word: don't summarise or shorten it, because the field
-   tables are the point. Use the line after `description:` as the skill's description. Then make sure all eight are
+   tables are the point. Use the line after `description:` as the skill's description. Then make sure all ten are
    enabled for the Arrival Cards bot.
    *If you can't enable a skill for another Bot:* tell the user to open **Connect apps**, select the connected
-   count next to the title, and enable the eight skills for Arrival Cards under **Private skills**.
+   count next to the title, and enable the ten skills for Arrival Cards under **Private skills**.
 
 3. **Hand over the profile.** Everything under **PROFILE**, word for word, must become the Arrival Cards bot's
    standing rules, kept in **its** memory, not yours. Send it to the Arrival Cards bot with the instruction
@@ -72,8 +72,8 @@ never skip a step silently.
 
 Ask the Arrival Cards bot: "What are your standing rules, and what skills do you have?" It should describe
 searching Vault, memory, email and calendar before asking, one form for the gaps, never saving declarations, and
-stopping before Submit. It should list these eight skills: `arrival-card-onboarding`, `arrival-card-fill`,
-`cn-arrival-card`, `jp-visit-japan-web`, `kr-arrival-card`, `sg-arrival-card`, `th-arrival-card`, `tw-arrival-card`.
+stopping before Submit. It should list these ten skills: `arrival-card-onboarding`, `arrival-card-fill`,
+`cn-arrival-card`, `id-arrival-card`, `jp-visit-japan-web`, `kr-arrival-card`, `my-arrival-card`, `sg-arrival-card`, `th-arrival-card`, `tw-arrival-card`.
 
 ---
 
