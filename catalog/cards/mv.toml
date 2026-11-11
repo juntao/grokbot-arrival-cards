@@ -1,0 +1,148 @@
+code = "MV"
+name = "Maldives IMUGA Traveller Declaration"
+skill = "mv-traveller-declaration"
+url = "https://imuga.immigration.gov.mv/traveller"
+window = "Within 96 hours before the arriving flight. Earlier filings are reported as rejected. The departure declaration is reported abolished since Aug 2024, though the site still mentions it."
+who = "All travellers arriving in the Maldives, one declaration each, infants included."
+exempt = "Maldivian citizens, per press reports from Nov 2023."
+handoffs = [
+  "The 6-digit email code at step 1: read from Gmail when the email is the connected mailbox, else the user types it.",
+  "The final submit (user replies 'submit').",
+]
+verified = "2026-11-11: step order and field names from the official declaration page's own form state. The on-screen labels of steps 2-6 sit behind the email code and were not seen: the labels below are descriptions, and the bot matches them to what the page shows."
+sources = [
+  "https://imuga.immigration.gov.mv/traveller",
+  "https://www.immigration.gov.mv/traveller-declaration",
+]
+
+[[page]]
+title = "1 · Verify email"
+notes = "Open /traveller/declaration. Enter the email, 'Send verification code', then the 6-digit code. The confirmation is sent to this address."
+[[page.field]]
+label = "Email Address"
+key = "email"
+
+[[page]]
+title = "2 · Purpose"
+[[page.field]]
+label = "Purpose of visit"
+key = "purpose"
+format = "Cards: Holiday · Employment · Dependent · Business · Official or Diplomatic · Conference · Sponsorship · Crew"
+[[page.field]]
+label = "Permit number and expiry"
+key = "visa"
+required = false
+when = "A purpose that needs a permit (not Holiday)"
+
+[[page]]
+title = "3 · Personal"
+notes = "Skip the passport scan if manual entry is offered. If the scan is forced, upload the kept passport photo and check every value it read against the Vault."
+[[page.field]]
+label = "Passport number"
+key = "passport_no"
+[[page.field]]
+label = "Given name"
+key = "given_names"
+[[page.field]]
+label = "Surname"
+key = "surname"
+[[page.field]]
+label = "Date of birth"
+key = "dob"
+[[page.field]]
+label = "Gender"
+key = "sex"
+[[page.field]]
+label = "Passport expiry date"
+key = "passport_expiry"
+[[page.field]]
+label = "Nationality"
+key = "nationality"
+[[page.field]]
+label = "Country of residence"
+key = "home_country"
+[[page.field]]
+label = "Mobile number"
+key = "mobile"
+[[page.field]]
+label = "Photo of the traveller"
+key = "portrait_photo"
+format = "Image upload with a crop tool; a clear face photo on a light background (JPEG/PNG, reported limit 6 MB)"
+
+[[page]]
+title = "4 · Travel"
+[[page.field]]
+label = "Country of departure"
+key = "origin"
+[[page.field]]
+label = "Port of entry"
+key = "arrival_airport"
+format = "Select; Velana International Airport (MLE) for Malé"
+[[page.field]]
+label = "Arrival date"
+key = "arrival_date"
+[[page.field]]
+label = "Arrival airline and flight"
+key = "arrival_flight"
+format = "Chosen from lists, not typed: airline first, then the flight"
+[[page.field]]
+label = "Booking reference (PNR)"
+key = "booking_ref"
+required = false
+[[page.field]]
+label = "Return ticket, departure date, airline and port"
+key = "departure_flight"
+required = false
+format = "Yes with the onward flight details when there is a ticket"
+[[page.field]]
+label = "Departure date"
+key = "departure_date"
+required = false
+[[page.field]]
+label = "Next destination"
+key = "next_destination"
+required = false
+[[page.field]]
+label = "Place of stay (resort, guesthouse, hotel or liveaboard)"
+key = "stay_name"
+format = "Picked from the site's list of facilities"
+[[page.field]]
+label = "Address and island in the Maldives"
+key = "stay_address"
+[[page.field]]
+label = "Length of stay"
+key = "length_of_stay"
+format = "Days"
+
+[[page]]
+title = "5 · Health"
+[[page.field]]
+label = "Yellow fever: travelled from or through a risk country, and which"
+key = "recent_travel_yf"
+format = "Yes / No, then the countries"
+[[page.field]]
+label = "Yellow fever vaccination, date and certificate"
+key = "yellow_fever_cert"
+required = false
+when = "Yellow fever = Yes"
+[[page.field]]
+label = "Ebola: countries visited, contact, funeral attendance, symptoms"
+key = "ebola_exposure"
+required = false
+when = "Shown for certain origins"
+
+[[page]]
+title = "6 · Customs (stop here)"
+notes = "'Travelling with family or a group? You can add them at the end.' Screenshot, send the summary, wait for 'submit', then submit. The confirmation with a QR code and an edit token goes to the email."
+[[page.field]]
+label = "Number of checked bags"
+key = "baggage_count"
+[[page.field]]
+label = "Anything to declare to customs"
+key = "customs_declarable"
+format = "Yes / No; read the listed items from the page and show them to the user"
+[[page.field]]
+label = "Declaration details"
+key = "customs_goods_detail"
+required = false
+when = "Anything to declare = Yes"

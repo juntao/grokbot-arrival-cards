@@ -1,0 +1,137 @@
+code = "KH"
+name = "Cambodia e-Arrival Card"
+skill = "kh-arrival-card"
+url = "https://arrival.gov.kh/"
+window = "Within 7 days before arrival: the form offers the 7 days from today as arrival dates."
+who = "Foreign travellers arriving by air at Phnom Penh (Techo), Siem Reap Angkor or Sihanoukville airports."
+exempt = "Not established from official sources: land and sea arrivals are outside the form (it lists airports only). It is not a visa; the e-visa is separate."
+handoffs = [
+  "The box 'I have read and agreed to the declaration.' and Submit on step 5 (user replies 'submit').",
+]
+verified = "2026-11-02: form walked end to end on the live site with test data, up to but not including Submit. No CAPTCHA was shown. Who must file and exemptions were not re-checked against an official notice."
+sources = ["https://arrival.gov.kh/"]
+
+[[page]]
+title = "Home"
+notes = "Click 'Submit e-Arrival', then 'Sign In as Guest'. The form takes 6-8 seconds to render, and each later step shows a loading skeleton for about 6 seconds. Pickers are read-only boxes that open a dialog: type in its Search box, then click the row. Dates are three dropdowns (Day, Month, Year). Each visit leaves a saved draft."
+
+[[page]]
+title = "1 · Profile"
+notes = "Next opens 'Is the information correct?' reading back the passport number and country: check them, then Correct."
+[[page.field]]
+label = "Passport Number"
+key = "passport_no"
+[[page.field]]
+label = "Passport Issued Country"
+key = "passport_country"
+format = "Picker: type the ISO3 code, pick the 'Singaporean . SGP' style row"
+[[page.field]]
+label = "Date Of Passport Expiry"
+key = "passport_expiry"
+format = "Day / Month / Year dropdowns"
+[[page.field]]
+label = "Surname"
+key = "surname"
+required = false
+[[page.field]]
+label = "Given Name"
+key = "given_names"
+[[page.field]]
+label = "Gender"
+key = "sex"
+format = "Female / Male / Other"
+[[page.field]]
+label = "Date Of Birth"
+key = "dob"
+format = "Day / Month / Year dropdowns"
+[[page.field]]
+label = "Country of birth"
+key = "birth_country"
+format = "Picker, country name"
+[[page.field]]
+label = "Occupation"
+key = "occupation"
+format = "Fixed list of 17: Student, Teacher, Farmer, Journalist, Government official, Company employee, Military personnel, Retired, Religious personnel, Member of parliament, Crew member, NGO staff, Artist, Self-employed, Worker, Police officer, Other. Map the Vault value to the closest."
+[[page.field]]
+label = "Email"
+key = "email"
+required = false
+[[page.field]]
+label = "Country/Region Code + Phone Number"
+key = "mobile"
+format = "Picker: type the country name (a code search is ambiguous), pick 'Singapore (+ 65)'; then digits"
+
+[[page]]
+title = "2 · Travel Information"
+notes = "The contact block (occupation, email, phone) shows again here, empty: fill it a second time."
+[[page.field]]
+label = "Date of Arrival in Cambodia"
+key = "arrival_date"
+format = "Radio per day, labels like 'November 04, 2026'"
+[[page.field]]
+label = "Date of Departure from Cambodia"
+key = "departure_date"
+format = "Day / Month / Year dropdowns"
+[[page.field]]
+label = "Port of Entry"
+key = "arrival_airport"
+format = "Techo International Airport (KTI, Phnom Penh's flights since Sept 2025) · Siem Reap Angkor International Airport (SAI) · Sihanoukville International Airport (KOS)"
+[[page.field]]
+label = "Travel purpose"
+key = "purpose"
+format = "Holiday/Pleasure/Vocation · Transit · Business/Meeting/Conference/Convention/Exhibition · Education/Training · Employment · Medical Care · Official/Government visit · Religion · Sports event · To take up residence · Visiting Friends/Relatives · Others"
+[[page.field]]
+label = "Type of Air Transport + Flight Number"
+key = "arrival_flight"
+format = "Commercial / Private; flight written with a space, e.g. 'SQ 166'"
+[[page.field]]
+label = "Accommodation Type"
+key = "stay_type"
+format = "Hotel / Private Residential / Day Trip / Transit / Other"
+[[page.field]]
+label = "Hotel name"
+key = "stay_name"
+when = "Hotel"
+[[page.field]]
+label = "Hotel contact number"
+key = "stay_phone"
+format = "Required, never invented: from the booking email or the hotel's website. A private home takes the host's phone."
+[[page.field]]
+label = "Last country/Port of Embarkation"
+key = "origin"
+format = "Picker, country name"
+[[page.field]]
+label = "Next country/Port of Disembarkation"
+key = "next_destination"
+format = "Picker, country name. Pick it from the list; the 'Same as last' box is unreliable."
+
+[[page]]
+title = "3 · Health Information"
+[[page.field]]
+label = "Have you been vaccinated against yellow fever?"
+key = "yellow_fever_cert"
+format = "Yes / No"
+[[page.field]]
+label = "Do you have fever, cough or rash now? (read the full symptom list from the page)"
+key = "health_symptoms"
+format = "Yes / No"
+[[page.field]]
+label = "Have you visited the Middle East, Africa or Latin America in the past 14 days?"
+key = "recent_travel_14d"
+format = "Yes / No"
+
+[[page]]
+title = "4 · Customs Declaration"
+notes = "Next needs the box 'I hereby confirm that all the statements in this declaration are true and correct.' Tick it only after the user has given both answers in this chat."
+[[page.field]]
+label = "Are you carrying foreign currency over US$10,000?"
+key = "customs_cash"
+format = "Yes / No checkboxes"
+[[page.field]]
+label = "Do you have goods to declare?"
+key = "customs_declarable"
+format = "Yes / No checkboxes"
+
+[[page]]
+title = "5 · Confirm Declaration (stop here)"
+notes = "Screenshot, send the summary, wait for 'submit'. Then tick 'I have read and agreed to the declaration.' and press Submit. Save the confirmation and any QR code shown."

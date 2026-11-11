@@ -1,0 +1,65 @@
+code = "IN"
+name = "India e-Arrival Card"
+skill = "in-arrival-card"
+url = "https://indianvisaonline.gov.in/earrival/"
+window = "Within 72 hours before arrival; the date picker enforces the exact window. Some airlines ask for it at least 24 hours before the flight."
+who = "All foreign nationals, e-Visa holders included. It is not a visa."
+exempt = "Indian citizens. OCI cardholders: sources conflict, so treat them as needing to file unless the traveller has confirmed otherwise."
+handoffs = [
+  "The image CAPTCHA at submit (Take control).",
+  "The declaration tick and Submit (user replies 'submit'). There is no review page: the review is the filled form itself.",
+]
+verified = "2026-11-11: labels and validation from the official form's own code. Much shorter than guides describe: no flight number, date of birth, visa number, occupation or port of arrival. The Purpose list is served by the site and is read from the page. The separate Air Suvidha health self-declaration and customs are not part of this card."
+sources = [
+  "https://indianvisaonline.gov.in/earrival/",
+  "https://boi.gov.in/boi/",
+]
+
+[[page]]
+title = "e-Arrival Card (single page)"
+notes = "'Quick Fill From Existing Data' (passport number, nationality, CAPTCHA) reuses an earlier card for repeat visitors. Otherwise fill the sections below. 'Add Member' adds up to five companions who share the arrival, address and contact details."
+[[page.field]]
+label = "Full Name (as in passport)"
+key = "full_name"
+[[page.field]]
+label = "Nationality/Region"
+key = "nationality"
+[[page.field]]
+label = "Passport Number"
+key = "passport_no"
+format = "6-15 letters and digits"
+[[page.field]]
+label = "Purpose"
+key = "purpose"
+format = "Read the list from the page; OTHER needs text"
+[[page.field]]
+label = "Date of Arrival(DD/MM/YYYY)"
+key = "arrival_date"
+format = "Date picker, limited to the open window"
+[[page.field]]
+label = "Countries Visited in Last 6 Days"
+key = "recent_travel_6d"
+format = "Multi-select, or tick 'No Country Visited'"
+[[page.field]]
+label = "Address in India"
+key = "stay_address"
+format = "Hotel name and street; a city name alone is not accepted"
+[[page.field]]
+label = "State / District"
+key = "destination_cities"
+format = "State select, then District (filtered by state)"
+[[page.field]]
+label = "Email ID"
+key = "email"
+[[page.field]]
+label = "Contact Number"
+key = "mobile"
+format = "ISD code + 5-15 digits"
+[[page.field]]
+label = "Emergency Contact Number"
+key = "emergency_contact"
+required = false
+[[page.field]]
+label = "Add Member: Full Name, Passport Number, Nationality/Region"
+key = "companions"
+required = false

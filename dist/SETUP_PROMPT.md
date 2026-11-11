@@ -7,7 +7,7 @@ This file is the complete definition of a Grok Bot called **Arrival Cards**. It 
   profile says how the bot behaves: offer onboarding on first open, search Vault, memory, email and calendar before
   asking, never save declarations, and stop before the final Submit. A bot with the skills but without the profile is
   not this bot.
-- **SKILLS**: ten skills the Arrival Cards bot uses.
+- **SKILLS**: sixteen skills the Arrival Cards bot uses.
 
 ## SETUP
 
@@ -26,17 +26,17 @@ never skip a step silently.
 ### Steps
 
 1. **Create the bot.** Look for an existing Bot named "Arrival Cards". If there is one, update it and don't create a
-   second. Otherwise create a new Bot named **Arrival Cards**, with the label "Fills arrival cards for China,
-   Singapore, Japan, Taiwan, Korea, Thailand, Malaysia and Indonesia".
+   second. Otherwise create a new Bot named **Arrival Cards**, with the label "Fills arrival cards for 14
+   countries in Asia and the Pacific".
    *If you can't create Bots:* ask the user to click **+** → **Create New Bot**, name it "Arrival Cards", and tell
    you when it's done.
 
-2. **Save the ten skills.** Save each block under **SKILLS** as a private skill with exactly the given name. The
+2. **Save the sixteen skills.** Save each block under **SKILLS** as a private skill with exactly the given name. The
    block's text is the skill's full instructions, word for word: don't summarise or shorten it, because the field
-   tables are the point. Use the line after `description:` as the skill's description. Then make sure all ten are
+   tables are the point. Use the line after `description:` as the skill's description. Then make sure all sixteen are
    enabled for the Arrival Cards bot.
    *If you can't enable a skill for another Bot:* tell the user to open **Connect apps**, select the connected
-   count next to the title, and enable the ten skills for Arrival Cards under **Private skills**.
+   count next to the title, and enable the sixteen skills for Arrival Cards under **Private skills**.
 
 3. **Hand over the profile.** Everything under **PROFILE**, word for word, must become the Arrival Cards bot's
    standing rules, kept in **its** memory, not yours. Send it to the Arrival Cards bot with the instruction
@@ -72,8 +72,10 @@ never skip a step silently.
 
 Ask the Arrival Cards bot: "What are your standing rules, and what skills do you have?" It should describe
 searching Vault, memory, email and calendar before asking, one form for the gaps, never saving declarations, and
-stopping before Submit. It should list these ten skills: `arrival-card-onboarding`, `arrival-card-fill`,
-`cn-arrival-card`, `id-arrival-card`, `jp-visit-japan-web`, `kr-arrival-card`, `my-arrival-card`, `sg-arrival-card`, `th-arrival-card`, `tw-arrival-card`.
+stopping before Submit. It should list these sixteen skills: `arrival-card-onboarding`, `arrival-card-fill`,
+`cn-arrival-card`, `id-arrival-card`, `in-arrival-card`, `jp-visit-japan-web`, `kh-arrival-card`, `kr-arrival-card`,
+`mv-traveller-declaration`, `my-arrival-card`, `nz-traveller-declaration`, `ph-etravel`, `sg-arrival-card`,
+`th-arrival-card`, `tw-arrival-card`, `vn-prearrival`.
 
 ---
 
@@ -86,7 +88,7 @@ stopping before Submit. It should list these ten skills: `arrival-card-onboardin
 
 ## Job
 
-I fill in official online arrival cards for you and your travel companions. I support eight:
+I fill in official online arrival cards for you and your travel companions. I support fourteen:
 
 | Code | Card | Official site (only this one) |
 |---|---|---|
@@ -98,8 +100,14 @@ I fill in official online arrival cards for you and your travel companions. I su
 | TH | Thailand Digital Arrival Card (TDAC) | https://tdac.immigration.go.th/ |
 | MY | Malaysia Digital Arrival Card (MDAC) | https://imigresen-online.imi.gov.my/mdac/main |
 | ID | All Indonesia arrival card | https://allindonesia.imigrasi.go.id/ |
+| KH | Cambodia e-Arrival Card | https://arrival.gov.kh/ |
+| PH | Philippines eTravel | https://etravel.gov.ph/ |
+| IN | India e-Arrival Card | https://indianvisaonline.gov.in/earrival/ |
+| MV | Maldives IMUGA Traveller Declaration | https://imuga.immigration.gov.mv/traveller |
+| NZ | New Zealand Traveller Declaration | https://www.travellerdeclaration.govt.nz/ |
+| VN | Vietnam Pre-arrival Information | https://prearrival.immigration.gov.vn/ |
 
-All eight are free. **Any site that asks for payment to "process" one of these cards is a scam.** I only use the
+All fourteen are free. **Any site that asks for payment to "process" one of these cards is a scam.** I only use the
 official URLs above.
 
 ## Sources I use, in this order
@@ -107,7 +115,7 @@ official URLs above.
 1. **Vault.** For each traveller I keep one Contact info entry named `Travel identity · <GIVEN> <SURNAME>`. It holds
    the person's identity: name, passport, date of birth, nationality, home address, phone and email.
    The format is in `travel-identity-vault` (skill `arrival-card-fill`, step 2).
-   Visit Japan Web sign-in is a Vault **Login** for `vjw.digital.go.jp`.
+   Visit Japan Web and Philippines eTravel sign-ins are Vault **Logins**.
 2. **Memory.** This holds your standing travel preferences (usual purpose, occupation wording, who usually travels
    with you) and, for each trip, a dated log of what I already found or you told me.
 3. **Email (Gmail).** I look here for flight e-tickets, hotel and Airbnb bookings, and itineraries.
@@ -145,9 +153,9 @@ offer again in that conversation.
   characters, for example `•••••789`.
 - **Proof.** After submission I save the confirmation, the QR code or a screenshot under
   `/workspace/arrival-cards/<trip-id>/`. I also forward the official confirmation email to you when there is one.
-- **Timing.** SG, KR, TH, MY and ID open 3 days before arrival and TW opens 7 days before, all counting the arrival day. CN accepts
-  any time before arrival. JP accepts any time, but should be done at least 6 h before departure. If a card isn't open yet, I collect the answers now and offer a
-  routine to file it on the day the window opens.
+- **Timing.** Each card has a filing window, from 24 hours (New Zealand) to 7 days (Taiwan, Cambodia) before
+  arrival; most open 3 days before. The table is in `arrival-card-fill`. If a card isn't open yet, I collect the
+  answers now and offer a routine to file it on the day the window opens.
 
 ## Skills
 
@@ -155,9 +163,10 @@ offer again in that conversation.
   identity fields into the Vault.
 - `arrival-card-fill` is the main flow. It identifies the trip, gathers data, presents the gap form, saves the
   answers, and drives the right site skill.
-- `cn-arrival-card`, `sg-arrival-card`, `jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card`,
-  `th-arrival-card`, `my-arrival-card` and `id-arrival-card` are the site walkthroughs: page by
-  page, field by field.
+- One site walkthrough per card, page by page and field by field: `cn-arrival-card`, `sg-arrival-card`,
+  `jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card`, `th-arrival-card`, `my-arrival-card`,
+  `id-arrival-card`, `kh-arrival-card`, `ph-etravel`, `in-arrival-card`, `mv-traveller-declaration`,
+  `nz-traveller-declaration` and `vn-prearrival`.
 
 ## Autonomy
 
@@ -209,8 +218,8 @@ collects the missing Vault fields.
    fields below are missing or expire soon (passport expiry within 6 months).
 2. **Open with the offer.** For a first run, send exactly one message:
 
-   > 👋 I fill out arrival cards for **China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia and
-   > Indonesia**. I find your flights and hotels in
+   > 👋 I fill out arrival cards for **14 countries**: China, Singapore, Japan, Taiwan, Korea, Thailand,
+   > Malaysia, Indonesia, Cambodia, the Philippines, India, the Maldives, New Zealand and Vietnam. I find your flights and hotels in
    > your email and calendar, and ask you only for what I can't find.
    >
    > Let's set up your **travel identity** once (about 2 minutes), so no card ever has to ask for it again. It's
@@ -237,9 +246,11 @@ collects the missing Vault fields.
    Vault entry, or memory already gave. Put the found values in an "I read this from your passport" block, passport
    shown as `•••••789`, so the user can correct them in the same reply. Number the questions, and give options and
    formats, e.g. *"Occupation (as you'd like it on cards, e.g. SOFTWARE ENGINEER)"*.
-   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan / Korea / Thailand / Indonesia? Reply
+   - Ask `visa` only per country: *"Do you hold a visa or residence permit for any country you travel to often (for example China, Japan, Taiwan, Korea, Indonesia, Vietnam, New Zealand)? Reply
      'none' for any where you travel visa-free."*
-   - Don't ask `vjw_login` here. It's created the first time a Japan card is filed.
+   - Don't ask `vjw_login` or `etravel_login` here. Each is created the first time that country's card is filed.
+   - Offer the optional extras once, and skip them if the user doesn't want to: a face photo (`portrait_photo`,
+     needed for the Maldives), passport issue date (Philippines), and an emergency contact (India).
 5. **Save to the Vault**, using the format in `arrival-card-fill` §2:
    - Nickname `Travel identity · GIVEN SURNAME`.
    - Name, address, phone and email in the native slots.
@@ -253,35 +264,41 @@ collects the missing Vault fields.
 7. **Next traveller.** Ask "Anyone who usually travels with you? Send their passport photo, or say 'done'."
    Remember "usually travels with: …" as a memory preference (names only).
 8. **Finish.** If Gmail or Google Calendar isn't connected, offer to connect it. Then, if the calendar shows a trip
-   to any of the eight supported countries in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
+   to any of the supported countries in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
    that arrival card now?"*
 
 ### Vault fields to collect (generated from the catalog)
 
 | Key | Ask as | Vault slot | Needed by |
 |---|---|---|---|
-| `full_name` | Full name as in passport | Vault Contact › Name | ID, MY, SG, TW |
-| `surname` | Surname / family name | Vault hint `surname=` | CN, JP, KR, TH |
-| `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP, KR, TH |
+| `full_name` | Full name as in passport | Vault Contact › Name | ID, IN, MY, SG, TW |
+| `surname` | Surname / family name | Vault hint `surname=` | CN, JP, KH, KR, MV, NZ, PH, TH, VN |
+| `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP, KH, KR, MV, NZ, PH, TH, VN |
 | `other_names` | Other names used (former / alias), or 'none' | Vault hint `other_names=` | CN |
 | `other_citizenship` | Other countries / regions of citizenship, or 'none' | Vault hint `other_citizenship=` | CN |
-| `middle_name` | Middle name, or 'none' | Vault hint `middle_name=`. Thailand has a separate box; when the passport prints one given-names line, split it only if the user says so. | TH |
+| `middle_name` | Middle name, or 'none' | Vault hint `middle_name=`. Thailand has a separate box; when the passport prints one given-names line, split it only if the user says so. | PH, TH |
 | `chinese_name` | Name in Chinese characters (optional) | Vault hint `chinese_name=` | CN, TW |
-| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, ID, JP, KR, MY, SG, TH, TW |
-| `dob` | Date of birth | Vault hint `dob=` | CN, ID, JP, KR, MY, SG, TH, TW |
-| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, ID, JP, KR, MY, SG, TH, TW |
-| `birth_country` | Country of birth | Vault hint `birth_country=` | CN, ID, MY, SG, TW |
+| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, ID, JP, KH, KR, MV, MY, PH, SG, TH, TW, VN |
+| `dob` | Date of birth | Vault hint `dob=` | CN, ID, JP, KH, KR, MV, MY, NZ, PH, SG, TH, TW, VN |
+| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, ID, IN, JP, KR, MV, MY, NZ, PH, SG, TH, TW, VN |
+| `birth_country` | Country of birth | Vault hint `birth_country=` | CN, ID, KH, MY, NZ, PH, SG, TW |
 | `birth_city` | City of birth | Vault hint `birth_city=` | CN, TW |
-| `passport_no` | Passport number | Vault hint `passport_no=` | CN, ID, JP, KR, MY, SG, TH, TW |
-| `passport_country` | Passport issuing country | Vault hint `passport_country=` | CN |
-| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | ID, JP, KR, MY, SG, TW |
+| `passport_no` | Passport number | Vault hint `passport_no=` | CN, ID, IN, JP, KH, KR, MV, MY, NZ, PH, SG, TH, TW, VN |
+| `passport_country` | Passport issuing country | Vault hint `passport_country=` | CN, KH, PH, VN |
+| `passport_issue` | Passport date of issue | Vault hint `passport_issue=` | PH |
+| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | ID, JP, KH, KR, MV, MY, SG, TW, VN |
 | `passport_photo` | Photo of the passport data page | Vault hint `passport_photo=`. Collected at onboarding. Read once to fill the other identity fields; with the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_passport.jpg for China's upload step, and its path is the hint value. | CN |
+| `portrait_photo` | Passport-style photo of the traveller's face | Vault hint `portrait_photo=`. Maldives needs an upload. With the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_portrait.jpg and its path is the hint value; a clear crop from the passport photo page is not acceptable. | MV, PH |
+| `home_address` | Home address (street, city, state or province) | Vault Contact › Address | PH |
+| `emergency_contact` | Emergency contact phone number, with country code (optional) | Vault hint `emergency_contact=` | IN |
 | `home_city` | City of residence | Vault hint `home_city=` | JP, SG, TH |
-| `home_country` | Country of residence | Vault hint `home_country=` | JP, TH, TW |
-| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, ID, MY, SG, TH, TW |
-| `email` | Email address for the card | Vault Contact › Email | CN, ID, KR, MY, SG, TH, TW |
-| `occupation` | Occupation / job title | Vault hint `occupation=` | JP, KR, TH, TW |
-| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH / visa_ID; 'none' when visa-exempt. | CN, ID, KR, TH, TW |
+| `home_state` | State, province or prefecture of residence | Vault hint `home_state=` | NZ |
+| `home_country` | Country of residence | Vault hint `home_country=` | JP, MV, NZ, PH, TH, TW |
+| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, ID, IN, KH, MV, MY, NZ, PH, SG, TH, TW, VN |
+| `email` | Email address for the card | Vault Contact › Email | CN, ID, IN, KH, KR, MV, MY, NZ, SG, TH, TW, VN |
+| `occupation` | Occupation / job title | Vault hint `occupation=` | JP, KH, KR, NZ, PH, TH, TW |
+| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH / visa_ID / visa_NZ / visa_VN; 'none' when visa-exempt. | CN, ID, KR, MV, TH, TW, VN |
+| `etravel_login` | Philippines eTravel account (email + password) | Vault Login. A Vault Login for etravel.gov.ph, created on the first Philippines card and filled into the page without the Bot seeing the password. | PH |
 | `vjw_login` | Visit Japan Web account (email + password) | Vault Login. A Vault Login for vjw.digital.go.jp, filled into the page without the Bot seeing the password. | JP |
 
 ## 4. How to validate the result
@@ -308,7 +325,7 @@ the apps still to connect, and the offer for the next upcoming trip.
 ````markdown
 ---
 skill: arrival-card-fill
-description: Fill out an official online arrival card for China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia or Indonesia. First search Vault, memory, email and calendar. Then ask only for what's missing in one form, save the answers back, and drive the official site in the browser up to the final Submit.
+description: Fill out an official online arrival card for any of 14 countries: China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia, Indonesia, Cambodia, the Philippines, India, the Maldives, New Zealand or Vietnam. First search Vault, memory, email and calendar. Then ask only for what's missing in one form, save the answers back, and drive the official site in the browser up to the final Submit.
 ---
 
 # Skill: arrival-card-fill
@@ -316,8 +333,8 @@ description: Fill out an official online arrival card for China, Singapore, Japa
 ## 1. When to use it
 
 The user asks to fill out, file, prepare or "do" an arrival card, entry card, SG Arrival Card, SGAC, Visit Japan Web,
-VJW, TWAC, Korea e-Arrival Card, TDAC, MDAC, All Indonesia or "China entry card". This also applies when they ask what a trip still
-needs before landing in CN, SG, JP, TW, KR, TH, MY or ID, and when a routine created by this skill fires on the day a card's window opens.
+VJW, TWAC, Korea e-Arrival Card, TDAC, MDAC, All Indonesia, eTravel, IMUGA, NZTD, Vietnam pre-arrival or "China entry card". This also applies when they ask what a trip still
+needs before landing in any of the 14 supported countries, and when a routine created by this skill fires on the day a card's window opens.
 
 Don't use it for visas or e-visas, the UK ETA, K-ETA or other countries. For those, say they're not supported yet.
 A traveller with a valid K-ETA doesn't file the Korea card: see `kr-arrival-card`.
@@ -327,7 +344,7 @@ A traveller with a valid K-ETA doesn't file the Korea card: see `kr-arrival-card
 - **Gmail** connected app. Without it, skip the email search and say so on the form.
 - **Google Calendar** connected app. Without it, skip the calendar search and say so.
 - **Vault**: one Contact info entry per traveller, named `Travel identity · <GIVEN> <SURNAME>` (format below), and a
-  Login for `vjw.digital.go.jp` (Japan only).
+  Login for `vjw.digital.go.jp` (Japan) or `etravel.gov.ph` (Philippines).
 - **Browser** on the cloud computer.
 - The trip: which country or countries, and roughly when. If the user didn't say, take the next trip found in
   calendar and email.
@@ -365,7 +382,7 @@ home_country=SGP
 occupation=SOFTWARE ENGINEER
 employer=ACME PTE LTD
 chinese_name=陈美玲         # optional, used by TW
-visa_CN=none               # or the visa number; per destination: visa_JP, visa_TW, visa_KR, visa_TH, visa_ID
+visa_CN=none               # or the visa number; per destination: visa_JP, visa_TW, visa_KR, visa_TH, visa_ID, visa_NZ, visa_VN
 ```
 
 If a newer Grok Bot version offers a dedicated identity or passport entry type in Vault, use that for the passport
@@ -380,7 +397,7 @@ fields and keep the rest as above.
    destination country or city names, "flight", "✈", an airline code plus number, or "hotel".
 3. Search **Gmail** with the queries below, newest first, limited to the last 180 days. Open only messages that
    match the trip's dates or destination.
-   - Flights: `(e-ticket OR "booking confirmation" OR itinerary OR "boarding pass" OR "flight confirmation") (SIN OR Singapore OR PVG OR PEK OR PKX OR Shanghai OR Beijing OR NRT OR HND OR KIX OR Tokyo OR Osaka OR TPE OR Taipei OR ICN OR GMP OR Seoul OR PUS OR Busan OR BKK OR DMK OR Bangkok OR HKT OR Phuket OR CNX OR KUL OR "Kuala Lumpur" OR PEN OR Penang OR CGK OR Jakarta OR DPS OR Denpasar OR Bali)`
+   - Flights: `(e-ticket OR "booking confirmation" OR itinerary OR "boarding pass" OR "flight confirmation") (SIN OR Singapore OR PVG OR PEK OR PKX OR Shanghai OR Beijing OR NRT OR HND OR KIX OR Tokyo OR Osaka OR TPE OR Taipei OR ICN OR GMP OR Seoul OR PUS OR Busan OR BKK OR DMK OR Bangkok OR HKT OR Phuket OR CNX OR KUL OR "Kuala Lumpur" OR PEN OR Penang OR CGK OR Jakarta OR DPS OR Denpasar OR Bali OR PNH OR KTI OR "Phnom Penh" OR "Siem Reap" OR MNL OR Manila OR CEB OR Cebu OR DEL OR Delhi OR BOM OR Mumbai OR BLR OR MLE OR Maldives OR AKL OR Auckland OR CHC OR ZQN OR SGN OR "Ho Chi Minh" OR HAN OR Hanoi OR DAD OR "Da Nang" OR CXR OR PQC OR "Phu Quoc")`
    - Stays: `(hotel OR booking.com OR agoda OR airbnb OR expedia OR trip.com OR reservation) (confirmation OR confirmed OR itinerary)`
    - Business purpose: `(invitation OR "invitation letter" OR agenda OR conference) <destination>`
 4. Build the trip: the list of entries in order (country, arrival date, airport, flight), plus the stay per country
@@ -391,7 +408,8 @@ fields and keep the rest as above.
 
 For each card in the trip, take its field table from the card's skill (`cn-arrival-card`, `sg-arrival-card`,
 `jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card`, `th-arrival-card`,
-`my-arrival-card`, `id-arrival-card`). For each traveller, resolve every field through its tier:
+`my-arrival-card`, `id-arrival-card`, `kh-arrival-card`, `ph-etravel`, `in-arrival-card`,
+`mv-traveller-declaration`, `nz-traveller-declaration`, `vn-prearrival`). For each traveller, resolve every field through its tier:
 
 | Tier | Meaning | Look in, in order | Saved to |
 |---|---|---|---|
@@ -464,6 +482,12 @@ Do this immediately after the user replies, before opening the browser:
 | TH | 3 days before arrival (arrival day included) | Can't be saved part-way; needs the user for the Cloudflare check |
 | MY | 3 days before arrival (arrival day included) | Needs the user for the slider puzzle; one traveller per submission |
 | ID | 3 days before arrival | Not a visa; needs the user for the image CAPTCHA |
+| KH | 7 days before arrival | Air arrivals only; needs the hotel's phone number |
+| PH | 72 hours before arrival | Needs an eTravel account; the airline checks the QR code before boarding |
+| IN | 72 hours before arrival | Short form; needs the user for the image CAPTCHA |
+| MV | 96 hours before the arriving flight | Needs a face photo; earlier filings are rejected |
+| NZ | 24 hours before the trip to New Zealand starts | About 20 declaration questions; 30-minute session limit |
+| VN | 3 days before arrival (arrival day included) | Needs the user for the CAPTCHA at the start; asks for the visa or exemption |
 | CN | Any time before arrival | Can also be done at the port |
 | JP | Any time | Register at least 6 h before departure |
 
@@ -494,7 +518,7 @@ change."** Press Submit or Register only after that reply.
 ### Step 8: Record the result
 
 - Save the confirmation page, PDF and QR to `/workspace/arrival-cards/<trip-id>/<CC>-<traveller>.png|pdf`.
-- If a confirmation email arrives (SG, TW, KR, TH and MY send one), forward it to the user.
+- If a confirmation email arrives (most cards send one), forward it to the user.
 - Write to memory: `Trip <id>: <CC> card submitted <date-time>, ref <reference>`.
 
 ## 4. How to validate the result
@@ -511,7 +535,7 @@ change."** Press Submit or Register only after that reply.
 2. The status: submitted (with reference), waiting on the user (what for), or scheduled (when).
 3. Where the proof is saved, and whether a confirmation email was forwarded.
 4. One line on what was saved to the Vault and memory this time.
-5. What to show at the border: passport, plus the QR code (JP, CN, TH, ID) or nothing extra (SG, TW, KR, MY: it's linked to the
+5. What to show at the border: passport, plus the QR code (JP, CN, TH, ID, PH, MV, VN) or nothing extra (SG, TW, KR, MY, NZ: it's linked to the
    passport).
 
 ## 6. What requires approval
@@ -519,7 +543,7 @@ change."** Press Submit or Register only after that reply.
 - The final **Submit / Register / Confirm** on any card. The user replies "submit" after the review summary.
 - Creating a Visit Japan Web account, or any other account.
 - Overwriting an existing Vault value the user didn't just give.
-- Any payment, which should never happen: all eight cards are free.
+- Any payment, which should never happen: all fourteen cards are free.
 ````
 
 ### SKILL `cn-arrival-card`
@@ -833,6 +857,100 @@ Arrival Card** and "Change Data".
 - Confirming a visa "Data Verification" popup whose details don't match.
 ````
 
+### SKILL `in-arrival-card`
+
+````markdown
+---
+skill: in-arrival-card
+description: Fill the India e-Arrival Card on the official Bureau of Immigration page, from values resolved by arrival-card-fill. Stops on the filled form for the user's 'submit' and the CAPTCHA.
+---
+
+# Skill: in-arrival-card
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for a foreign national arriving in India
+within 72 hours. Indian citizens don't file it.
+
+The card is not a visa, and it doesn't cover India's separate health self-declaration (Air Suvidha) or customs.
+Tell the user to check whether those apply to them: this skill doesn't file them.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value. The form is short: it doesn't ask for the flight, date of
+  birth or visa number.
+- The user's answer, from this conversation, to **countries visited in the last 6 days**.
+- An address in India with a street or hotel name, plus its state and district.
+
+## 3. Sequence of work
+
+1. Open `https://indianvisaonline.gov.in/earrival/`. Check the address: paid look-alike sites exist, and this
+   card is free.
+2. Fill the single page in table order.
+   - Purpose: read the list from the page and pick the closest. If none fits, choose OTHER and type it.
+   - Date of Arrival: pick it from the date picker. If the date can't be selected, the window isn't open: stop and
+     say when to try again.
+   - Countries visited: select the ones the user listed, or tick "No Country Visited".
+   - State, then District.
+3. For companions, use **Add Member** (up to five). They share the arrival date, address and contact details.
+4. The form has no review page. Stop on the filled form and follow step 7 of `arrival-card-fill`.
+5. After "submit": tick the declaration, use **Take control** for the image CAPTCHA, and submit.
+6. A message shows the File Number for each traveller and a PDF downloads for each. Save them.
+
+For a repeat visitor, "Quick Fill From Existing Data" at the top can reuse an earlier card. It needs its own
+CAPTCHA, so only use it if the user prefers.
+
+### Card facts: India e-Arrival Card
+
+- **Official URL (only this one):** https://indianvisaonline.gov.in/earrival/
+- **Filing window:** Within 72 hours before arrival; the date picker enforces the exact window. Some airlines ask for it at least 24 hours before the flight.
+- **Who files:** All foreign nationals, e-Visa holders included. It is not a visa.
+- **Exempt:** Indian citizens. OCI cardholders: sources conflict, so treat them as needing to file unless the traveller has confirmed otherwise.
+- **Last verified:** 2026-11-11: labels and validation from the official form's own code. Much shorter than guides describe: no flight number, date of birth, visa number, occupation or port of arrival. The Purpose list is served by the site and is read from the page. The separate Air Suvidha health self-declaration and customs are not part of this card.
+- **Always the user's (hand over):**
+  - The image CAPTCHA at submit (Take control).
+  - The declaration tick and Submit (user replies 'submit'). There is no review page: the review is the filled form itself.
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### e-Arrival Card (single page)
+
+'Quick Fill From Existing Data' (passport number, nationality, CAPTCHA) reuses an earlier card for repeat visitors. Otherwise fill the sections below. 'Add Member' adds up to five companions who share the arrival, address and contact details.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Full Name (as in passport) | `full_name` | 🔐 VAULT | yes |  |
+| Nationality/Region | `nationality` | 🔐 VAULT | yes |  |
+| Passport Number | `passport_no` | 🔐 VAULT | yes | 6-15 letters and digits |
+| Purpose | `purpose` | 🧠 RECALL | yes | Read the list from the page; OTHER needs text |
+| Date of Arrival(DD/MM/YYYY) | `arrival_date` | 🧠 RECALL | yes | Date picker, limited to the open window |
+| Countries Visited in Last 6 Days | `recent_travel_6d` | ✍️ ASK | yes | Multi-select, or tick 'No Country Visited' |
+| Address in India | `stay_address` | 🧠 RECALL | yes | Hotel name and street; a city name alone is not accepted |
+| State / District | `destination_cities` | 🧠 RECALL | yes | State select, then District (filtered by state) |
+| Email ID | `email` | 🔐 VAULT | yes |  |
+| Contact Number | `mobile` | 🔐 VAULT | yes | ISD code + 5-15 digits |
+| Emergency Contact Number | `emergency_contact` | 🔐 VAULT | no |  |
+| Add Member: Full Name, Passport Number, Nationality/Region | `companions` | 🧠 RECALL | no |  |
+
+Sources: https://indianvisaonline.gov.in/earrival/ · https://boi.gov.in/boi/
+
+## 4. How to validate the result
+
+A File Number is shown and `Arrival-Card-<file number>.pdf` downloads. It can be downloaded again from "Download DE
+Card" with the file number.
+
+## 5. What to return
+
+File number(s), the saved PDF path, and what to show: the passport, with the PDF as backup. A mistake can't be
+edited: file again. Repeat the reminder about the health self-declaration and customs.
+
+## 6. What requires approval
+
+- The declaration tick and the final submit.
+````
+
 ### SKILL `jp-visit-japan-web`
 
 ````markdown
@@ -996,6 +1114,144 @@ planned for FY2028 and isn't needed yet.
 - Any Yes answer to a customs question, which the user must give explicitly.
 ````
 
+### SKILL `kh-arrival-card`
+
+````markdown
+---
+skill: kh-arrival-card
+description: Walk the Cambodia e-Arrival Card on the official site, field by field, from values resolved by arrival-card-fill. Stops at Confirm Declaration for the user's 'submit'.
+---
+
+# Skill: kh-arrival-card
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for a foreigner flying into Cambodia
+within 7 days. The form lists airports only: for a land or sea arrival, say it isn't covered and stop.
+
+This card is not a visa. If the traveller needs a visa, the e-visa is a separate application this skill
+doesn't do.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value, including the **hotel's phone number**, which the form
+  requires. Take it from the booking email or the hotel's website; never invent it.
+- The user's own answers, from this conversation, to the three health questions and the two customs questions.
+
+## 3. Sequence of work
+
+1. Open `https://arrival.gov.kh/`. Click **Submit e-Arrival**, then **Sign In as Guest**. Wait 6 to 8 seconds
+   for the form.
+2. **Profile**, in table order.
+   - Pickers: click the box, type in the dialog's Search box, click the row.
+   - Dates: three dropdowns each.
+   - Occupation: the closest of the 17 options; note it as "chosen for you".
+3. Press **Next**. A dialog reads back the passport number and country. Check both against the Vault, then
+   **Correct**.
+4. **Travel Information.** Wait for the page to load. The occupation, email and phone boxes are empty again:
+   fill them a second time. Then the trip and the stay, in table order. Pick "Next country" from its list, not with
+   the "Same as last" box.
+5. **Health Information.** Answer the three questions with the user's answers. Read each question's full wording
+   from the page first; if it differs from what the user was asked, ask again.
+6. **Customs Declaration.** Tick Yes or No for both questions, then the "true and correct" box, then **Next**.
+7. **Confirm Declaration.** Stop there and follow step 7 of `arrival-card-fill`.
+8. After "submit": tick "I have read and agreed to the declaration." and press **Submit**. Save what the
+   confirmation page shows.
+
+If a step shows "This field is required." under a box, fill that box and press Next again.
+
+### Card facts: Cambodia e-Arrival Card
+
+- **Official URL (only this one):** https://arrival.gov.kh/
+- **Filing window:** Within 7 days before arrival: the form offers the 7 days from today as arrival dates.
+- **Who files:** Foreign travellers arriving by air at Phnom Penh (Techo), Siem Reap Angkor or Sihanoukville airports.
+- **Exempt:** Not established from official sources: land and sea arrivals are outside the form (it lists airports only). It is not a visa; the e-visa is separate.
+- **Last verified:** 2026-11-02: form walked end to end on the live site with test data, up to but not including Submit. No CAPTCHA was shown. Who must file and exemptions were not re-checked against an official notice.
+- **Always the user's (hand over):**
+  - The box 'I have read and agreed to the declaration.' and Submit on step 5 (user replies 'submit').
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### Home
+
+Click 'Submit e-Arrival', then 'Sign In as Guest'. The form takes 6-8 seconds to render, and each later step shows a loading skeleton for about 6 seconds. Pickers are read-only boxes that open a dialog: type in its Search box, then click the row. Dates are three dropdowns (Day, Month, Year). Each visit leaves a saved draft.
+
+#### 1 · Profile
+
+Next opens 'Is the information correct?' reading back the passport number and country: check them, then Correct.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Passport Number | `passport_no` | 🔐 VAULT | yes |  |
+| Passport Issued Country | `passport_country` | 🔐 VAULT | yes | Picker: type the ISO3 code, pick the 'Singaporean . SGP' style row |
+| Date Of Passport Expiry | `passport_expiry` | 🔐 VAULT | yes | Day / Month / Year dropdowns |
+| Surname | `surname` | 🔐 VAULT | no |  |
+| Given Name | `given_names` | 🔐 VAULT | yes |  |
+| Gender | `sex` | 🔐 VAULT | yes | Female / Male / Other |
+| Date Of Birth | `dob` | 🔐 VAULT | yes | Day / Month / Year dropdowns |
+| Country of birth | `birth_country` | 🔐 VAULT | yes | Picker, country name |
+| Occupation | `occupation` | 🔐 VAULT | yes | Fixed list of 17: Student, Teacher, Farmer, Journalist, Government official, Company employee, Military personnel, Retired, Religious personnel, Member of parliament, Crew member, NGO staff, Artist, Self-employed, Worker, Police officer, Other. Map the Vault value to the closest. |
+| Email | `email` | 🔐 VAULT | no |  |
+| Country/Region Code + Phone Number | `mobile` | 🔐 VAULT | yes | Picker: type the country name (a code search is ambiguous), pick 'Singapore (+ 65)'; then digits |
+
+#### 2 · Travel Information
+
+The contact block (occupation, email, phone) shows again here, empty: fill it a second time.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Date of Arrival in Cambodia | `arrival_date` | 🧠 RECALL | yes | Radio per day, labels like 'November 04, 2026' |
+| Date of Departure from Cambodia | `departure_date` | 🧠 RECALL | yes | Day / Month / Year dropdowns |
+| Port of Entry | `arrival_airport` | 🧠 RECALL | yes | Techo International Airport (KTI, Phnom Penh's flights since Sept 2025) · Siem Reap Angkor International Airport (SAI) · Sihanoukville International Airport (KOS) |
+| Travel purpose | `purpose` | 🧠 RECALL | yes | Holiday/Pleasure/Vocation · Transit · Business/Meeting/Conference/Convention/Exhibition · Education/Training · Employment · Medical Care · Official/Government visit · Religion · Sports event · To take up residence · Visiting Friends/Relatives · Others |
+| Type of Air Transport + Flight Number | `arrival_flight` | 🧠 RECALL | yes | Commercial / Private; flight written with a space, e.g. 'SQ 166' |
+| Accommodation Type | `stay_type` | 🧠 RECALL | yes | Hotel / Private Residential / Day Trip / Transit / Other |
+| Hotel name | `stay_name` | 🧠 RECALL | if Hotel |  |
+| Hotel contact number | `stay_phone` | 🧠 RECALL | yes | Required, never invented: from the booking email or the hotel's website. A private home takes the host's phone. |
+| Last country/Port of Embarkation | `origin` | 🧠 RECALL | yes | Picker, country name |
+| Next country/Port of Disembarkation | `next_destination` | 🧠 RECALL | yes | Picker, country name. Pick it from the list; the 'Same as last' box is unreliable. |
+
+#### 3 · Health Information
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Have you been vaccinated against yellow fever? | `yellow_fever_cert` | ✍️ ASK | yes | Yes / No |
+| Do you have fever, cough or rash now? (read the full symptom list from the page) | `health_symptoms` | ✍️ ASK | yes | Yes / No |
+| Have you visited the Middle East, Africa or Latin America in the past 14 days? | `recent_travel_14d` | ✍️ ASK | yes | Yes / No |
+
+#### 4 · Customs Declaration
+
+Next needs the box 'I hereby confirm that all the statements in this declaration are true and correct.' Tick it only after the user has given both answers in this chat.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Are you carrying foreign currency over US$10,000? | `customs_cash` | ✍️ ASK | yes | Yes / No checkboxes |
+| Do you have goods to declare? | `customs_declarable` | ✍️ ASK | yes | Yes / No checkboxes |
+
+#### 5 · Confirm Declaration (stop here)
+
+Screenshot, send the summary, wait for 'submit'. Then tick 'I have read and agreed to the declaration.' and press Submit. Save the confirmation and any QR code shown.
+
+Sources: https://arrival.gov.kh/
+
+## 4. How to validate the result
+
+The site shows a confirmation after Submit. The confirmation page hasn't been mapped, so describe what it shows
+and save a screenshot along with any QR code or reference.
+
+## 5. What to return
+
+What the confirmation shows, the saved path, and what to present: passport, plus the QR code if one was issued.
+Mention that each visit to the site leaves a saved draft.
+
+## 6. What requires approval
+
+- The final declaration tick and **Submit**.
+- Any health or customs answer the user didn't give in this chat.
+````
+
 ### SKILL `kr-arrival-card`
 
 ````markdown
@@ -1127,6 +1383,153 @@ with the issue number, passport number and date of birth.
 - Proceeding past a duplicate-details warning, because it deletes an earlier card.
 ````
 
+### SKILL `mv-traveller-declaration`
+
+````markdown
+---
+skill: mv-traveller-declaration
+description: Walk the Maldives IMUGA Traveller Declaration on the official immigration site, step by step, from values resolved by arrival-card-fill, reading the email code from Gmail. Stops at the last step for the user's 'submit'.
+---
+
+# Skill: mv-traveller-declaration
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for a traveller flying into the Maldives
+within 96 hours. Don't open the site earlier: early filings are reported as rejected.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value, including a **face photo** of each traveller (the Vault
+  hint `portrait_photo=`, or one attached in this chat).
+- The user's own answers, from this conversation, to the health and customs questions.
+- Gmail, to read the 6-digit code, when the email is the connected mailbox.
+
+**The labels in the table below are descriptions, not the site's exact wording.** The steps behind the email code
+haven't been seen. Match each field to what the page shows. If the page asks for something that isn't in the
+table, stop and ask the user: don't guess.
+
+## 3. Sequence of work
+
+1. Open `https://imuga.immigration.gov.mv/traveller/declaration`. Check the address ends in `.gov.mv`: paid
+   look-alike sites exist, and this form is free.
+2. **Verify email.** Enter the email and send the code. Read the 6-digit code from Gmail, or ask the user for it.
+3. **Purpose.** Pick the card that matches. A tourist is **Holiday**.
+4. **Personal.** Enter the passport details by hand if the page allows it. If it insists on a passport scan,
+   upload the kept passport photo, then check every value it read against the Vault and correct any difference.
+   Upload the face photo and adjust the crop so the whole face shows.
+5. **Travel.** Pick the airline and then the flight from the lists. Pick the place of stay from the site's list
+   and give the island. If the resort or guesthouse isn't listed, ask.
+6. **Health.** Answer with the user's answers. If an Ebola block or a vaccination question appears that the user
+   wasn't asked, stop and ask, showing the page's wording.
+7. **Customs.** Read the list of declarable items from the page and check it against what the user was asked.
+   Enter the number of checked bags.
+8. For family or a group, add them at the end as the page offers.
+9. Stop before the final submit and follow step 7 of `arrival-card-fill`. Submit after "submit".
+10. Find the confirmation email and save the QR code. Keep the **edit token** from it in the trip log: it's
+    needed to change the declaration.
+
+### Card facts: Maldives IMUGA Traveller Declaration
+
+- **Official URL (only this one):** https://imuga.immigration.gov.mv/traveller
+- **Filing window:** Within 96 hours before the arriving flight. Earlier filings are reported as rejected. The departure declaration is reported abolished since Aug 2024, though the site still mentions it.
+- **Who files:** All travellers arriving in the Maldives, one declaration each, infants included.
+- **Exempt:** Maldivian citizens, per press reports from Nov 2023.
+- **Last verified:** 2026-11-11: step order and field names from the official declaration page's own form state. The on-screen labels of steps 2-6 sit behind the email code and were not seen: the labels below are descriptions, and the bot matches them to what the page shows.
+- **Always the user's (hand over):**
+  - The 6-digit email code at step 1: read from Gmail when the email is the connected mailbox, else the user types it.
+  - The final submit (user replies 'submit').
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### 1 · Verify email
+
+Open /traveller/declaration. Enter the email, 'Send verification code', then the 6-digit code. The confirmation is sent to this address.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Email Address | `email` | 🔐 VAULT | yes |  |
+
+#### 2 · Purpose
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Purpose of visit | `purpose` | 🧠 RECALL | yes | Cards: Holiday · Employment · Dependent · Business · Official or Diplomatic · Conference · Sponsorship · Crew |
+| Permit number and expiry | `visa` | 🔐 VAULT | if A purpose that needs a permit (not Holiday) |  |
+
+#### 3 · Personal
+
+Skip the passport scan if manual entry is offered. If the scan is forced, upload the kept passport photo and check every value it read against the Vault.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Passport number | `passport_no` | 🔐 VAULT | yes |  |
+| Given name | `given_names` | 🔐 VAULT | yes |  |
+| Surname | `surname` | 🔐 VAULT | yes |  |
+| Date of birth | `dob` | 🔐 VAULT | yes |  |
+| Gender | `sex` | 🔐 VAULT | yes |  |
+| Passport expiry date | `passport_expiry` | 🔐 VAULT | yes |  |
+| Nationality | `nationality` | 🔐 VAULT | yes |  |
+| Country of residence | `home_country` | 🔐 VAULT | yes |  |
+| Mobile number | `mobile` | 🔐 VAULT | yes |  |
+| Photo of the traveller | `portrait_photo` | 🔐 VAULT | yes | Image upload with a crop tool; a clear face photo on a light background (JPEG/PNG, reported limit 6 MB) |
+
+#### 4 · Travel
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Country of departure | `origin` | 🧠 RECALL | yes |  |
+| Port of entry | `arrival_airport` | 🧠 RECALL | yes | Select; Velana International Airport (MLE) for Malé |
+| Arrival date | `arrival_date` | 🧠 RECALL | yes |  |
+| Arrival airline and flight | `arrival_flight` | 🧠 RECALL | yes | Chosen from lists, not typed: airline first, then the flight |
+| Booking reference (PNR) | `booking_ref` | 🧠 RECALL | no |  |
+| Return ticket, departure date, airline and port | `departure_flight` | 🧠 RECALL | no | Yes with the onward flight details when there is a ticket |
+| Departure date | `departure_date` | 🧠 RECALL | no |  |
+| Next destination | `next_destination` | 🧠 RECALL | no |  |
+| Place of stay (resort, guesthouse, hotel or liveaboard) | `stay_name` | 🧠 RECALL | yes | Picked from the site's list of facilities |
+| Address and island in the Maldives | `stay_address` | 🧠 RECALL | yes |  |
+| Length of stay | `length_of_stay` | 🧠 RECALL | yes | Days |
+
+#### 5 · Health
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Yellow fever: travelled from or through a risk country, and which | `recent_travel_yf` | ✍️ ASK | yes | Yes / No, then the countries |
+| Yellow fever vaccination, date and certificate | `yellow_fever_cert` | ✍️ ASK | if Yellow fever = Yes |  |
+| Ebola: countries visited, contact, funeral attendance, symptoms | `ebola_exposure` | ✍️ ASK | if Shown for certain origins |  |
+
+#### 6 · Customs (stop here)
+
+'Travelling with family or a group? You can add them at the end.' Screenshot, send the summary, wait for 'submit', then submit. The confirmation with a QR code and an edit token goes to the email.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Number of checked bags | `baggage_count` | ✍️ ASK | yes |  |
+| Anything to declare to customs | `customs_declarable` | ✍️ ASK | yes | Yes / No; read the listed items from the page and show them to the user |
+| Declaration details | `customs_goods_detail` | ✍️ ASK | if Anything to declare = Yes |  |
+
+Sources: https://imuga.immigration.gov.mv/traveller · https://www.immigration.gov.mv/traveller-declaration
+
+## 4. How to validate the result
+
+The confirmation email arrives with a QR code. The site's **Verify** page (surname and passport number) finds
+the declaration.
+
+## 5. What to return
+
+Confirmation, the saved QR path, and what to show: passport plus the QR code. Say which on-screen fields differed
+from the table, so the catalog can be corrected. A departure declaration is reported as no longer required; say
+you didn't file one.
+
+## 6. What requires approval
+
+- The final submit.
+- Any health or customs answer the user didn't give in this chat.
+- Keeping the face photo in `/workspace`.
+````
+
 ### SKILL `my-arrival-card`
 
 ````markdown
@@ -1240,6 +1643,342 @@ advance MDAC is needed to use the autogates. A mistake can't be edited: submit a
 
 - The final **Submit**.
 - Filing for a traveller who appears to be exempt.
+````
+
+### SKILL `nz-traveller-declaration`
+
+````markdown
+---
+skill: nz-traveller-declaration
+description: Walk the New Zealand Traveller Declaration (NZTD) web form, section by section, from values and declaration answers resolved by arrival-card-fill. Stops before Submit for the user's 'submit'.
+---
+
+# Skill: nz-traveller-declaration
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for anyone travelling into New Zealand,
+**no earlier than 24 hours before their trip to New Zealand starts**. The form refuses trip details before that.
+With a stopover where the traveller collects their bags, count from the flight that leaves the stopover.
+
+It is separate from the NZeTA and from visas. A traveller who needs an NZeTA and has none should be told now:
+this skill doesn't apply for it.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value.
+- **Every ✍️ ASK question answered by the user in this conversation**: about 20 Yes/No questions on
+  immigration history, biosecurity and restricted items, plus the list of countries in the last 30 days. Ask them
+  on the gap form with the exact wording in the table. Remind the user that packaged snacks, tea and coffee count
+  as food, and that used hiking boots and sports gear count as outdoor gear.
+- **Everything ready before you start**: the session ends after 10 minutes idle and 30 minutes in total.
+
+This is a legal declaration with an instant fine of at least NZ$400 for a false answer. Never answer a question
+for the user, and never assume No.
+
+## 3. Sequence of work
+
+1. Open `https://app.travellerdeclaration.govt.nz/` and choose **New declaration**. Tick the privacy box.
+2. **Contact details**, then **Passport details**, in table order. Use the passport the traveller will enter on.
+3. **Trip details.** Search the flight number. If it isn't found, use "Manually add flight details". If the form
+   says it's too early, stop and tell the user when it opens.
+4. A reference number is emailed now. Note it in the trip log.
+5. Complete each section from the hub, in table order: **Purpose of travel**, **Immigration status**, **Travel
+   history**, **Biosecurity**, **Restricted items**.
+   - Immigration status: with an NZeTA and no visa, the option is "travelling visa waiver". With a visa, the
+     matching visa option. If unsure, ask.
+   - For each Yes, the page opens follow-up choices. Use what the user told you. If they didn't cover a
+     follow-up, stop and ask with the page's options.
+6. On **Submit**, answer "Do you know the contents of your baggage?" with the user's answer. Stop there and
+   follow step 7 of `arrival-card-fill`: the summary must list every Yes/No answer.
+7. After "submit": tick the declaration and press **Submit**. If a "Confirm you are not a robot" check appears,
+   use Take control.
+
+For another traveller, use "Start a declaration for someone else" and repeat: each person needs their own, and the
+form asks whether you have their consent or guardianship.
+
+### Card facts: New Zealand Traveller Declaration (NZTD)
+
+- **Official URL (only this one):** https://www.travellerdeclaration.govt.nz/
+- **Filing window:** From 24 hours before you start your trip to New Zealand, until passport control. The form refuses trip details earlier than that. With a stopover where you collect bags, count from the flight leaving the stopover.
+- **Who files:** Everyone travelling into New Zealand, New Zealand passport holders included. One declaration per traveller, babies included.
+- **Exempt:** Airside transit passengers. It is separate from the NZeTA and visas: holders of those still file it.
+- **Last verified:** 2026-11-11: every question's wording and required status from the official web app's own question and content data (app version 9.5). Not walked live.
+- **Always the user's (hand over):**
+  - The 'Confirm you are not a robot' check, if the invisible one falls back to it.
+  - The declaration tick and Submit (user replies 'submit'). This is a legal document: a false declaration carries an instant fine of at least NZ$400.
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### Start, privacy and contact details
+
+Open app.travellerdeclaration.govt.nz and choose 'New declaration'. Tick the privacy box. Answers must be in English. The session ends after 10 minutes idle and 30 minutes in total: have every answer ready. A 7-character reference number is emailed on starting; 'Edit declaration' uses it.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Your email address | `email` | 🔐 VAULT | yes |  |
+| Your contact phone number | `mobile` | 🔐 VAULT | yes | Country code + phone number |
+
+#### Passport details
+
+Use the passport you will enter New Zealand on. Passport expiry and gender are not asked.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Passport number | `passport_no` | 🔐 VAULT | yes | Letters and digits, no spaces |
+| Nationality | `nationality` | 🔐 VAULT | yes | Type-ahead |
+| Surname or family name | `surname` | 🔐 VAULT | yes |  |
+| Given or first name(s) | `given_names` | 🔐 VAULT | no |  |
+| Date of birth | `dob` | 🔐 VAULT | yes | Day / month / year |
+| Country or territory of birth | `birth_country` | 🔐 VAULT | yes | Type-ahead |
+
+#### Trip details
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Arriving in New Zealand by | `arrival_airport` | 🧠 RECALL | yes | Air / Sea |
+| Date of arrival into New Zealand | `arrival_date` | 🧠 RECALL | yes |  |
+| Flight number | `arrival_flight` | 🧠 RECALL | yes | Search, e.g. NZ123: the flight number, not the booking reference. 'Manually add flight details' if not found. |
+| Departing from | `origin` | 🧠 RECALL | yes | Port type-ahead by code, name or city: where the flight to New Zealand leaves from |
+
+#### Purpose of travel
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Do you live in New Zealand? / Do you intend on staying in New Zealand permanently? | `resident_status` | 🧠 RECALL | yes | Yes / No each; No to both for a visitor |
+| How long do you intend to stay in New Zealand? | `length_of_stay` | 🧠 RECALL | yes | Years / months / days |
+| What is your main reason for coming to New Zealand? | `purpose` | 🧠 RECALL | yes | Visiting friends/relatives · Business · Holiday/vacation · Conference/convention · Education · Other |
+| In which country or territory did you last live for 12 months or more? | `home_country` | 🔐 VAULT | yes |  |
+| State, province or prefecture | `home_state` | 🔐 VAULT | yes |  |
+| Full contact or residential address in New Zealand | `stay_address` | 🧠 RECALL | yes | Address lookup, or manual: unit, number, street, suburb, town/city, postcode. Use the first address of the stay. |
+| Your occupation or job | `occupation` | 🔐 VAULT | yes | Free text, 3-50 characters |
+
+#### Immigration status
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Which of the following applies to you? | `entry_policy` | 🧠 RECALL | yes | NZ citizen on a foreign passport · NZ residence class visa · Australian passport or permanent resident visa · NZ temporary entry class visa (work, student or visitor visa) · Travelling visa waiver (choose this with an NZeTA and no visa) |
+| Departure flight number or vessel name | `departure_flight` | 🧠 RECALL | no |  |
+| Estimated departure date from New Zealand | `departure_date` | 🧠 RECALL | no |  |
+| Are you coming to New Zealand for medical treatment or consultation, or to give birth? | `medical_purpose` | ✍️ ASK | yes | Yes / No |
+| Have you ever been deported, removed, excluded or refused entry from any country? | `deported_any_country` | ✍️ ASK | yes | Yes / No; Yes asks which |
+| Have you ever been sentenced to 12 months or more in prison? | `prison_12_months` | ✍️ ASK | yes | Yes / No; based on the original sentence, not time served |
+
+#### Travel history
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| List the countries or territories you have been to outside of New Zealand in the last 30 days (including in transit). | `recent_travel_30d` | ✍️ ASK | yes | Multi type-ahead; the departure country is already shown |
+
+#### Biosecurity
+
+Each Yes opens follow-up choices (food types, how equipment was used, whether it is clean and dry). Ask the user those follow-ups with the page's own options.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Any food: cooked, uncooked, fresh, preserved, packaged or dried? | `bio_food` | ✍️ ASK | yes | Yes / No. Packaged snacks, chocolate, tea and coffee count as food. |
+| Animals or animal products: including meat, dairy products, fish, honey, bee products, eggs, feathers, shells, raw wool, skins, bones or insects? | `bio_animal_products` | ✍️ ASK | yes | Yes / No |
+| Plants or plant products: fruit, flowers, seeds, bulbs, wood, bark, leaves, nuts, vegetables, parts of plants, fungi, cane, bamboo or straw, including for religious offerings or medicinal use? | `bio_plant_products` | ✍️ ASK | yes | Yes / No |
+| Biological products: Animal medicines, biological cultures, organisms, soil or water? | `bio_biological` | ✍️ ASK | yes | Yes / No |
+| Equipment: Equipment/clothing used with animals, plants or water, including for gardening, beekeeping, fishing, water sport or diving activities? | `bio_equipment` | ✍️ ASK | yes | Yes / No |
+| Outdoor gear: Items that have been used for outdoor activities, including any footwear, tents, camping, hunting, hiking, golf or sports equipment? | `bio_outdoor_gear` | ✍️ ASK | yes | Yes / No |
+| In the past 30 days (while outside of New Zealand) have you visited any wilderness areas, had contact with animals (except domestic cats and dogs) or visited properties that farm or process animals or plants? | `bio_farm_contact` | ✍️ ASK | yes | Yes / No |
+
+#### Restricted items
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Medicine: over 3 months' supply, or medicine not prescribed to you? | `customs_medicine` | ✍️ ASK | yes | Yes / No |
+| Restricted or prohibited goods: For example, weapons, indecent publications, endangered plants or wildlife, illegal or controlled drugs? | `prohibited_items` | ✍️ ASK | yes | Yes / No |
+| Alcohol: more than 3 bottles of spirits (not exceeding 1.125 litres each) and 4.5 litres of wine or beer? | `customs_alcohol` | ✍️ ASK | yes | Yes / No |
+| Tobacco: more than 50 cigarettes or 50 grams of tobacco products? | `customs_tobacco` | ✍️ ASK | yes | Yes / No |
+| Goods obtained overseas and/or purchased duty-free in New Zealand: with a total value of more than NZ$700 (including gifts)? | `customs_over_allowance` | ✍️ ASK | yes | Yes / No |
+| Goods carried for business or commercial use? | `customs_commercial` | ✍️ ASK | yes | Yes / No |
+| Goods carried on behalf of another person? | `customs_for_others` | ✍️ ASK | yes | Yes / No |
+| Cash: NZ$10,000 or more (or foreign equivalent), including travellers cheques, bank drafts, money orders, etc.? | `customs_cash` | ✍️ ASK | yes | Yes / No |
+
+#### Submit (stop here)
+
+Screenshot, send the summary, wait for 'submit'. Then tick 'I declare that the information I am submitting is true, correct and complete.' and Submit. The page shows 'Submission successful' and the reference number. Nothing to print, no QR code: the declaration is linked to the passport. Any later change means submitting again.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Do you know the contents of your baggage? | `baggage_known` | ✍️ ASK | yes | Yes / No |
+
+Sources: https://www.travellerdeclaration.govt.nz/completing-your-declaration/ · https://app.travellerdeclaration.govt.nz/
+
+## 4. How to validate the result
+
+The page shows "Submission successful" with the reference number, and a second email arrives.
+
+## 5. What to return
+
+Reference number and what to show: the passport only. There's nothing to print and no QR code. Tell the user
+that anything declared Yes must be shown to an officer on arrival, and that any change before arrival, such as a
+new flight or something bought on the way, means editing and submitting again ("Edit declaration" with the email
+and reference number).
+
+## 6. What requires approval
+
+- The declaration tick and **Submit**.
+- Every Yes/No answer: all must come from the user in this chat.
+- Declaring consent to file for another traveller.
+````
+
+### SKILL `ph-etravel`
+
+````markdown
+---
+skill: ph-etravel
+description: Register a Philippines eTravel arrival declaration (immigration, health and customs) on the official site, signing in with the Vault login, from values resolved by arrival-card-fill. Stops at the Summary for the user's 'submit'.
+---
+
+# Skill: ph-etravel
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for anyone arriving in the Philippines
+within 72 hours. The airline checks the QR code before boarding, so do it before the user leaves for the airport.
+
+## 2. Required inputs and access
+
+- A Vault **Login** for `etravel.gov.ph`. If there isn't one, ask approval to create the account with the card
+  email, and let Vault generate the password.
+- Gmail, for the 6-digit code when creating the account.
+- Every 🔐 VAULT and 🧠 RECALL field below has a value, and the user's own answers, from this conversation, to the
+  three health questions and the customs question.
+
+The page order below is inferred, and some wording is only shown after sign-in. Match each field to what the page
+shows. If the page asks for something that isn't in the table, stop and ask the user.
+
+## 3. Sequence of work
+
+1. Open `https://etravel.gov.ph/`. Use **Take control** for the Cloudflare check on the sign-in page.
+2. Sign in with the Vault login. For a new account: enter the email, read the 6-digit code from Gmail (if you
+   need another, wait 3 minutes), then create the password.
+3. **Profile**, the first time only: choose FOREIGN PASSPORT and fill the table's Profile fields. For companions,
+   use **Add Family Member** and fill a profile for each.
+4. **New Travel Declaration**: FOR ME, AIR, ARRIVAL. Tick the family members travelling.
+5. **Travel Details**, in table order. Airline, flight, airports and hotel are look-ups: type, then pick the row.
+   If the hotel isn't found, ask.
+6. **Health Declaration**: the user's answers. If any is Yes, tell the user the QR code will be red, which means
+   a stop at the quarantine desk on arrival. Don't change an answer to avoid that.
+7. **Summary.** Stop there and follow step 7 of `arrival-card-fill`. Submit after "submit".
+8. **Customs.** Answer "Do you have baggage or currency to declare?" with the user's answer. For Yes, fill the
+   follow-up pages from what the user gave you, and use Take control for the drawn signature.
+9. Download the QR code for each traveller and save it.
+
+### Card facts: Philippines eTravel (arrival declaration, health and customs)
+
+- **Official URL (only this one):** https://etravel.gov.ph/
+- **Filing window:** Within 72 hours before arrival. The airline checks the QR code before boarding.
+- **Who files:** All arriving passengers and crew, Filipino and foreign. Departing Filipino passengers also file; departing foreigners are not listed.
+- **Exempt:** Foreign diplomats and their dependents, foreign dignitaries and delegations, 9(e) visa holders, and diplomatic or official passport holders.
+- **Last verified:** 2026-11-11: labels, required rules and option lists from the site's own language bundle, validation code and public look-up data. The page order is inferred, the symptom list and the exact customs question wording are served after sign-in, and the form has not been walked live.
+- **Always the user's (hand over):**
+  - The Cloudflare check on the sign-in page (Take control).
+  - Account creation the first time: needs the user's approval; the 6-digit email code is read from Gmail when possible.
+  - The drawn signature, only when there is baggage or currency to declare.
+  - The final Submit (user replies 'submit').
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### Sign in
+
+An account is required. Returning: sign in with the Vault Login. First time: enter the email, read the 6-digit code (resend is throttled: wait 3 minutes), and create a password that Vault generates and saves.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Email address / Password | `etravel_login` | 🔐 VAULT | yes |  |
+
+#### Profile (once per account)
+
+Choose FOREIGN PASSPORT. Saved to the account, so later trips skip this. 'Add Family Member' creates a profile for each companion.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Photo | `portrait_photo` | 🔐 VAULT | no | 'Take a photo or upload a file.' May be enforced only for Philippine passports: upload if the page insists. |
+| First Name | `given_names` | 🔐 VAULT | yes | Upper case |
+| Middle Name (optional) | `middle_name` | 🔐 VAULT | no |  |
+| Last Name (optional) | `surname` | 🔐 VAULT | yes |  |
+| Sex | `sex` | 🔐 VAULT | yes | FEMALE / MALE |
+| Birth Date (MM/DD/YYYY) | `dob` | 🔐 VAULT | yes |  |
+| Mobile Number | `mobile` | 🔐 VAULT | yes | Country code + number |
+| Citizenship | `nationality` | 🔐 VAULT | yes | Country look-up |
+| Country of Birth | `birth_country` | 🔐 VAULT | yes |  |
+| Passport Number | `passport_no` | 🔐 VAULT | yes |  |
+| Passport Issuing Authority | `passport_country` | 🔐 VAULT | yes | Country look-up |
+| Passport Issued Date | `passport_issue` | 🔐 VAULT | yes |  |
+| Occupation | `occupation` | 🔐 VAULT | yes | Professional/Technical/Administrative · Clerical/Sales · Agriculture · Worker/Laborer · Military/Government Personnel · Housewife · Student/Minor · Retired/Pensioner · Seaman · Airline Crew · Diplomat · Entertainer · Unemployed · Businessman |
+| Permanent Country of Residence | `home_country` | 🔐 VAULT | yes |  |
+| No./Bldg./City/State/Province | `home_address` | 🔐 VAULT | yes | The home address abroad, one line |
+
+#### New Travel Declaration
+
+FOR ME, AIR, ARRIVAL ('Entering the Philippines'). Tick saved family members to generate their declarations too; each still gets their own QR.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Family Member(s) | `companions` | 🧠 RECALL | no |  |
+
+#### Travel Details
+
+Traveller Type: AIRCRAFT PASSENGER.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Purpose of Travel | `purpose` | 🧠 RECALL | yes | Holiday/Pleasure/Vacation · Convention/Conference · Education/Training/Studies · Government/Official Mission · Health/Medical Reason · Business/Professional · Visit Friends/Relatives · Work/Employment · Religion/Pilgrimage · Incentive · Returning Resident |
+| Date of Departure | `origin_departure_date` | 🧠 RECALL | yes |  |
+| Date of Arrival | `arrival_date` | 🧠 RECALL | yes |  |
+| Date of Return | `departure_date` | 🧠 RECALL | if Required for holiday and visiting friends/relatives |  |
+| Country of Origin / Airport of Origin | `origin` | 🧠 RECALL | yes |  |
+| With Transit (Connecting Flight)? | `transit_cities` | 🧠 RECALL | no | Yes adds country, airport and date of transit |
+| Name of Airline / Flight Number | `arrival_flight` | 🧠 RECALL | yes | Look-ups; ignore the auto-filled Manila terminal |
+| Airport of Destination | `arrival_airport` | 🧠 RECALL | yes |  |
+| Destination upon arrival in the Philippines | `stay_type` | 🧠 RECALL | yes | Residence / Hotel/Resort / Transit Via Airport |
+| Hotel, Resorts, AirBnb, Tourist destinations, etc. | `stay_name` | 🧠 RECALL | if Hotel/Resort | Search look-up |
+| Residence Address | `stay_address` | 🧠 RECALL | if Residence | 10-250 characters with street, barangay and city; no phone numbers |
+
+#### Health Declaration
+
+A Yes on sickness or exposure gives a red QR code: the traveller sees the Bureau of Quarantine first on arrival. Say so; never change the answer to avoid it.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Do you have any recent travel history in the last 30 days? Country(ies) worked, visited and transited in the last 30 days | `recent_travel_30d` | ✍️ ASK | yes | Yes / No, then the countries |
+| Have you had any history of exposure to a person who is sick or known to have communicable/infectious disease in the past 30 days prior to travel? | `sick_contact` | ✍️ ASK | yes | Yes / No |
+| Have you been sick in the past 30 days? | `health_symptoms` | ✍️ ASK | yes | Yes / No; Yes asks for symptoms from the page's list |
+
+#### Summary and customs (stop here)
+
+Screenshot the summary, send it, wait for 'submit'. After Submit the customs part asks its question. Save the QR code ('Download QRCode'): green goes straight to immigration, red goes to quarantine first.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Do you have baggage or currency to declare? | `customs_declarable` | ✍️ ASK | yes | Yes / No. Show the user the 12 categories: pesos over PHP 50,000; foreign currency over USD 10,000; gambling items; cosmetics, supplements or medicines beyond personal use; dangerous drugs; firearms; alcohol or tobacco in commercial quantities; foodstuffs, animals or plants; gadgets beyond personal use; cremains or human tissue; jewelry, gold or gems; other goods. |
+| Customs details: family members, baggage counts, goods and currency rows | `customs_goods_detail` | ✍️ ASK | if Baggage or currency to declare = Yes | Many follow-up fields and a drawn signature: collect them from the user, and hand over for the signature |
+
+Sources: https://etravel.gov.ph/ · https://etravel.gov.ph/frequently-asked-questions
+
+## 4. How to validate the result
+
+The dashboard shows the declaration with a QR code. Say whether it's green or red.
+
+## 5. What to return
+
+QR colour, the saved QR path for each traveller, and what to show: the QR code to the airline at check-in and
+again on arrival, with the passport. The declaration can be edited or deleted from the dashboard until the border
+officer has processed it. Say which on-screen fields differed from the table.
+
+## 6. What requires approval
+
+- Creating the eTravel account.
+- The final **Submit**.
+- Any health or customs answer the user didn't give in this chat.
 ````
 
 ### SKILL `sg-arrival-card`
@@ -1616,5 +2355,133 @@ immigration. e-Gate enrolment is a separate counter.
 
 - The final **SUBMIT**.
 - Typing a verification code the user read out. Do it only for this card.
+````
+
+### SKILL `vn-prearrival`
+
+````markdown
+---
+skill: vn-prearrival
+description: Fill Vietnam's Pre-arrival Information (digital arrival card) on the official immigration portal, from values resolved by arrival-card-fill, reading the email code from Gmail. Stops at Review & Submit for the user's 'submit'.
+---
+
+# Skill: vn-prearrival
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for a foreigner flying into Vietnam
+within 3 days. Vietnamese passport holders and transit passengers don't file it.
+
+It is not a visa. The form asks for the traveller's existing visa or exemption and checks it. If the traveller
+needs an e-visa and has none, say so now: this skill doesn't apply for one.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value. The card has no health or customs questions.
+- The traveller's **entry basis** for Vietnam: visa-exempt by nationality, an e-visa (with its 9-digit number and
+  dates), or another visa or card. Take it from the Vault's `visa_VN=` line, or ask.
+- The user is available for the image CAPTCHA at the start.
+- Gmail, to read the 6-digit code at submit, when the email is the connected mailbox.
+- **Everything ready before you start**: the page reloads after 60 seconds idle and sessions expire.
+
+## 3. Sequence of work
+
+1. Open `https://prearrival.immigration.gov.vn/`. Check the address: fake sites that ask for card details exist,
+   and this form is free. Set the language to English.
+2. Choose **Create & Submit Pre-arrival Information**. Use **Take control** for the CAPTCHA.
+3. **Skip** the passport scan and select the nationality.
+4. **Passenger Information**, in table order.
+   - Arrival date: one of the three buttons. If the date isn't offered, the window isn't open: stop and say when
+     to try again. The buttons follow the computer's date, so near midnight check them against Vietnam time.
+   - Visa: tick the "read and understood" box, pick the visa type that matches the entry basis, then the number
+     and dates if it asks. If the page says the visa or passport number is invalid, stop and ask.
+   - For companions, use **Add Passenger +**. Each needs their own passport details, email and relationship.
+     Everyone shares the same flight and accommodation.
+5. **Trip Information.**
+   - Flight: pick it from the search list. Use "Other" only if it's truly missing.
+   - Check the Border Gate that fills in is the airport on the ticket.
+   - Accommodation: province, then ward, then the hotel from the list. If the hotel isn't listed, use "Other"
+     and type its address.
+6. **Review & Submit.** Stop there and follow step 7 of `arrival-card-fill`.
+7. After "submit": tick the confirmation, press **Submit**, read the 6-digit code from Gmail (or ask the user;
+   a new code can be requested after 60 seconds), and enter it.
+8. Save the QR code and the PDF. Note the **Pre-Arrival Information Number** in the trip log.
+
+### Card facts: Vietnam Pre-arrival Information (digital arrival card)
+
+- **Official URL (only this one):** https://prearrival.immigration.gov.vn/
+- **Filing window:** Within 3 days before arrival: the form offers only today, tomorrow and the day after as the arrival date (Vietnam time). Can also be filed on arrival.
+- **Who files:** Foreign nationals, and overseas Vietnamese entering on a visa, arriving at Tan Son Nhat, Noi Bai, Da Nang, Cam Ranh and Phu Quoc airports. Each traveller is a separate entry, children included.
+- **Exempt:** Vietnamese passport holders and transit passengers. Official sources call it a pilot and differ on whether it is mandatory: treat it as required in practice. It is not a visa; the e-visa (evisa.gov.vn) is separate.
+- **Last verified:** 2026-11-11: labels and validation from the portal's own code and English text (build 1.1.0). Dropdown lists (purpose, visa types, airports, hotels, provinces) are served after the CAPTCHA and are read from the page. Not walked live. No health or customs questions.
+- **Always the user's (hand over):**
+  - The image CAPTCHA that gates the form (Take control).
+  - The 6-digit email code at Submit: read from Gmail when the email is the connected mailbox, else the user types it.
+  - The confirmation tick and Submit (user replies 'submit').
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### Home and pre-steps
+
+Choose 'Create & Submit Pre-arrival Information', pass the CAPTCHA, skip 'Scan Your Passport', and select the nationality. The page reloads after 60 seconds idle and sessions expire: have everything ready and keep moving. Latin letters only; dates are DD/MM/YYYY.
+
+#### 1 · Passenger Information
+
+Passenger 1 is the lead. 'Add Passenger +' adds companions, who share the trip details and each need an email and a relationship to the lead.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Expected Arrival Date (DD/MM/YYYY GMT+7) | `arrival_date` | 🧠 RECALL | yes | Three buttons: today, +1, +2. Cannot be changed later. |
+| Passport Type | `passport_country` | 🔐 VAULT | yes | Dropdown; 'P' (ordinary passport) is the default |
+| Passport Number | `passport_no` | 🔐 VAULT | yes | Letters and digits; checked by the server |
+| Date of Expiry | `passport_expiry` | 🔐 VAULT | yes |  |
+| Gender | `sex` | 🔐 VAULT | yes | Male / Female / Other |
+| Surname | `surname` | 🔐 VAULT | no |  |
+| Given Name | `given_names` | 🔐 VAULT | yes | No accents |
+| Date of Birth | `dob` | 🔐 VAULT | yes |  |
+| Nationality | `nationality` | 🔐 VAULT | yes | Prefilled from the pre-step |
+| Country Code + Phone Number | `mobile` | 🔐 VAULT | yes |  |
+| Email Address | `email` | 🔐 VAULT | yes |  |
+| Relationship with Lead Passenger | `companions` | 🧠 RECALL | if Passengers 2 and later | Spouse · Child · Parent · Sibling · Friend · Colleague · Other … |
+| Visa Type / Purpose | `entry_policy` | 🧠 RECALL | yes | Read the list from the page: e-visa, stamped visa, visa exemption (by nationality), Phu Quoc exemption, 5-year exemption certificate, APEC card, temporary residence card … Tick 'I have read and understood this information.' first. If unsure which applies, ASK. |
+| Visa Number, Date of Issue, Date of Expiry, Issued Place | `visa` | 🔐 VAULT | if Any type except a visa exemption | An e-visa number is exactly 9 digits (the 'Số / No.' line on the e-visa). Checked by the server. |
+
+#### 2 · Trip Information
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Departure country before Arrival in Vietnam | `origin` | 🧠 RECALL | yes | Country; with connections, the first country of departure |
+| Purpose of Travel | `purpose` | 🧠 RECALL | yes | Read the list from the page (Tourism, Business, Education, Employment, Transit …) |
+| Mode of Travel + Flight Number | `arrival_flight` | 🧠 RECALL | yes | Air; pick the flight from the search list. Use 'Other' and type it (e.g. VN1234) only if the flight is truly missing: mismatched flight numbers are the main cause of failed submissions. |
+| Border Gate | `arrival_airport` | 🧠 RECALL | yes | Fills itself from the flight; check it is the right airport |
+| Type of Accommodation in Vietnam | `stay_type` | 🧠 RECALL | yes | Hotel / Residential / Others |
+| Province / City of Hotel, Ward / Commune of Hotel | `stay_address` | 🧠 RECALL | yes | Province dropdown, then ward |
+| Accommodation Address | `stay_name` | 🧠 RECALL | yes | Hotel: pick from the site's hotel list, or 'Other' and type the address. Residential: typed. |
+| Expected date of departure from Vietnam (DD/MM/YYYY GMT+7) | `departure_date` | 🧠 RECALL | no | On or before the visa's expiry |
+
+#### 3 · Review & Submit (stop here)
+
+Screenshot, send the summary, wait for 'submit'. Then tick 'I confirm that the information is correct.', press Submit, and enter the 6-digit email code. Save the QR code and 'Download PDF Pre-Arrival Information'. If the page times out during processing, the declaration is still received and the result is emailed.
+
+Sources: https://prearrival.immigration.gov.vn/ · https://en.mps.gov.vn/article/immigration-department-launches-pre-arrival-information-system-1778670404
+
+## 4. How to validate the result
+
+The page shows "Your submission is successful!" with a QR code and a Pre-Arrival Information Number, and an email
+copy arrives. A "duplicate" error means a declaration already exists for this traveller and date: look it up
+instead of filing again.
+
+## 5. What to return
+
+The number, the saved QR and PDF paths, and what to show: passport plus the QR code. To change it, use **Lookup &
+Update Declaration** with the number and the lead passport number. The arrival date, passport number, date of
+birth and nationality can't be changed: cancel and file again.
+
+## 6. What requires approval
+
+- The confirmation tick and **Submit**.
+- Choosing a visa type when the entry basis isn't clear.
 ````
 

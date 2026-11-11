@@ -31,8 +31,8 @@ collects the missing Vault fields.
    fields below are missing or expire soon (passport expiry within 6 months).
 2. **Open with the offer.** For a first run, send exactly one message:
 
-   > 👋 I fill out arrival cards for **China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia and
-   > Indonesia**. I find your flights and hotels in
+   > 👋 I fill out arrival cards for **14 countries**: China, Singapore, Japan, Taiwan, Korea, Thailand,
+   > Malaysia, Indonesia, Cambodia, the Philippines, India, the Maldives, New Zealand and Vietnam. I find your flights and hotels in
    > your email and calendar, and ask you only for what I can't find.
    >
    > Let's set up your **travel identity** once (about 2 minutes), so no card ever has to ask for it again. It's
@@ -59,9 +59,11 @@ collects the missing Vault fields.
    Vault entry, or memory already gave. Put the found values in an "I read this from your passport" block, passport
    shown as `•••••789`, so the user can correct them in the same reply. Number the questions, and give options and
    formats, e.g. *"Occupation (as you'd like it on cards, e.g. SOFTWARE ENGINEER)"*.
-   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan / Korea / Thailand / Indonesia? Reply
+   - Ask `visa` only per country: *"Do you hold a visa or residence permit for any country you travel to often (for example China, Japan, Taiwan, Korea, Indonesia, Vietnam, New Zealand)? Reply
      'none' for any where you travel visa-free."*
-   - Don't ask `vjw_login` here. It's created the first time a Japan card is filed.
+   - Don't ask `vjw_login` or `etravel_login` here. Each is created the first time that country's card is filed.
+   - Offer the optional extras once, and skip them if the user doesn't want to: a face photo (`portrait_photo`,
+     needed for the Maldives), passport issue date (Philippines), and an emergency contact (India).
 5. **Save to the Vault**, using the format in `arrival-card-fill` §2:
    - Nickname `Travel identity · GIVEN SURNAME`.
    - Name, address, phone and email in the native slots.
@@ -75,7 +77,7 @@ collects the missing Vault fields.
 7. **Next traveller.** Ask "Anyone who usually travels with you? Send their passport photo, or say 'done'."
    Remember "usually travels with: …" as a memory preference (names only).
 8. **Finish.** If Gmail or Google Calendar isn't connected, offer to connect it. Then, if the calendar shows a trip
-   to any of the eight supported countries in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
+   to any of the supported countries in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
    that arrival card now?"*
 
 <!-- VAULT_FIELDS -->

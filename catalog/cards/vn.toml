@@ -1,0 +1,121 @@
+code = "VN"
+name = "Vietnam Pre-arrival Information (digital arrival card)"
+skill = "vn-prearrival"
+url = "https://prearrival.immigration.gov.vn/"
+window = "Within 3 days before arrival: the form offers only today, tomorrow and the day after as the arrival date (Vietnam time). Can also be filed on arrival."
+who = "Foreign nationals, and overseas Vietnamese entering on a visa, arriving at Tan Son Nhat, Noi Bai, Da Nang, Cam Ranh and Phu Quoc airports. Each traveller is a separate entry, children included."
+exempt = "Vietnamese passport holders and transit passengers. Official sources call it a pilot and differ on whether it is mandatory: treat it as required in practice. It is not a visa; the e-visa (evisa.gov.vn) is separate."
+handoffs = [
+  "The image CAPTCHA that gates the form (Take control).",
+  "The 6-digit email code at Submit: read from Gmail when the email is the connected mailbox, else the user types it.",
+  "The confirmation tick and Submit (user replies 'submit').",
+]
+verified = "2026-11-11: labels and validation from the portal's own code and English text (build 1.1.0). Dropdown lists (purpose, visa types, airports, hotels, provinces) are served after the CAPTCHA and are read from the page. Not walked live. No health or customs questions."
+sources = [
+  "https://prearrival.immigration.gov.vn/",
+  "https://en.mps.gov.vn/article/immigration-department-launches-pre-arrival-information-system-1778670404",
+]
+
+[[page]]
+title = "Home and pre-steps"
+notes = "Choose 'Create & Submit Pre-arrival Information', pass the CAPTCHA, skip 'Scan Your Passport', and select the nationality. The page reloads after 60 seconds idle and sessions expire: have everything ready and keep moving. Latin letters only; dates are DD/MM/YYYY."
+
+[[page]]
+title = "1 · Passenger Information"
+notes = "Passenger 1 is the lead. 'Add Passenger +' adds companions, who share the trip details and each need an email and a relationship to the lead."
+[[page.field]]
+label = "Expected Arrival Date (DD/MM/YYYY GMT+7)"
+key = "arrival_date"
+format = "Three buttons: today, +1, +2. Cannot be changed later."
+[[page.field]]
+label = "Passport Type"
+key = "passport_country"
+format = "Dropdown; 'P' (ordinary passport) is the default"
+[[page.field]]
+label = "Passport Number"
+key = "passport_no"
+format = "Letters and digits; checked by the server"
+[[page.field]]
+label = "Date of Expiry"
+key = "passport_expiry"
+[[page.field]]
+label = "Gender"
+key = "sex"
+format = "Male / Female / Other"
+[[page.field]]
+label = "Surname"
+key = "surname"
+required = false
+[[page.field]]
+label = "Given Name"
+key = "given_names"
+format = "No accents"
+[[page.field]]
+label = "Date of Birth"
+key = "dob"
+[[page.field]]
+label = "Nationality"
+key = "nationality"
+format = "Prefilled from the pre-step"
+[[page.field]]
+label = "Country Code + Phone Number"
+key = "mobile"
+[[page.field]]
+label = "Email Address"
+key = "email"
+[[page.field]]
+label = "Relationship with Lead Passenger"
+key = "companions"
+required = false
+when = "Passengers 2 and later"
+format = "Spouse · Child · Parent · Sibling · Friend · Colleague · Other …"
+[[page.field]]
+label = "Visa Type / Purpose"
+key = "entry_policy"
+format = "Read the list from the page: e-visa, stamped visa, visa exemption (by nationality), Phu Quoc exemption, 5-year exemption certificate, APEC card, temporary residence card … Tick 'I have read and understood this information.' first. If unsure which applies, ASK."
+[[page.field]]
+label = "Visa Number, Date of Issue, Date of Expiry, Issued Place"
+key = "visa"
+required = false
+when = "Any type except a visa exemption"
+format = "An e-visa number is exactly 9 digits (the 'Số / No.' line on the e-visa). Checked by the server."
+
+[[page]]
+title = "2 · Trip Information"
+[[page.field]]
+label = "Departure country before Arrival in Vietnam"
+key = "origin"
+format = "Country; with connections, the first country of departure"
+[[page.field]]
+label = "Purpose of Travel"
+key = "purpose"
+format = "Read the list from the page (Tourism, Business, Education, Employment, Transit …)"
+[[page.field]]
+label = "Mode of Travel + Flight Number"
+key = "arrival_flight"
+format = "Air; pick the flight from the search list. Use 'Other' and type it (e.g. VN1234) only if the flight is truly missing: mismatched flight numbers are the main cause of failed submissions."
+[[page.field]]
+label = "Border Gate"
+key = "arrival_airport"
+format = "Fills itself from the flight; check it is the right airport"
+[[page.field]]
+label = "Type of Accommodation in Vietnam"
+key = "stay_type"
+format = "Hotel / Residential / Others"
+[[page.field]]
+label = "Province / City of Hotel, Ward / Commune of Hotel"
+key = "stay_address"
+format = "Province dropdown, then ward"
+[[page.field]]
+label = "Accommodation Address"
+key = "stay_name"
+format = "Hotel: pick from the site's hotel list, or 'Other' and type the address. Residential: typed."
+[[page.field]]
+label = "Expected date of departure from Vietnam (DD/MM/YYYY GMT+7)"
+key = "departure_date"
+required = false
+format = "On or before the visa's expiry"
+
+[[page]]
+title = "3 · Review & Submit (stop here)"
+notes = "Screenshot, send the summary, wait for 'submit'. Then tick 'I confirm that the information is correct.', press Submit, and enter the 6-digit email code. Save the QR code and 'Download PDF Pre-Arrival Information'. If the page times out during processing, the declaration is still received and the result is emailed."

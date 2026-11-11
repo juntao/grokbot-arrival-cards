@@ -98,6 +98,12 @@ tier = "vault"
 vault_slot = "hint"
 
 [[field]]
+key = "passport_issue"
+label = "Passport date of issue"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
 key = "passport_expiry"
 label = "Passport date of expiry"
 tier = "vault"
@@ -111,8 +117,33 @@ vault_slot = "hint"
 note = "Collected at onboarding. Read once to fill the other identity fields; with the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_passport.jpg for China's upload step, and its path is the hint value."
 
 [[field]]
+key = "portrait_photo"
+label = "Passport-style photo of the traveller's face"
+tier = "vault"
+vault_slot = "hint"
+note = "Maldives needs an upload. With the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_portrait.jpg and its path is the hint value; a clear crop from the passport photo page is not acceptable."
+
+[[field]]
+key = "home_address"
+label = "Home address (street, city, state or province)"
+tier = "vault"
+vault_slot = "address"
+
+[[field]]
+key = "emergency_contact"
+label = "Emergency contact phone number, with country code (optional)"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
 key = "home_city"
 label = "City of residence"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "home_state"
+label = "State, province or prefecture of residence"
 tier = "vault"
 vault_slot = "hint"
 
@@ -145,7 +176,14 @@ key = "visa"
 label = "Visa or residence permit for this country (number, or 'none')"
 tier = "vault"
 vault_slot = "hint"
-note = "Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH / visa_ID; 'none' when visa-exempt."
+note = "Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH / visa_ID / visa_NZ / visa_VN; 'none' when visa-exempt."
+
+[[field]]
+key = "etravel_login"
+label = "Philippines eTravel account (email + password)"
+tier = "vault"
+vault_slot = "login"
+note = "A Vault Login for etravel.gov.ph, created on the first Philippines card and filled into the page without the Bot seeing the password."
 
 [[field]]
 key = "vjw_login"
@@ -297,6 +335,27 @@ save = "trip"
 find = "Boarding pass or check-in confirmation email; optional, leave empty before check-in."
 
 [[field]]
+key = "booking_ref"
+label = "Airline booking reference (PNR)"
+tier = "recall"
+save = "trip"
+find = "E-ticket or booking confirmation email: the 6-character code."
+
+[[field]]
+key = "resident_status"
+label = "Do you live in the destination country, or intend to stay permanently?"
+tier = "recall"
+save = "trip"
+find = "Derived: No to both for a visitor whose home country differs and who holds no residence visa; confirm on the form when unsure."
+
+[[field]]
+key = "origin_departure_date"
+label = "Date the arriving flight departs from its origin"
+tier = "recall"
+save = "trip"
+find = "E-ticket: the departure date of the flight that lands in the destination (can be the day before arrival)."
+
+[[field]]
 key = "companions"
 label = "Travel companions on this trip"
 tier = "recall"
@@ -312,7 +371,7 @@ tier = "ask"
 
 [[field]]
 key = "recent_travel_yf"
-label = "Countries / regions visited in the last 6 days before arrival (yellow-fever risk check)"
+label = "Have you recently been in or passed through a yellow-fever-risk country (Singapore: Africa or Latin America in the last 6 days)? Which ones?"
 tier = "ask"
 
 [[field]]
@@ -406,9 +465,9 @@ note = "Thailand asks this. The bot may suggest trips found in email/calendar as
 
 [[field]]
 key = "yellow_fever_cert"
-label = "Do you have a Yellow Fever Vaccination Certificate (and its vaccination date)?"
+label = "Are you vaccinated against yellow fever, with a certificate (and its vaccination date)?"
 tier = "ask"
-note = "Thailand shows this only when a visited country, the boarding country or the nationality is on its yellow-fever list."
+note = "Cambodia always asks. Thailand asks only when a visited country, the boarding country or the nationality is on its yellow-fever list."
 
 [[field]]
 key = "recent_travel_21d"
@@ -436,3 +495,96 @@ key = "imei_devices"
 label = "Bringing phones or tablets bought abroad to use on local mobile networks (IMEI registration)?"
 tier = "ask"
 note = "Indonesia: not required for foreign visitors staying under 90 days, but the question must still be answered."
+
+[[field]]
+key = "ebola_exposure"
+label = "Ebola check: been in an affected country, in contact with a case or a funeral, or have symptoms?"
+tier = "ask"
+note = "Maldives shows this block only for certain origins."
+
+[[field]]
+key = "recent_travel_30d"
+label = "Countries or territories you have been to in the last 30 days, including in transit (list them)"
+tier = "ask"
+note = "New Zealand asks this. The bot may suggest trips found in email/calendar, but the user confirms."
+
+[[field]]
+key = "medical_purpose"
+label = "Are you coming for medical treatment or consultation, or to give birth?"
+tier = "ask"
+
+[[field]]
+key = "deported_any_country"
+label = "Have you ever been deported, removed, excluded or refused entry from any country?"
+tier = "ask"
+
+[[field]]
+key = "prison_12_months"
+label = "Have you ever been sentenced to 12 months or more in prison?"
+tier = "ask"
+
+[[field]]
+key = "bio_food"
+label = "Bringing any food: cooked, uncooked, fresh, preserved, packaged or dried? (Which kinds?)"
+tier = "ask"
+
+[[field]]
+key = "bio_animal_products"
+label = "Bringing animals or animal products: meat, dairy, fish, honey, eggs, feathers, shells, wool, skins, bones or insects?"
+tier = "ask"
+
+[[field]]
+key = "bio_plant_products"
+label = "Bringing plants or plant products: fruit, flowers, seeds, wood, nuts, vegetables, bamboo or straw?"
+tier = "ask"
+
+[[field]]
+key = "bio_biological"
+label = "Bringing biological products: animal medicines, cultures, organisms, soil or water?"
+tier = "ask"
+
+[[field]]
+key = "bio_equipment"
+label = "Bringing equipment or clothing used with animals, plants or water (gardening, beekeeping, fishing, water sport, diving)?"
+tier = "ask"
+
+[[field]]
+key = "bio_outdoor_gear"
+label = "Bringing used outdoor gear: footwear, tents, camping, hunting, hiking, golf or sports equipment? (Used on farms or in the wild?)"
+tier = "ask"
+
+[[field]]
+key = "bio_farm_contact"
+label = "In the past 30 days, visited wilderness areas, had contact with animals (not pet cats and dogs), or visited farms or plant or animal processing sites?"
+tier = "ask"
+
+[[field]]
+key = "customs_medicine"
+label = "Carrying more than 3 months' supply of medicine, or medicine not prescribed to you?"
+tier = "ask"
+
+[[field]]
+key = "customs_alcohol"
+label = "Carrying alcohol over the allowance (NZ: 3 bottles of spirits and 4.5 litres of wine or beer)?"
+tier = "ask"
+
+[[field]]
+key = "customs_tobacco"
+label = "Carrying tobacco over the allowance (NZ: 50 cigarettes or 50 grams)?"
+tier = "ask"
+
+[[field]]
+key = "baggage_known"
+label = "Do you know the contents of your baggage?"
+tier = "ask"
+
+[[field]]
+key = "recent_travel_6d"
+label = "Countries visited in the last 6 days before arrival (list them, or none)"
+tier = "ask"
+note = "India asks this."
+
+[[field]]
+key = "sick_contact"
+label = "In the past 30 days, any exposure to a person who is sick or known to have a communicable disease?"
+tier = "ask"

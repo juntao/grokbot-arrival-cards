@@ -417,7 +417,9 @@ mod tests {
         let c = Catalog::load(&dir).expect("catalog loads");
         assert_eq!(
             c.cards.iter().map(|c| c.code.as_str()).collect::<Vec<_>>(),
-            ["CN", "ID", "JP", "KR", "MY", "SG", "TH", "TW"]
+            [
+                "CN", "ID", "IN", "JP", "KH", "KR", "MV", "MY", "NZ", "PH", "SG", "TH", "TW", "VN"
+            ]
         );
         assert_eq!(c.validate(), Vec::<String>::new());
     }

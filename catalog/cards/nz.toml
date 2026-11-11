@@ -1,0 +1,210 @@
+code = "NZ"
+name = "New Zealand Traveller Declaration (NZTD)"
+skill = "nz-traveller-declaration"
+url = "https://www.travellerdeclaration.govt.nz/"
+window = "From 24 hours before you start your trip to New Zealand, until passport control. The form refuses trip details earlier than that. With a stopover where you collect bags, count from the flight leaving the stopover."
+who = "Everyone travelling into New Zealand, New Zealand passport holders included. One declaration per traveller, babies included."
+exempt = "Airside transit passengers. It is separate from the NZeTA and visas: holders of those still file it."
+handoffs = [
+  "The 'Confirm you are not a robot' check, if the invisible one falls back to it.",
+  "The declaration tick and Submit (user replies 'submit'). This is a legal document: a false declaration carries an instant fine of at least NZ$400.",
+]
+verified = "2026-11-11: every question's wording and required status from the official web app's own question and content data (app version 9.5). Not walked live."
+sources = [
+  "https://www.travellerdeclaration.govt.nz/completing-your-declaration/",
+  "https://app.travellerdeclaration.govt.nz/",
+]
+
+[[page]]
+title = "Start, privacy and contact details"
+notes = "Open app.travellerdeclaration.govt.nz and choose 'New declaration'. Tick the privacy box. Answers must be in English. The session ends after 10 minutes idle and 30 minutes in total: have every answer ready. A 7-character reference number is emailed on starting; 'Edit declaration' uses it."
+[[page.field]]
+label = "Your email address"
+key = "email"
+[[page.field]]
+label = "Your contact phone number"
+key = "mobile"
+format = "Country code + phone number"
+
+[[page]]
+title = "Passport details"
+notes = "Use the passport you will enter New Zealand on. Passport expiry and gender are not asked."
+[[page.field]]
+label = "Passport number"
+key = "passport_no"
+format = "Letters and digits, no spaces"
+[[page.field]]
+label = "Nationality"
+key = "nationality"
+format = "Type-ahead"
+[[page.field]]
+label = "Surname or family name"
+key = "surname"
+[[page.field]]
+label = "Given or first name(s)"
+key = "given_names"
+required = false
+[[page.field]]
+label = "Date of birth"
+key = "dob"
+format = "Day / month / year"
+[[page.field]]
+label = "Country or territory of birth"
+key = "birth_country"
+format = "Type-ahead"
+
+[[page]]
+title = "Trip details"
+[[page.field]]
+label = "Arriving in New Zealand by"
+key = "arrival_airport"
+format = "Air / Sea"
+[[page.field]]
+label = "Date of arrival into New Zealand"
+key = "arrival_date"
+[[page.field]]
+label = "Flight number"
+key = "arrival_flight"
+format = "Search, e.g. NZ123: the flight number, not the booking reference. 'Manually add flight details' if not found."
+[[page.field]]
+label = "Departing from"
+key = "origin"
+format = "Port type-ahead by code, name or city: where the flight to New Zealand leaves from"
+
+[[page]]
+title = "Purpose of travel"
+[[page.field]]
+label = "Do you live in New Zealand? / Do you intend on staying in New Zealand permanently?"
+key = "resident_status"
+format = "Yes / No each; No to both for a visitor"
+[[page.field]]
+label = "How long do you intend to stay in New Zealand?"
+key = "length_of_stay"
+format = "Years / months / days"
+[[page.field]]
+label = "What is your main reason for coming to New Zealand?"
+key = "purpose"
+format = "Visiting friends/relatives · Business · Holiday/vacation · Conference/convention · Education · Other"
+[[page.field]]
+label = "In which country or territory did you last live for 12 months or more?"
+key = "home_country"
+[[page.field]]
+label = "State, province or prefecture"
+key = "home_state"
+[[page.field]]
+label = "Full contact or residential address in New Zealand"
+key = "stay_address"
+format = "Address lookup, or manual: unit, number, street, suburb, town/city, postcode. Use the first address of the stay."
+[[page.field]]
+label = "Your occupation or job"
+key = "occupation"
+format = "Free text, 3-50 characters"
+
+[[page]]
+title = "Immigration status"
+[[page.field]]
+label = "Which of the following applies to you?"
+key = "entry_policy"
+format = "NZ citizen on a foreign passport · NZ residence class visa · Australian passport or permanent resident visa · NZ temporary entry class visa (work, student or visitor visa) · Travelling visa waiver (choose this with an NZeTA and no visa)"
+[[page.field]]
+label = "Departure flight number or vessel name"
+key = "departure_flight"
+required = false
+[[page.field]]
+label = "Estimated departure date from New Zealand"
+key = "departure_date"
+required = false
+[[page.field]]
+label = "Are you coming to New Zealand for medical treatment or consultation, or to give birth?"
+key = "medical_purpose"
+format = "Yes / No"
+[[page.field]]
+label = "Have you ever been deported, removed, excluded or refused entry from any country?"
+key = "deported_any_country"
+format = "Yes / No; Yes asks which"
+[[page.field]]
+label = "Have you ever been sentenced to 12 months or more in prison?"
+key = "prison_12_months"
+format = "Yes / No; based on the original sentence, not time served"
+
+[[page]]
+title = "Travel history"
+[[page.field]]
+label = "List the countries or territories you have been to outside of New Zealand in the last 30 days (including in transit)."
+key = "recent_travel_30d"
+format = "Multi type-ahead; the departure country is already shown"
+
+[[page]]
+title = "Biosecurity"
+notes = "Each Yes opens follow-up choices (food types, how equipment was used, whether it is clean and dry). Ask the user those follow-ups with the page's own options."
+[[page.field]]
+label = "Any food: cooked, uncooked, fresh, preserved, packaged or dried?"
+key = "bio_food"
+format = "Yes / No. Packaged snacks, chocolate, tea and coffee count as food."
+[[page.field]]
+label = "Animals or animal products: including meat, dairy products, fish, honey, bee products, eggs, feathers, shells, raw wool, skins, bones or insects?"
+key = "bio_animal_products"
+format = "Yes / No"
+[[page.field]]
+label = "Plants or plant products: fruit, flowers, seeds, bulbs, wood, bark, leaves, nuts, vegetables, parts of plants, fungi, cane, bamboo or straw, including for religious offerings or medicinal use?"
+key = "bio_plant_products"
+format = "Yes / No"
+[[page.field]]
+label = "Biological products: Animal medicines, biological cultures, organisms, soil or water?"
+key = "bio_biological"
+format = "Yes / No"
+[[page.field]]
+label = "Equipment: Equipment/clothing used with animals, plants or water, including for gardening, beekeeping, fishing, water sport or diving activities?"
+key = "bio_equipment"
+format = "Yes / No"
+[[page.field]]
+label = "Outdoor gear: Items that have been used for outdoor activities, including any footwear, tents, camping, hunting, hiking, golf or sports equipment?"
+key = "bio_outdoor_gear"
+format = "Yes / No"
+[[page.field]]
+label = "In the past 30 days (while outside of New Zealand) have you visited any wilderness areas, had contact with animals (except domestic cats and dogs) or visited properties that farm or process animals or plants?"
+key = "bio_farm_contact"
+format = "Yes / No"
+
+[[page]]
+title = "Restricted items"
+[[page.field]]
+label = "Medicine: over 3 months' supply, or medicine not prescribed to you?"
+key = "customs_medicine"
+format = "Yes / No"
+[[page.field]]
+label = "Restricted or prohibited goods: For example, weapons, indecent publications, endangered plants or wildlife, illegal or controlled drugs?"
+key = "prohibited_items"
+format = "Yes / No"
+[[page.field]]
+label = "Alcohol: more than 3 bottles of spirits (not exceeding 1.125 litres each) and 4.5 litres of wine or beer?"
+key = "customs_alcohol"
+format = "Yes / No"
+[[page.field]]
+label = "Tobacco: more than 50 cigarettes or 50 grams of tobacco products?"
+key = "customs_tobacco"
+format = "Yes / No"
+[[page.field]]
+label = "Goods obtained overseas and/or purchased duty-free in New Zealand: with a total value of more than NZ$700 (including gifts)?"
+key = "customs_over_allowance"
+format = "Yes / No"
+[[page.field]]
+label = "Goods carried for business or commercial use?"
+key = "customs_commercial"
+format = "Yes / No"
+[[page.field]]
+label = "Goods carried on behalf of another person?"
+key = "customs_for_others"
+format = "Yes / No"
+[[page.field]]
+label = "Cash: NZ$10,000 or more (or foreign equivalent), including travellers cheques, bank drafts, money orders, etc.?"
+key = "customs_cash"
+format = "Yes / No"
+
+[[page]]
+title = "Submit (stop here)"
+notes = "Screenshot, send the summary, wait for 'submit'. Then tick 'I declare that the information I am submitting is true, correct and complete.' and Submit. The page shows 'Submission successful' and the reference number. Nothing to print, no QR code: the declaration is linked to the passport. Any later change means submitting again."
+[[page.field]]
+label = "Do you know the contents of your baggage?"
+key = "baggage_known"
+format = "Yes / No"

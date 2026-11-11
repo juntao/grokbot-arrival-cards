@@ -1,6 +1,6 @@
 ---
 skill: arrival-card-fill
-description: Fill out an official online arrival card for China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia or Indonesia. First search Vault, memory, email and calendar. Then ask only for what's missing in one form, save the answers back, and drive the official site in the browser up to the final Submit.
+description: Fill out an official online arrival card for any of 14 countries: China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia, Indonesia, Cambodia, the Philippines, India, the Maldives, New Zealand or Vietnam. First search Vault, memory, email and calendar. Then ask only for what's missing in one form, save the answers back, and drive the official site in the browser up to the final Submit.
 ---
 
 # Skill: arrival-card-fill
@@ -8,8 +8,8 @@ description: Fill out an official online arrival card for China, Singapore, Japa
 ## 1. When to use it
 
 The user asks to fill out, file, prepare or "do" an arrival card, entry card, SG Arrival Card, SGAC, Visit Japan Web,
-VJW, TWAC, Korea e-Arrival Card, TDAC, MDAC, All Indonesia or "China entry card". This also applies when they ask what a trip still
-needs before landing in CN, SG, JP, TW, KR, TH, MY or ID, and when a routine created by this skill fires on the day a card's window opens.
+VJW, TWAC, Korea e-Arrival Card, TDAC, MDAC, All Indonesia, eTravel, IMUGA, NZTD, Vietnam pre-arrival or "China entry card". This also applies when they ask what a trip still
+needs before landing in any of the 14 supported countries, and when a routine created by this skill fires on the day a card's window opens.
 
 Don't use it for visas or e-visas, the UK ETA, K-ETA or other countries. For those, say they're not supported yet.
 A traveller with a valid K-ETA doesn't file the Korea card: see `kr-arrival-card`.
@@ -19,7 +19,7 @@ A traveller with a valid K-ETA doesn't file the Korea card: see `kr-arrival-card
 - **Gmail** connected app. Without it, skip the email search and say so on the form.
 - **Google Calendar** connected app. Without it, skip the calendar search and say so.
 - **Vault**: one Contact info entry per traveller, named `Travel identity · <GIVEN> <SURNAME>` (format below), and a
-  Login for `vjw.digital.go.jp` (Japan only).
+  Login for `vjw.digital.go.jp` (Japan) or `etravel.gov.ph` (Philippines).
 - **Browser** on the cloud computer.
 - The trip: which country or countries, and roughly when. If the user didn't say, take the next trip found in
   calendar and email.
@@ -57,7 +57,7 @@ home_country=SGP
 occupation=SOFTWARE ENGINEER
 employer=ACME PTE LTD
 chinese_name=陈美玲         # optional, used by TW
-visa_CN=none               # or the visa number; per destination: visa_JP, visa_TW, visa_KR, visa_TH, visa_ID
+visa_CN=none               # or the visa number; per destination: visa_JP, visa_TW, visa_KR, visa_TH, visa_ID, visa_NZ, visa_VN
 ```
 
 If a newer Grok Bot version offers a dedicated identity or passport entry type in Vault, use that for the passport
@@ -72,7 +72,7 @@ fields and keep the rest as above.
    destination country or city names, "flight", "✈", an airline code plus number, or "hotel".
 3. Search **Gmail** with the queries below, newest first, limited to the last 180 days. Open only messages that
    match the trip's dates or destination.
-   - Flights: `(e-ticket OR "booking confirmation" OR itinerary OR "boarding pass" OR "flight confirmation") (SIN OR Singapore OR PVG OR PEK OR PKX OR Shanghai OR Beijing OR NRT OR HND OR KIX OR Tokyo OR Osaka OR TPE OR Taipei OR ICN OR GMP OR Seoul OR PUS OR Busan OR BKK OR DMK OR Bangkok OR HKT OR Phuket OR CNX OR KUL OR "Kuala Lumpur" OR PEN OR Penang OR CGK OR Jakarta OR DPS OR Denpasar OR Bali)`
+   - Flights: `(e-ticket OR "booking confirmation" OR itinerary OR "boarding pass" OR "flight confirmation") (SIN OR Singapore OR PVG OR PEK OR PKX OR Shanghai OR Beijing OR NRT OR HND OR KIX OR Tokyo OR Osaka OR TPE OR Taipei OR ICN OR GMP OR Seoul OR PUS OR Busan OR BKK OR DMK OR Bangkok OR HKT OR Phuket OR CNX OR KUL OR "Kuala Lumpur" OR PEN OR Penang OR CGK OR Jakarta OR DPS OR Denpasar OR Bali OR PNH OR KTI OR "Phnom Penh" OR "Siem Reap" OR MNL OR Manila OR CEB OR Cebu OR DEL OR Delhi OR BOM OR Mumbai OR BLR OR MLE OR Maldives OR AKL OR Auckland OR CHC OR ZQN OR SGN OR "Ho Chi Minh" OR HAN OR Hanoi OR DAD OR "Da Nang" OR CXR OR PQC OR "Phu Quoc")`
    - Stays: `(hotel OR booking.com OR agoda OR airbnb OR expedia OR trip.com OR reservation) (confirmation OR confirmed OR itinerary)`
    - Business purpose: `(invitation OR "invitation letter" OR agenda OR conference) <destination>`
 4. Build the trip: the list of entries in order (country, arrival date, airport, flight), plus the stay per country
@@ -83,7 +83,8 @@ fields and keep the rest as above.
 
 For each card in the trip, take its field table from the card's skill (`cn-arrival-card`, `sg-arrival-card`,
 `jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card`, `th-arrival-card`,
-`my-arrival-card`, `id-arrival-card`). For each traveller, resolve every field through its tier:
+`my-arrival-card`, `id-arrival-card`, `kh-arrival-card`, `ph-etravel`, `in-arrival-card`,
+`mv-traveller-declaration`, `nz-traveller-declaration`, `vn-prearrival`). For each traveller, resolve every field through its tier:
 
 | Tier | Meaning | Look in, in order | Saved to |
 |---|---|---|---|
@@ -156,6 +157,12 @@ Do this immediately after the user replies, before opening the browser:
 | TH | 3 days before arrival (arrival day included) | Can't be saved part-way; needs the user for the Cloudflare check |
 | MY | 3 days before arrival (arrival day included) | Needs the user for the slider puzzle; one traveller per submission |
 | ID | 3 days before arrival | Not a visa; needs the user for the image CAPTCHA |
+| KH | 7 days before arrival | Air arrivals only; needs the hotel's phone number |
+| PH | 72 hours before arrival | Needs an eTravel account; the airline checks the QR code before boarding |
+| IN | 72 hours before arrival | Short form; needs the user for the image CAPTCHA |
+| MV | 96 hours before the arriving flight | Needs a face photo; earlier filings are rejected |
+| NZ | 24 hours before the trip to New Zealand starts | About 20 declaration questions; 30-minute session limit |
+| VN | 3 days before arrival (arrival day included) | Needs the user for the CAPTCHA at the start; asks for the visa or exemption |
 | CN | Any time before arrival | Can also be done at the port |
 | JP | Any time | Register at least 6 h before departure |
 
@@ -186,7 +193,7 @@ change."** Press Submit or Register only after that reply.
 ### Step 8: Record the result
 
 - Save the confirmation page, PDF and QR to `/workspace/arrival-cards/<trip-id>/<CC>-<traveller>.png|pdf`.
-- If a confirmation email arrives (SG, TW, KR, TH and MY send one), forward it to the user.
+- If a confirmation email arrives (most cards send one), forward it to the user.
 - Write to memory: `Trip <id>: <CC> card submitted <date-time>, ref <reference>`.
 
 ## 4. How to validate the result
@@ -203,7 +210,7 @@ change."** Press Submit or Register only after that reply.
 2. The status: submitted (with reference), waiting on the user (what for), or scheduled (when).
 3. Where the proof is saved, and whether a confirmation email was forwarded.
 4. One line on what was saved to the Vault and memory this time.
-5. What to show at the border: passport, plus the QR code (JP, CN, TH, ID) or nothing extra (SG, TW, KR, MY: it's linked to the
+5. What to show at the border: passport, plus the QR code (JP, CN, TH, ID, PH, MV, VN) or nothing extra (SG, TW, KR, MY, NZ: it's linked to the
    passport).
 
 ## 6. What requires approval
@@ -211,4 +218,4 @@ change."** Press Submit or Register only after that reply.
 - The final **Submit / Register / Confirm** on any card. The user replies "submit" after the review summary.
 - Creating a Visit Japan Web account, or any other account.
 - Overwriting an existing Vault value the user didn't just give.
-- Any payment, which should never happen: all eight cards are free.
+- Any payment, which should never happen: all fourteen cards are free.

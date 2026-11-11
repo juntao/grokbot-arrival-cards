@@ -1,0 +1,169 @@
+code = "PH"
+name = "Philippines eTravel (arrival declaration, health and customs)"
+skill = "ph-etravel"
+url = "https://etravel.gov.ph/"
+window = "Within 72 hours before arrival. The airline checks the QR code before boarding."
+who = "All arriving passengers and crew, Filipino and foreign. Departing Filipino passengers also file; departing foreigners are not listed."
+exempt = "Foreign diplomats and their dependents, foreign dignitaries and delegations, 9(e) visa holders, and diplomatic or official passport holders."
+handoffs = [
+  "The Cloudflare check on the sign-in page (Take control).",
+  "Account creation the first time: needs the user's approval; the 6-digit email code is read from Gmail when possible.",
+  "The drawn signature, only when there is baggage or currency to declare.",
+  "The final Submit (user replies 'submit').",
+]
+verified = "2026-11-11: labels, required rules and option lists from the site's own language bundle, validation code and public look-up data. The page order is inferred, the symptom list and the exact customs question wording are served after sign-in, and the form has not been walked live."
+sources = [
+  "https://etravel.gov.ph/",
+  "https://etravel.gov.ph/frequently-asked-questions",
+]
+
+[[page]]
+title = "Sign in"
+notes = "An account is required. Returning: sign in with the Vault Login. First time: enter the email, read the 6-digit code (resend is throttled: wait 3 minutes), and create a password that Vault generates and saves."
+[[page.field]]
+label = "Email address / Password"
+key = "etravel_login"
+
+[[page]]
+title = "Profile (once per account)"
+notes = "Choose FOREIGN PASSPORT. Saved to the account, so later trips skip this. 'Add Family Member' creates a profile for each companion."
+[[page.field]]
+label = "Photo"
+key = "portrait_photo"
+required = false
+format = "'Take a photo or upload a file.' May be enforced only for Philippine passports: upload if the page insists."
+[[page.field]]
+label = "First Name"
+key = "given_names"
+format = "Upper case"
+[[page.field]]
+label = "Middle Name (optional)"
+key = "middle_name"
+required = false
+[[page.field]]
+label = "Last Name (optional)"
+key = "surname"
+[[page.field]]
+label = "Sex"
+key = "sex"
+format = "FEMALE / MALE"
+[[page.field]]
+label = "Birth Date (MM/DD/YYYY)"
+key = "dob"
+[[page.field]]
+label = "Mobile Number"
+key = "mobile"
+format = "Country code + number"
+[[page.field]]
+label = "Citizenship"
+key = "nationality"
+format = "Country look-up"
+[[page.field]]
+label = "Country of Birth"
+key = "birth_country"
+[[page.field]]
+label = "Passport Number"
+key = "passport_no"
+[[page.field]]
+label = "Passport Issuing Authority"
+key = "passport_country"
+format = "Country look-up"
+[[page.field]]
+label = "Passport Issued Date"
+key = "passport_issue"
+[[page.field]]
+label = "Occupation"
+key = "occupation"
+format = "Professional/Technical/Administrative · Clerical/Sales · Agriculture · Worker/Laborer · Military/Government Personnel · Housewife · Student/Minor · Retired/Pensioner · Seaman · Airline Crew · Diplomat · Entertainer · Unemployed · Businessman"
+[[page.field]]
+label = "Permanent Country of Residence"
+key = "home_country"
+[[page.field]]
+label = "No./Bldg./City/State/Province"
+key = "home_address"
+format = "The home address abroad, one line"
+
+[[page]]
+title = "New Travel Declaration"
+notes = "FOR ME, AIR, ARRIVAL ('Entering the Philippines'). Tick saved family members to generate their declarations too; each still gets their own QR."
+[[page.field]]
+label = "Family Member(s)"
+key = "companions"
+required = false
+
+[[page]]
+title = "Travel Details"
+notes = "Traveller Type: AIRCRAFT PASSENGER."
+[[page.field]]
+label = "Purpose of Travel"
+key = "purpose"
+format = "Holiday/Pleasure/Vacation · Convention/Conference · Education/Training/Studies · Government/Official Mission · Health/Medical Reason · Business/Professional · Visit Friends/Relatives · Work/Employment · Religion/Pilgrimage · Incentive · Returning Resident"
+[[page.field]]
+label = "Date of Departure"
+key = "origin_departure_date"
+[[page.field]]
+label = "Date of Arrival"
+key = "arrival_date"
+[[page.field]]
+label = "Date of Return"
+key = "departure_date"
+when = "Required for holiday and visiting friends/relatives"
+[[page.field]]
+label = "Country of Origin / Airport of Origin"
+key = "origin"
+[[page.field]]
+label = "With Transit (Connecting Flight)?"
+key = "transit_cities"
+required = false
+format = "Yes adds country, airport and date of transit"
+[[page.field]]
+label = "Name of Airline / Flight Number"
+key = "arrival_flight"
+format = "Look-ups; ignore the auto-filled Manila terminal"
+[[page.field]]
+label = "Airport of Destination"
+key = "arrival_airport"
+[[page.field]]
+label = "Destination upon arrival in the Philippines"
+key = "stay_type"
+format = "Residence / Hotel/Resort / Transit Via Airport"
+[[page.field]]
+label = "Hotel, Resorts, AirBnb, Tourist destinations, etc."
+key = "stay_name"
+when = "Hotel/Resort"
+format = "Search look-up"
+[[page.field]]
+label = "Residence Address"
+key = "stay_address"
+when = "Residence"
+format = "10-250 characters with street, barangay and city; no phone numbers"
+
+[[page]]
+title = "Health Declaration"
+notes = "A Yes on sickness or exposure gives a red QR code: the traveller sees the Bureau of Quarantine first on arrival. Say so; never change the answer to avoid it."
+[[page.field]]
+label = "Do you have any recent travel history in the last 30 days? Country(ies) worked, visited and transited in the last 30 days"
+key = "recent_travel_30d"
+format = "Yes / No, then the countries"
+[[page.field]]
+label = "Have you had any history of exposure to a person who is sick or known to have communicable/infectious disease in the past 30 days prior to travel?"
+key = "sick_contact"
+format = "Yes / No"
+[[page.field]]
+label = "Have you been sick in the past 30 days?"
+key = "health_symptoms"
+format = "Yes / No; Yes asks for symptoms from the page's list"
+
+[[page]]
+title = "Summary and customs (stop here)"
+notes = "Screenshot the summary, send it, wait for 'submit'. After Submit the customs part asks its question. Save the QR code ('Download QRCode'): green goes straight to immigration, red goes to quarantine first."
+[[page.field]]
+label = "Do you have baggage or currency to declare?"
+key = "customs_declarable"
+format = "Yes / No. Show the user the 12 categories: pesos over PHP 50,000; foreign currency over USD 10,000; gambling items; cosmetics, supplements or medicines beyond personal use; dangerous drugs; firearms; alcohol or tobacco in commercial quantities; foodstuffs, animals or plants; gadgets beyond personal use; cremains or human tissue; jewelry, gold or gems; other goods."
+[[page.field]]
+label = "Customs details: family members, baggage counts, goods and currency rows"
+key = "customs_goods_detail"
+required = false
+when = "Baggage or currency to declare = Yes"
+format = "Many follow-up fields and a drawn signature: collect them from the user, and hand over for the signature"

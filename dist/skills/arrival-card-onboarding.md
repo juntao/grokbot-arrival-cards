@@ -31,8 +31,8 @@ collects the missing Vault fields.
    fields below are missing or expire soon (passport expiry within 6 months).
 2. **Open with the offer.** For a first run, send exactly one message:
 
-   > 👋 I fill out arrival cards for **China, Singapore, Japan, Taiwan, Korea, Thailand, Malaysia and
-   > Indonesia**. I find your flights and hotels in
+   > 👋 I fill out arrival cards for **14 countries**: China, Singapore, Japan, Taiwan, Korea, Thailand,
+   > Malaysia, Indonesia, Cambodia, the Philippines, India, the Maldives, New Zealand and Vietnam. I find your flights and hotels in
    > your email and calendar, and ask you only for what I can't find.
    >
    > Let's set up your **travel identity** once (about 2 minutes), so no card ever has to ask for it again. It's
@@ -59,9 +59,11 @@ collects the missing Vault fields.
    Vault entry, or memory already gave. Put the found values in an "I read this from your passport" block, passport
    shown as `•••••789`, so the user can correct them in the same reply. Number the questions, and give options and
    formats, e.g. *"Occupation (as you'd like it on cards, e.g. SOFTWARE ENGINEER)"*.
-   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan / Korea / Thailand / Indonesia? Reply
+   - Ask `visa` only per country: *"Do you hold a visa or residence permit for any country you travel to often (for example China, Japan, Taiwan, Korea, Indonesia, Vietnam, New Zealand)? Reply
      'none' for any where you travel visa-free."*
-   - Don't ask `vjw_login` here. It's created the first time a Japan card is filed.
+   - Don't ask `vjw_login` or `etravel_login` here. Each is created the first time that country's card is filed.
+   - Offer the optional extras once, and skip them if the user doesn't want to: a face photo (`portrait_photo`,
+     needed for the Maldives), passport issue date (Philippines), and an emergency contact (India).
 5. **Save to the Vault**, using the format in `arrival-card-fill` §2:
    - Nickname `Travel identity · GIVEN SURNAME`.
    - Name, address, phone and email in the native slots.
@@ -75,35 +77,41 @@ collects the missing Vault fields.
 7. **Next traveller.** Ask "Anyone who usually travels with you? Send their passport photo, or say 'done'."
    Remember "usually travels with: …" as a memory preference (names only).
 8. **Finish.** If Gmail or Google Calendar isn't connected, offer to connect it. Then, if the calendar shows a trip
-   to any of the eight supported countries in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
+   to any of the supported countries in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
    that arrival card now?"*
 
 ### Vault fields to collect (generated from the catalog)
 
 | Key | Ask as | Vault slot | Needed by |
 |---|---|---|---|
-| `full_name` | Full name as in passport | Vault Contact › Name | ID, MY, SG, TW |
-| `surname` | Surname / family name | Vault hint `surname=` | CN, JP, KR, TH |
-| `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP, KR, TH |
+| `full_name` | Full name as in passport | Vault Contact › Name | ID, IN, MY, SG, TW |
+| `surname` | Surname / family name | Vault hint `surname=` | CN, JP, KH, KR, MV, NZ, PH, TH, VN |
+| `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP, KH, KR, MV, NZ, PH, TH, VN |
 | `other_names` | Other names used (former / alias), or 'none' | Vault hint `other_names=` | CN |
 | `other_citizenship` | Other countries / regions of citizenship, or 'none' | Vault hint `other_citizenship=` | CN |
-| `middle_name` | Middle name, or 'none' | Vault hint `middle_name=`. Thailand has a separate box; when the passport prints one given-names line, split it only if the user says so. | TH |
+| `middle_name` | Middle name, or 'none' | Vault hint `middle_name=`. Thailand has a separate box; when the passport prints one given-names line, split it only if the user says so. | PH, TH |
 | `chinese_name` | Name in Chinese characters (optional) | Vault hint `chinese_name=` | CN, TW |
-| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, ID, JP, KR, MY, SG, TH, TW |
-| `dob` | Date of birth | Vault hint `dob=` | CN, ID, JP, KR, MY, SG, TH, TW |
-| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, ID, JP, KR, MY, SG, TH, TW |
-| `birth_country` | Country of birth | Vault hint `birth_country=` | CN, ID, MY, SG, TW |
+| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, ID, JP, KH, KR, MV, MY, PH, SG, TH, TW, VN |
+| `dob` | Date of birth | Vault hint `dob=` | CN, ID, JP, KH, KR, MV, MY, NZ, PH, SG, TH, TW, VN |
+| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, ID, IN, JP, KR, MV, MY, NZ, PH, SG, TH, TW, VN |
+| `birth_country` | Country of birth | Vault hint `birth_country=` | CN, ID, KH, MY, NZ, PH, SG, TW |
 | `birth_city` | City of birth | Vault hint `birth_city=` | CN, TW |
-| `passport_no` | Passport number | Vault hint `passport_no=` | CN, ID, JP, KR, MY, SG, TH, TW |
-| `passport_country` | Passport issuing country | Vault hint `passport_country=` | CN |
-| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | ID, JP, KR, MY, SG, TW |
+| `passport_no` | Passport number | Vault hint `passport_no=` | CN, ID, IN, JP, KH, KR, MV, MY, NZ, PH, SG, TH, TW, VN |
+| `passport_country` | Passport issuing country | Vault hint `passport_country=` | CN, KH, PH, VN |
+| `passport_issue` | Passport date of issue | Vault hint `passport_issue=` | PH |
+| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | ID, JP, KH, KR, MV, MY, SG, TW, VN |
 | `passport_photo` | Photo of the passport data page | Vault hint `passport_photo=`. Collected at onboarding. Read once to fill the other identity fields; with the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_passport.jpg for China's upload step, and its path is the hint value. | CN |
+| `portrait_photo` | Passport-style photo of the traveller's face | Vault hint `portrait_photo=`. Maldives needs an upload. With the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_portrait.jpg and its path is the hint value; a clear crop from the passport photo page is not acceptable. | MV, PH |
+| `home_address` | Home address (street, city, state or province) | Vault Contact › Address | PH |
+| `emergency_contact` | Emergency contact phone number, with country code (optional) | Vault hint `emergency_contact=` | IN |
 | `home_city` | City of residence | Vault hint `home_city=` | JP, SG, TH |
-| `home_country` | Country of residence | Vault hint `home_country=` | JP, TH, TW |
-| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, ID, MY, SG, TH, TW |
-| `email` | Email address for the card | Vault Contact › Email | CN, ID, KR, MY, SG, TH, TW |
-| `occupation` | Occupation / job title | Vault hint `occupation=` | JP, KR, TH, TW |
-| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH / visa_ID; 'none' when visa-exempt. | CN, ID, KR, TH, TW |
+| `home_state` | State, province or prefecture of residence | Vault hint `home_state=` | NZ |
+| `home_country` | Country of residence | Vault hint `home_country=` | JP, MV, NZ, PH, TH, TW |
+| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, ID, IN, KH, MV, MY, NZ, PH, SG, TH, TW, VN |
+| `email` | Email address for the card | Vault Contact › Email | CN, ID, IN, KH, KR, MV, MY, NZ, SG, TH, TW, VN |
+| `occupation` | Occupation / job title | Vault hint `occupation=` | JP, KH, KR, NZ, PH, TH, TW |
+| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH / visa_ID / visa_NZ / visa_VN; 'none' when visa-exempt. | CN, ID, KR, MV, TH, TW, VN |
+| `etravel_login` | Philippines eTravel account (email + password) | Vault Login. A Vault Login for etravel.gov.ph, created on the first Philippines card and filled into the page without the Bot seeing the password. | PH |
 | `vjw_login` | Visit Japan Web account (email + password) | Vault Login. A Vault Login for vjw.digital.go.jp, filled into the page without the Bot seeing the password. | JP |
 
 ## 4. How to validate the result
