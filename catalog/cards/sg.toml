@@ -1,0 +1,122 @@
+code = "SG"
+name = "SG Arrival Card + electronic Health Declaration (ICA)"
+skill = "sg-arrival-card"
+url = "https://eservices.ica.gov.sg/sgarrivalcard/"
+window = "Within 3 days before arrival, including the arrival day (30 Jun arrival → from 28 Jun). Up to 3 trips per submission."
+who = "Every traveller entering Singapore, citizens and residents included (residents file the resident version)."
+exempt = "Transit/transfer passengers who do not clear immigration; residents arriving via Woodlands or Tuas land checkpoints."
+handoffs = [
+  "Any CAPTCHA shown before submission.",
+  "The declaration tick and Submit on the Review step (user replies 'submit').",
+]
+verified = "2026-11-11: live form i18n (eservices.ica.gov.sg/arrivalcard/assets/i18n/en.json), MOH health-declaration notices; field map from a live walk 2026-10-31. Aug 2026 refresh added passport-MRZ scan autofill (not used by the bot)."
+sources = [
+  "https://www.ica.gov.sg/enter-transit-depart/entering-singapore/sg-arrival-card",
+  "https://moh.gov.sg/newsroom/health-declaration-supports-public-health-surveillance-efforts-at-borders",
+  "https://www.changiairport.com/en/fly/arrival-guide/immigration.html",
+]
+
+[[page]]
+title = "Landing"
+notes = "Choose the foreign-visitor 'Fill in Manually' button (the resident card has one too; pick the visitor one). Radio ids change every session: choose radios by their visible text. Dates are three typed boxes (DD / MM / YYYY). Look-up fields accept only listed values: type, then pick the row."
+
+[[page]]
+title = "1 · Traveller Details"
+[[page.field]]
+label = "Date of Arrival"
+key = "arrival_date"
+format = "Radio of the open dates, e.g. '03 DECEMBER 2026'"
+[[page.field]]
+label = "Full Name (In Passport)"
+key = "full_name"
+[[page.field]]
+label = "Passport Number"
+key = "passport_no"
+[[page.field]]
+label = "Date of Passport Expiry"
+key = "passport_expiry"
+format = "DD / MM / YYYY"
+[[page.field]]
+label = "Sex as indicated in Passport"
+key = "sex"
+format = "MALE / FEMALE / OTHERS"
+[[page.field]]
+label = "Date of Birth"
+key = "dob"
+format = "DD / MM / YYYY"
+[[page.field]]
+label = "Nationality/Citizenship"
+key = "nationality"
+format = "Look-up by demonym, e.g. SINGAPOREAN, AUSTRALIAN"
+[[page.field]]
+label = "Country/Place of Birth"
+key = "birth_country"
+format = "Look-up, country name in caps"
+[[page.field]]
+label = "Place of Residence"
+key = "home_city"
+format = "Look-up 'COUNTRY, STATE, CITY (COUNTRY)': type the home city, pick 'CITY (COUNTRY)'"
+[[page.field]]
+label = "Email Address"
+key = "email"
+format = "The e-Pass confirmation goes here"
+[[page.field]]
+label = "Country Code + Mobile Number"
+key = "mobile"
+[[page.field]]
+label = "Have you ever used a passport under different name to enter Singapore?"
+key = "other_passport_name"
+format = "YES / NO; YES adds 'Name different from current passport'"
+[[page.field]]
+label = "Do you currently have fever, cough, shortness of breath, headache or vomiting?"
+key = "health_symptoms"
+format = "YES / NO (health declaration)"
+[[page.field]]
+label = "Have you visited any of the listed countries in Africa or Latin America in the past 6 days prior to your arrival in Singapore?"
+key = "recent_travel_yf"
+format = "YES / NO; show the user the site's country list. MOH may add temporary outbreak questions: read the page and ask any extra question verbatim."
+
+[[page]]
+title = "2 · Visit Details (Trip Information)"
+[[page.field]]
+label = "Last City/Port of Embarkation before Singapore"
+key = "origin"
+format = "Look-up, city in caps"
+[[page.field]]
+label = "Purpose of Travel"
+key = "purpose"
+format = "Business/Meeting/Conference… · Education/Training · Employment · Official visit · Holiday/Sightseeing/Leisure · Medical Care · Sports Event · Religion · To take up residence · Visiting Friends/Relatives · 1-day Transit/VFTF · Others"
+[[page.field]]
+label = "Date of Departure from Singapore"
+key = "departure_date"
+format = "DD / MM / YYYY"
+[[page.field]]
+label = "Next City/Port of Disembarkation after Singapore"
+key = "next_destination"
+format = "Look-up, city in caps"
+[[page.field]]
+label = "Mode of Travel / Mode of Transport"
+key = "arrival_flight"
+format = "AIR → COMMERCIAL FLIGHT (or Private/Cargo/Others); LAND → vehicle; SEA → vessel"
+[[page.field]]
+label = "Flight Code + Flight Number"
+key = "arrival_flight"
+format = "Code look-up by '(SQ)', number digits"
+[[page.field]]
+label = "Type of Accommodation in Singapore"
+key = "stay_type"
+format = "HOTEL / RESIDENTIAL / TRANSIT / DAY TRIP / OTHERS"
+[[page.field]]
+label = "Name of Hotel"
+key = "stay_name"
+when = "HOTEL"
+format = "Look-up by the first words of the name; 'OTHERS' + typed name if not listed"
+[[page.field]]
+label = "Postal Code / Block / Street / Floor / Unit"
+key = "stay_address"
+when = "RESIDENTIAL"
+format = "Split '10 Bayfront Avenue #12-05, Singapore 018956' into block 10, street, floor 12, unit 05, postal 018956"
+
+[[page]]
+title = "3 · Review (stop here)"
+notes = "Screenshot, send the summary, wait for 'submit'. Then tick the declaration (true information; false health declarations are an offence under the Infectious Diseases Act) and Submit. The e-Pass email follows; forward it."

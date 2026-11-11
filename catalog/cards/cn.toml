@@ -1,0 +1,172 @@
+code = "CN"
+name = "China Online Arrival Card for Foreigners (NIA)"
+skill = "cn-arrival-card"
+url = "https://s.nia.gov.cn/ArrivalCardFillingPC/"
+window = "Any time before arrival (no official window); also possible at the port by QR, kiosk or paper card."
+who = "All foreigners entering mainland China by air, land or sea, visa-free entries included."
+exempt = "Foreign Permanent Resident ID holders; non-Chinese Mainland Travel Permit (HK/Macau) holders; 24 h direct airside transit; visa-free or group-visa tour groups; transport crew; cruise passengers leaving on the same ship; travellers using the E-channel; 'centralized submission' courtesy cases."
+handoffs = [
+  "Step 1 passport data-page photo (JPG/PNG ≤100 KB): upload the photo the user attached in chat (resize if larger), else Take control.",
+  "The drawn signature on the declaration step (Take control).",
+  "Final Submit (user replies 'submit').",
+]
+verified = "2026-11-11: live form bundle (s.nia.gov.cn/ArrivalCardFillingPC/js/app.*.js) + NIA notice; field map from a live walk 2026-10-31. No health questions (customs health declaration abolished 1 Nov 2023)."
+sources = [
+  "https://us.china-embassy.gov.cn/eng/lsfw/zj/notice/202512/t20251203_11765346.htm",
+  "https://s.nia.gov.cn/ArrivalCardFillingPC/",
+]
+
+[[page]]
+title = "Landing"
+notes = "Click 'Entry Declaration', then 'I AGREE'. The form is Element UI on one URL: fields have no ids, so find each by its label. Selects open a list (li.el-select-dropdown__item); filterable ones take typed text. Cities come from the 'Popular Cities' list or a typed search."
+
+[[page]]
+title = "1 · Upload ID Document Page"
+[[page.field]]
+label = "Passport data-page photo"
+key = "passport_photo"
+format = "JPG/PNG ≤100 KB. The site reads it into step 2: then CHECK every read value against the Vault and correct it."
+
+[[page]]
+title = "2 · Basic Information"
+[[page.field]]
+label = "Type of ID Document"
+key = "passport_country"
+format = "Ordinary passport"
+[[page.field]]
+label = "Last Name"
+key = "surname"
+[[page.field]]
+label = "First Name"
+key = "given_names"
+[[page.field]]
+label = "Gender"
+key = "sex"
+format = "Male / Female"
+[[page.field]]
+label = "Date of Birth"
+key = "dob"
+format = "Year / Month / Day selects"
+[[page.field]]
+label = "Country/Region of Citizenship"
+key = "nationality"
+format = "Type the country name; pick the row ending '（ISO3）'"
+[[page.field]]
+label = "Passport Number"
+key = "passport_no"
+[[page.field]]
+label = "Entry Transportation Mode"
+key = "arrival_flight"
+format = "Flight / Train / Vessel / Automobile / On Foot"
+[[page.field]]
+label = "Arrival Flight/Train/Vessel Number"
+key = "arrival_flight"
+format = "e.g. MU5098, no space"
+[[page.field]]
+label = "City of Entry"
+key = "arrival_airport"
+format = "City of the arrival airport (PVG/SHA → Shanghai, PEK/PKX → Beijing, CAN → Guangzhou, SZX → Shenzhen, CTU/TFU → Chengdu)"
+[[page.field]]
+label = "Port/Channel of Entry"
+key = "arrival_airport"
+format = "Airport option: PVG Pudong, SHA Hongqiao, PEK Capital, PKX Daxing, CAN Baiyun, SZX Bao'an, TFU Tianfu, HGH Xiaoshan"
+[[page.field]]
+label = "Date of Entry"
+key = "arrival_date"
+format = "yyyy-MM-dd + Enter"
+
+[[page]]
+title = "3 · Selecting Entry Category"
+[[page.field]]
+label = "Do you hold a valid visa or other entry permit?"
+key = "visa"
+format = "Yes → Visa Type + Visa Number; No → Entry Policy"
+[[page.field]]
+label = "Entry Policy Selection"
+key = "entry_policy"
+when = "No visa"
+format = "Visa-Free Policy · 24/72/144/240-Hour Visa-Free Transit · 30-Day Hainan · Emergency Temporary Entry Permit. Visa-free list changes often: verify the nationality on the NIA site; if unsure, ASK."
+
+[[page]]
+title = "4 · Personal Information"
+[[page.field]]
+label = "Chinese Name"
+key = "chinese_name"
+required = false
+[[page.field]]
+label = "Other Name"
+key = "other_names"
+required = false
+[[page.field]]
+label = "Other Countries/Regions of Citizenship"
+key = "other_citizenship"
+required = false
+[[page.field]]
+label = "Country/Region of Birth"
+key = "birth_country"
+[[page.field]]
+label = "City of Birth"
+key = "birth_city"
+[[page.field]]
+label = "Contact Number (with Phone Area Code)"
+key = "mobile"
+[[page.field]]
+label = "Contact Number in China"
+key = "local_phone"
+required = false
+[[page.field]]
+label = "Email"
+key = "email"
+[[page.field]]
+label = "Has your passport ever been lost or stolen?"
+key = "passport_lost"
+format = "Yes / No"
+
+[[page]]
+title = "5 · Travel Information"
+[[page.field]]
+label = "Purpose of Entry"
+key = "purpose"
+format = "Conference/Business · Visit · Sightseeing/Leisure · Visiting Friends/Relatives · Work · Study · Permanent Residence · Return to Country of Residence · Others"
+[[page.field]]
+label = "Destination Cities in China"
+key = "destination_cities"
+[[page.field]]
+label = "Cities of Transit in China"
+key = "transit_cities"
+required = false
+[[page.field]]
+label = "Have you been to other countries or regions in the past two years?"
+key = "recent_travel_2y"
+format = "Yes → list of countries/regions"
+[[page.field]]
+label = "Confirmed Departure Itinerary"
+key = "departure_flight"
+format = "Yes → Date, City, Port/Channel, Mode, Flight number of departure; No if no onward ticket"
+[[page.field]]
+label = "Date of Departure"
+key = "departure_date"
+when = "Confirmed Departure Itinerary = Yes"
+[[page.field]]
+label = "Address in China"
+key = "stay_address"
+format = "Region picker (province / city / district) + detailed address incl. hotel name"
+[[page.field]]
+label = "Do you have any inviting entities or inviters in China?"
+key = "inviting_entity"
+format = "No for tourism; Yes → entity (name + contact) or inviter (name + contact)"
+
+[[page]]
+title = "6 · Accompanying Person(s)"
+[[page.field]]
+label = "Accompanying persons (name, document, relationship)"
+key = "companions"
+required = false
+format = "Up to 10; relationship Spouse / Parents / Children / Relatives / Other. Each companion still needs their own card."
+
+[[page]]
+title = "7 · Declaration and signature (stop here)"
+notes = "Screenshot, send the summary, wait for 'submit'. Then hand over for the drawn signature, and submit. Download the 'Entry Declaration Receipt for Foreigner' (QR) and save it."
+[[page.field]]
+label = "Signature"
+key = "signature"

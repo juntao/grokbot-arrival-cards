@@ -1,0 +1,130 @@
+code = "TW"
+name = "Taiwan Arrival Card (TWAC)"
+skill = "tw-arrival-card"
+url = "https://twac.immigration.gov.tw/"
+window = "Within 7 days before arrival, including the arrival day (official FAQ; paper cards ended 1 Oct 2025). One entry per card; a later submission overrides an earlier one. Up to 10 travellers per web submission."
+who = "Visa-exempt and visa-holding foreign visitors."
+exempt = "ARC, Resident Visa or Diplomatic ID holders; airside transit passengers who do not pass immigration. No health or travel-history questions on the card (Taiwan CDC declaration only for travellers with symptoms in the past 14 days)."
+handoffs = [
+  "Email verification code (6 letters, valid 10 min) from niasys@immigration.gov.tw: read from Gmail when the card email is the connected mailbox, else the user types it.",
+  "Cloudflare Turnstile if it shows a visible challenge.",
+  "The declaration tick and SUBMIT on the Review step (user replies 'submit').",
+]
+verified = "2026-11-11: official FAQ + group-upload template in the JS bundle; 2026-11-02: live site walk of twac.immigration.gov.tw + JS bundle option lists."
+sources = ["https://twac.immigration.gov.tw/"]
+
+[[page]]
+title = "Landing → Notice → 1 · Email Verification"
+notes = "Click 'Submit Arrival Card', then START on /notice. Enter the email, press SEND VERIFICATION CODE, read the code (Gmail search: from:niasys@immigration.gov.tw subject:\"TAIWAN ARRIVAL CARD\" newer_than:1h), type it, press VERIFY."
+[[page.field]]
+label = "Email"
+key = "email"
+
+[[page]]
+title = "2 · Traveler Information"
+notes = "Dates are DD/MM/YYYY (react-datepicker). Country lists are react-select searches: type the ISO3 code and pick 'AUS,AUSTRALIA' style rows. NEXT shows a dialog naming any empty required field."
+[[page.field]]
+label = "Date of Entry"
+key = "arrival_date"
+format = "DD/MM/YYYY"
+[[page.field]]
+label = "Expected Departure Date"
+key = "departure_date"
+format = "DD/MM/YYYY, ≥ entry date"
+[[page.field]]
+label = "English Name"
+key = "full_name"
+format = "Given names then surname, letters and spaces only (site upper-cases)"
+[[page.field]]
+label = "Chinese Name"
+key = "chinese_name"
+required = false
+[[page.field]]
+label = "Passport Number"
+key = "passport_no"
+[[page.field]]
+label = "Passport Expiry"
+key = "passport_expiry"
+format = "DD/MM/YYYY; must be valid ≥6 months"
+[[page.field]]
+label = "Gender"
+key = "sex"
+format = "Radio Female / Male"
+[[page.field]]
+label = "Date of Birth"
+key = "dob"
+format = "DD/MM/YYYY"
+[[page.field]]
+label = "Nationality"
+key = "nationality"
+format = "react-select 'ISO3,NAME'"
+[[page.field]]
+label = "Country / Place of Birth"
+key = "birth_country"
+format = "react-select 'ISO3,NAME'"
+[[page.field]]
+label = "City / State of birth"
+key = "birth_city"
+required = false
+[[page.field]]
+label = "Place of Residence"
+key = "home_country"
+format = "react-select 'ISO3,NAME'"
+[[page.field]]
+label = "Visa type"
+key = "entry_policy"
+format = "Radio: Visa-Exempt / Visa / Landing visa / Travel authorization; a visa number is then required"
+[[page.field]]
+label = "Visa / permit number"
+key = "visa"
+required = false
+when = "Visa type is not Visa-Exempt"
+[[page.field]]
+label = "Country / Region Code + Mobile Number"
+key = "mobile"
+format = "Code react-select '65 SGP'; number digits only"
+[[page.field]]
+label = "Occupation"
+key = "occupation"
+format = "Fixed list (e.g. 10 BUSINESS/DIRECTOR/CEO, 2 CLERK/EMPLOYEE/STAFF, 29 ACCOUNTANT/CPA, 24 Other → job title box); map the Vault value to the closest"
+
+[[page]]
+title = "3 · Itinerary"
+[[page.field]]
+label = "Arrival mode"
+key = "arrival_flight"
+format = "Radio AIR / SEA"
+[[page.field]]
+label = "Entry flight code + flight number"
+key = "arrival_flight"
+format = "react-select 'CI : CHINA AIRLINES' style, then digits (max 10)"
+[[page.field]]
+label = "Departure mode"
+key = "departure_flight"
+format = "Radio AIR / SEA (required)"
+[[page.field]]
+label = "Exit flight code + flight number"
+key = "departure_flight"
+when = "Departure mode AIR"
+format = "Required with AIR; never invented: ask if no onward ticket"
+[[page.field]]
+label = "Purpose of Visit"
+key = "purpose"
+format = "1 Sightseeing/Travel/Leisure, 16 Business, 213 Study, 60 Exhibition, 3 Visit Relative (+ relative's name & phone), 33 Others (+ text)"
+[[page.field]]
+label = "Relatives Name / Relatives Mobile No."
+key = "host_contact"
+required = false
+when = "Purpose = Visit Relative"
+[[page.field]]
+label = "Accommodation type"
+key = "stay_type"
+format = "Radio Residential Address / Hotel Name / Transfer"
+[[page.field]]
+label = "Address / hotel name"
+key = "stay_name"
+format = "Letters, digits, spaces and . , - only, upper case; a residential address is geocoded by the site"
+
+[[page]]
+title = "4 · Review (stop here)"
+notes = "Screenshot, send the summary, wait for 'submit'. Then tick the declaration and press SUBMIT. Confirmation arrives by email; forward it."

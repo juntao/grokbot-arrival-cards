@@ -1,0 +1,199 @@
+code = "JP"
+name = "Visit Japan Web (immigration + customs QR)"
+skill = "jp-visit-japan-web"
+url = "https://www.vjw.digital.go.jp/"
+window = "Any time before landing; register at least 6 h before departure. Up to 5 planned trips per account."
+who = "All arrivals (optional: paper ED card and customs form still accepted, but VJW gives one QR for both counters)."
+exempt = "Nobody needs it; it is optional. Japanese passport holders skip the Disembarkation Card."
+handoffs = [
+  "Account creation: the 'I am human' CAPTCHA and the email confirmation code (the code can be read from Gmail).",
+  "Sign-in 2-factor (authenticator app) if the user enabled it.",
+  "Passport camera scan for tax-free shopping (phone only); skip it unless the user asks.",
+  "Final 'Register' on each of the immigration and customs declarations (user replies 'submit').",
+]
+verified = "2026-11-11: Digital Agency VJW manual v2.00 + Japan Customs C5360-B + 2026 guides; screens behind login not walked live."
+sources = [
+  "https://www.digital.go.jp/assets/contents/node/basic_page/field_ref_resources/3e9afaa3-b2e7-4f6d-b07d-9697f39d97a3/73099bd6/20220926_en_visit_japan_web_manual_01.pdf",
+  "https://www.customs.go.jp/kaisei/youshiki/form_C/C5360-B.pdf",
+  "https://www.moj.go.jp/isa/content/930002134.pdf",
+]
+
+[[page]]
+title = "1 · Sign in (or create account)"
+notes = "Use the Vault Login for vjw.digital.go.jp. No login yet: ask approval to create one with the card email; the password is generated and saved by Vault. The confirmation code arrives by email; read it from Gmail if it is the connected mailbox, else hand over."
+[[page.field]]
+label = "Email address / Password"
+key = "vjw_login"
+format = "Vault Login fill. New-account password: ≥10 chars with upper, lower, digit, symbol."
+
+[[page]]
+title = "2 · Your details (once per account, per family member)"
+notes = "Answer 'No' to 'Japanese government-issued passport?' and 'No' to re-entry permit for a foreign visitor. Choose manual entry (not camera scan) on the cloud computer."
+[[page.field]]
+label = "Surname"
+key = "surname"
+format = "UPPER CASE Latin, max 39 chars"
+[[page.field]]
+label = "Given name"
+key = "given_names"
+format = "UPPER CASE, include middle names"
+[[page.field]]
+label = "Date of birth"
+key = "dob"
+format = "mm/dd/yyyy (or calendar picker)"
+[[page.field]]
+label = "Nationality"
+key = "nationality"
+format = "Dropdown, country name"
+[[page.field]]
+label = "Gender"
+key = "sex"
+format = "Dropdown"
+[[page.field]]
+label = "Passport number / Confirm passport number"
+key = "passport_no"
+format = "Upper-case letters and digits, typed twice"
+[[page.field]]
+label = "Passport expiration date"
+key = "passport_expiry"
+format = "Date"
+[[page.field]]
+label = "Contact information in Japan (optional default)"
+key = "stay_address"
+required = false
+format = "Leave blank unless the user always stays at the same address in Japan"
+
+[[page]]
+title = "3 · Register planned entry/return"
+[[page.field]]
+label = "Trip name"
+key = "arrival_date"
+required = false
+format = "Use the trip id, e.g. JP-20261203"
+[[page.field]]
+label = "Planned arrival date in Japan"
+key = "arrival_date"
+format = "mm/dd/yyyy"
+[[page.field]]
+label = "Airline company name"
+key = "arrival_flight"
+format = "Dropdown of airlines; 'Other airline companies' if not listed. Operating carrier for codeshares."
+[[page.field]]
+label = "Flight number"
+key = "arrival_flight"
+format = "Digits only for a listed airline; letters+digits (e.g. ZZ1234) for 'Other'"
+[[page.field]]
+label = "Postal code / Prefecture / City"
+key = "stay_address"
+format = "Postal code digits only (no hyphen), then the auto-fill button for prefecture and city"
+[[page.field]]
+label = "Address"
+key = "stay_address"
+format = "UPPER CASE romaji, e.g. 3-7-1-2 NISHISHINJUKU"
+[[page.field]]
+label = "Hotel name / place of stay"
+key = "stay_name"
+format = "UPPER CASE"
+[[page.field]]
+label = "Contact phone number"
+key = "stay_phone"
+format = "Digits only, no hyphens"
+[[page.field]]
+label = "Select family members traveling with you"
+key = "companions"
+required = false
+when = "Family members are registered on the account"
+
+[[page]]
+title = "4 · Disembarkation Card for Foreigner (immigration)"
+[[page.field]]
+label = "Home address: Country name"
+key = "home_country"
+format = "UPPER CASE country name"
+[[page.field]]
+label = "Home address: City name"
+key = "home_city"
+format = "UPPER CASE"
+[[page.field]]
+label = "Purpose of visit"
+key = "purpose"
+format = "Sightseeing / Business / Visiting relatives / … / Other (+ free text)"
+[[page.field]]
+label = "Last flight No./Vessel"
+key = "arrival_flight"
+format = "Pre-filled from the trip; full code e.g. SQ638"
+[[page.field]]
+label = "Intended length of stay"
+key = "length_of_stay"
+format = "Years 0-5 / Months 0-12 / Days 0-180; not all zero"
+[[page.field]]
+label = "Have you ever been deported from Japan, departed under a departure order, or been denied entry to Japan?"
+key = "deported_before"
+format = "Yes / No"
+[[page.field]]
+label = "Any history of being convicted of a crime (not only in Japan)?"
+key = "criminal_conviction"
+format = "Yes / No"
+[[page.field]]
+label = "Do you presently have narcotics, controlled substances, firearms, crossbows, swords, explosives or other such items?"
+key = "prohibited_items"
+format = "Yes / No"
+
+[[page]]
+title = "5 · Customs declaration (Declaration of Personal Effects and Unaccompanied Articles)"
+[[page.field]]
+label = "Occupation"
+key = "occupation"
+format = "Dropdown (Employee, Self-employed, Student, …); map the Vault value to the closest option"
+[[page.field]]
+label = "Date of Arrival in Japan"
+key = "arrival_date"
+[[page.field]]
+label = "Flight No./Name of Vessel"
+key = "arrival_flight"
+[[page.field]]
+label = "Point of embarkation"
+key = "origin"
+format = "Type-ahead city list, e.g. SINGAPORE"
+[[page.field]]
+label = "Family members traveling with you (Over 20 / 6-19 / Under 6)"
+key = "customs_family_count"
+format = "+/- counters"
+[[page.field]]
+label = "① Narcotic drugs, firearms, explosives or other prohibited items?"
+key = "prohibited_items"
+format = "Yes / No"
+[[page.field]]
+label = "② Meat products, vegetables, fruits, animals, plants or other restricted items?"
+key = "customs_restricted"
+format = "Yes / No"
+[[page.field]]
+label = "③ Gold bullion or products of gold?"
+key = "customs_gold"
+format = "Yes / No"
+[[page.field]]
+label = "④ Goods (purchases, souvenirs, gifts) exceeding the duty-free allowance?"
+key = "customs_over_allowance"
+format = "Yes / No"
+[[page.field]]
+label = "⑤ Commercial goods or samples?"
+key = "customs_commercial"
+format = "Yes / No"
+[[page.field]]
+label = "⑥ Items you have been requested by someone else to bring into Japan?"
+key = "customs_for_others"
+format = "Yes / No"
+[[page.field]]
+label = "⑦ Cash, cheques or securities over ¥1,000,000 equivalent, or precious metals over 1 kg?"
+key = "customs_cash"
+format = "Yes / No (Yes requires a separate means-of-payment declaration at the counter)"
+[[page.field]]
+label = "⑧ Unaccompanied articles (shipped separately)?"
+key = "customs_unaccompanied"
+format = "Yes / No + number of packages"
+[[page.field]]
+label = "Personal effects / other goods detail"
+key = "customs_goods_detail"
+required = false
+when = "Any of ①-⑥ answered Yes"
+format = "Alcohol (bottles), cigarettes (pieces), cigars, heat-not-burn (boxes), perfume (oz), other goods: name, quantity, value, currency (≤8 rows)"

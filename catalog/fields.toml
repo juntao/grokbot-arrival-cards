@@ -1,0 +1,385 @@
+# Canonical traveller and trip fields shared by every arrival card.
+#
+# A card field (catalog/cards/*.toml) points at one of these keys. Resolving it once covers it on every card,
+# so a passport number given for Singapore is never asked again for Japan.
+#
+# tier:
+#   vault  - identity, stable for years. Lives in the traveller's Vault entry `Travel identity · GIVEN SURNAME`.
+#            `vault_slot` is a native Contact info slot (name | address | phone | email) or `hint` (a key=value line).
+#   recall - trip facts and preferences. Looked up in memory -> email -> calendar -> derived, in that order (`find`).
+#            `save` = trip (the dated trip log) or preference (lasting memory).
+#   ask    - declarations, answered fresh on every card. Never stored anywhere.
+
+# ---------------------------------------------------------------- VAULT: identity
+
+[[field]]
+key = "full_name"
+label = "Full name as in passport"
+tier = "vault"
+vault_slot = "name"
+
+[[field]]
+key = "surname"
+label = "Surname / family name"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "given_names"
+label = "Given name(s)"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "other_names"
+label = "Other names used (former / alias), or 'none'"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "other_citizenship"
+label = "Other countries / regions of citizenship, or 'none'"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "chinese_name"
+label = "Name in Chinese characters (optional)"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "sex"
+label = "Sex as in passport (F / M / X)"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "dob"
+label = "Date of birth"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "nationality"
+label = "Nationality (passport country)"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "birth_country"
+label = "Country of birth"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "birth_city"
+label = "City of birth"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "passport_no"
+label = "Passport number"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "passport_country"
+label = "Passport issuing country"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "passport_expiry"
+label = "Passport date of expiry"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "passport_photo"
+label = "Photo of the passport data page"
+tier = "vault"
+vault_slot = "hint"
+note = "Collected at onboarding. Read once to fill the other identity fields; with the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_passport.jpg for China's upload step, and its path is the hint value."
+
+[[field]]
+key = "home_city"
+label = "City of residence"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "home_country"
+label = "Country of residence"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "mobile"
+label = "Mobile number with country code"
+tier = "vault"
+vault_slot = "phone"
+
+[[field]]
+key = "email"
+label = "Email address for the card"
+tier = "vault"
+vault_slot = "email"
+
+[[field]]
+key = "occupation"
+label = "Occupation / job title"
+tier = "vault"
+vault_slot = "hint"
+
+[[field]]
+key = "visa"
+label = "Visa or residence permit for this country (number, or 'none')"
+tier = "vault"
+vault_slot = "hint"
+note = "Stored per destination as visa_CN / visa_JP / visa_TW; 'none' when visa-exempt."
+
+[[field]]
+key = "vjw_login"
+label = "Visit Japan Web account (email + password)"
+tier = "vault"
+vault_slot = "login"
+note = "A Vault Login for vjw.digital.go.jp, filled into the page without the Bot seeing the password."
+
+# ---------------------------------------------------------------- RECALL: trip facts and preferences
+
+[[field]]
+key = "arrival_date"
+label = "Arrival date"
+tier = "recall"
+save = "trip"
+find = "Flight e-ticket (local arrival date, not departure date) -> calendar flight event."
+
+[[field]]
+key = "arrival_flight"
+label = "Arrival flight (airline code + number)"
+tier = "recall"
+save = "trip"
+find = "E-ticket / airline confirmation; check for later schedule-change emails -> calendar event title."
+
+[[field]]
+key = "arrival_airport"
+label = "Airport / port of arrival"
+tier = "recall"
+save = "trip"
+find = "E-ticket arrival airport (IATA code)."
+
+[[field]]
+key = "origin"
+label = "City / country of embarkation (last stop before arrival)"
+tier = "recall"
+save = "trip"
+find = "E-ticket departure airport of the arriving flight segment."
+
+[[field]]
+key = "departure_date"
+label = "Date leaving the country"
+tier = "recall"
+save = "trip"
+find = "Onward or return flight e-ticket -> calendar -> hotel check-out date."
+
+[[field]]
+key = "departure_flight"
+label = "Departure flight (airline code + number)"
+tier = "recall"
+save = "trip"
+find = "Onward or return flight e-ticket -> calendar."
+
+[[field]]
+key = "next_destination"
+label = "Next city / country after this one"
+tier = "recall"
+save = "trip"
+find = "Arrival airport of the onward flight; usually home."
+
+[[field]]
+key = "stay_type"
+label = "Accommodation type (hotel / residence / friends-relatives / transit / other)"
+tier = "recall"
+save = "trip"
+find = "Hotel or Airbnb booking -> 'own address' preference in memory."
+
+[[field]]
+key = "stay_name"
+label = "Hotel / host name"
+tier = "recall"
+save = "trip"
+find = "Booking confirmation email (Booking.com, Agoda, Airbnb, Trip.com, hotel direct)."
+
+[[field]]
+key = "stay_address"
+label = "Address of stay (with postal code)"
+tier = "recall"
+save = "trip"
+find = "Booking confirmation email; hotel website if the email lacks the postal code."
+
+[[field]]
+key = "stay_phone"
+label = "Phone number of the stay"
+tier = "recall"
+save = "trip"
+find = "Booking confirmation email -> hotel website."
+
+[[field]]
+key = "purpose"
+label = "Purpose of visit"
+tier = "recall"
+save = "preference"
+find = "Calendar (meetings/conference => business) -> invitation emails -> memory preference 'usual purpose'."
+
+[[field]]
+key = "length_of_stay"
+label = "Length of stay (days)"
+tier = "recall"
+save = "trip"
+find = "Derived: departure_date - arrival_date."
+
+[[field]]
+key = "destination_cities"
+label = "Cities to be visited in the country"
+tier = "recall"
+save = "trip"
+find = "Hotel cities and calendar event locations within the trip dates."
+
+[[field]]
+key = "entry_policy"
+label = "Entry basis (visa-free / visa / transit visa-free / residence permit)"
+tier = "recall"
+save = "trip"
+find = "Derived from nationality + visa field + length of stay; confirm on the form when unsure."
+
+[[field]]
+key = "inviting_entity"
+label = "Inviting company / person in the country (name, contact)"
+tier = "recall"
+save = "trip"
+find = "Invitation letter or conference email; 'none' for tourism."
+
+[[field]]
+key = "host_contact"
+label = "Relative / friend you are visiting: name and mobile"
+tier = "recall"
+save = "trip"
+find = "Only when purpose is visiting relatives/friends: memory contacts -> calendar event attendees -> ask."
+
+[[field]]
+key = "local_phone"
+label = "Local phone number in the destination country (if any)"
+tier = "recall"
+save = "preference"
+find = "Memory (e.g. a China SIM / eSIM number) -> 'none'; optional."
+
+[[field]]
+key = "transit_cities"
+label = "Cities transited inside the country"
+tier = "recall"
+save = "trip"
+find = "Domestic connecting flights / train tickets in email within the trip dates; usually none."
+
+[[field]]
+key = "companions"
+label = "Travel companions on this trip"
+tier = "recall"
+save = "trip"
+find = "Other passengers on the same e-ticket / booking -> memory 'usually travels with'."
+
+# ---------------------------------------------------------------- ASK: declarations, fresh every time
+
+[[field]]
+key = "health_symptoms"
+label = "Do you currently have fever, cough, breathing difficulty, rash or other symptoms of an infectious disease?"
+tier = "ask"
+
+[[field]]
+key = "recent_travel_yf"
+label = "Countries / regions visited in the last 6 days before arrival (yellow-fever risk check)"
+tier = "ask"
+
+[[field]]
+key = "recent_travel_2y"
+label = "Other countries or regions visited in the past two years (list them)"
+tier = "ask"
+note = "China asks this. The bot may *suggest* trips found in email/calendar as a starting list, but the user confirms."
+
+[[field]]
+key = "passport_lost"
+label = "Has a passport of yours ever been lost or stolen?"
+tier = "ask"
+
+[[field]]
+key = "signature"
+label = "Signature (drawn on the screen)"
+tier = "ask"
+note = "China only; drawn by the user during a Take control hand-over."
+
+[[field]]
+key = "other_passport_name"
+label = "Have you ever used a passport under a different name to enter this country?"
+tier = "ask"
+
+[[field]]
+key = "deported_before"
+label = "Ever been deported from, or refused entry to, this country?"
+tier = "ask"
+
+[[field]]
+key = "criminal_conviction"
+label = "Ever been convicted of a crime in any country?"
+tier = "ask"
+
+[[field]]
+key = "prohibited_items"
+label = "Carrying narcotics, firearms, swords, explosives or other prohibited/restricted items?"
+tier = "ask"
+
+[[field]]
+key = "customs_family_count"
+label = "Number of family members travelling with you (customs)"
+tier = "ask"
+
+[[field]]
+key = "customs_over_allowance"
+label = "Carrying goods beyond the duty-free allowance?"
+tier = "ask"
+
+[[field]]
+key = "customs_commercial"
+label = "Carrying commercial goods or samples?"
+tier = "ask"
+
+[[field]]
+key = "customs_for_others"
+label = "Carrying items on behalf of someone else?"
+tier = "ask"
+
+[[field]]
+key = "customs_cash"
+label = "Carrying cash / securities / precious metals above the declaration threshold?"
+tier = "ask"
+
+[[field]]
+key = "customs_unaccompanied"
+label = "Do you have unaccompanied baggage (shipped separately)?"
+tier = "ask"
+
+[[field]]
+key = "customs_restricted"
+label = "Carrying meat products, vegetables, fruit, animals or plants (restricted items)?"
+tier = "ask"
+
+[[field]]
+key = "customs_gold"
+label = "Carrying gold bullion or products of gold?"
+tier = "ask"
+
+[[field]]
+key = "customs_goods_detail"
+label = "Itemised goods to declare (alcohol bottles, cigarettes, perfume, other goods with value)"
+tier = "ask"
+note = "Only when a customs question is answered Yes."
