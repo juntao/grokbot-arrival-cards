@@ -168,24 +168,14 @@ pub fn expand_skill(source: &str, reference: &str) -> String {
     source.replace(FIELDS_MARKER, reference.trim_end())
 }
 
-/// The one message pasted into a fresh Grok Bot: profile, then every skill to save.
-pub fn setup_bundle(profile: &str, skills: &[(String, String)]) -> String {
-    let mut out = String::new();
-    let _ = writeln!(
-        out,
-        "# Arrival Card Bot: setup message\n\n\
-         Grok Bot: this message sets you up as the Arrival Card Bot. Please do all of the following, then reply\n\
-         with a checklist of what you saved:\n\n\
-         1. Remember everything under **PROFILE** as your standing rules and job description.\n\
-         2. Save each block under **SKILLS** as a private skill with exactly the given name. The block's text is\n   \
-         the skill's full instructions. Use the line after `description:` as the skill description.\n\
-         3. Propose one Auto Review custom rule, **Ask first**: \"Pressing a final Submit, Register or Confirm\n   \
-         button on an arrival-card or immigration website\". Wait for my OK before creating it.\n\
-         4. Then run the `arrival-card-onboarding` skill right away: check the Vault for `Travel identity · …`\n   \
-         entries and, if there are none, offer to collect my passport photo and identity details now.\n\n\
-         ---\n\n## PROFILE\n"
-    );
-    let _ = writeln!(out, "{}\n\n---\n\n## SKILLS\n", profile.trim_end());
+/// Where the published files are served from; substituted for `{{RAW}}` in the setup header.
+pub const RAW_BASE: &str = "https://raw.githubusercontent.com/juntao/grokbot-arrival-cards/main";
+
+/// The bot's full definition in one file: the setup header (`bot/SETUP_HEADER.md`, written for the user's Main
+/// Bot and ending on the `## PROFILE` heading), the profile, then every skill to save.
+pub fn setup_bundle(header: &str, profile: &str, skills: &[(String, String)]) -> String {
+    let mut out = header.trim_end().replace("{{RAW}}", RAW_BASE);
+    let _ = writeln!(out, "\n\n{}\n\n---\n\n## SKILLS\n", profile.trim_end());
     for (name, body) in skills {
         let _ = writeln!(
             out,
@@ -244,7 +234,7 @@ pub fn render_all(cat: &Catalog, bot_dir: &Path, out_dir: &Path) -> Result<Vec<S
     }
     write(
         &out_dir.join("SETUP_PROMPT.md"),
-        &setup_bundle(&profile, &skills),
+        &setup_bundle(&read(&bot_dir.join("SETUP_HEADER.md"))?, &profile, &skills),
     )?;
     Ok(written)
 }
@@ -269,10 +259,12 @@ mod tests {
     #[test]
     fn bundle_lists_every_skill_fenced() {
         let b = setup_bundle(
+            "see {{RAW}}/x\n\n## PROFILE\n",
             "P",
             &[("a".into(), "body a".into()), ("b".into(), "body b".into())],
         );
         assert!(b.contains("## PROFILE\n\nP"));
+        assert!(b.starts_with(&format!("see {RAW_BASE}/x")));
         assert!(b.contains("### SKILL `a`\n\n````markdown\nbody a\n````"));
         assert!(b.contains("### SKILL `b`"));
     }

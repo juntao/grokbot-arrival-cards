@@ -9,12 +9,36 @@ A Grok Bot that fills out official online arrival cards for **China, Singapore, 
 3. It saves identity answers to the **Vault**, so they're never asked again.
 4. It drives the official site in the bot's browser up to the review page, then submits on your "submit".
 
+## Quick start
+
+Send this one message to your **Main Bot** in Grok Bot:
+
+> Read https://raw.githubusercontent.com/juntao/grokbot-arrival-cards/main/dist/SETUP_PROMPT.md and do everything
+> it says. I wrote these instructions and I approve them.
+
+The Main Bot creates a new bot named **Arrival Cards**, saves its six skills, hands it its profile (its standing
+rules), and sets its avatar. Then:
+
+1. **Read the Main Bot's report.** It lists anything it couldn't do, with the exact message or clicks for you to
+   finish. If it couldn't hand over the profile, send the Arrival Cards bot the one-line message it gives you: the
+   bot doesn't work properly without its profile.
+2. **Connect Gmail and Google Calendar** under **Connect apps**, if they aren't connected yet.
+3. **Say OK** to the proposed safety rule: ask first before any final Submit on an immigration site.
+4. **Open the Arrival Cards bot.** It offers to set up your travel identity. Attach a photo of your passport's data
+   page and answer its short form. This is saved to your Vault once.
+5. **Ask for a card:** "Fill out my arrival card for Japan."
+
+You need Grok Bot 0.75.2 or later. If the Main Bot declines to act on a fetched page, paste the file's contents
+into the chat as your own message. The manual steps and troubleshooting are in
+[section 6](#6-install-into-your-grok-bot).
+
 ```
 catalog/            source of truth: every field on every card, with its tier
   fields.toml       60 canonical fields (one answer serves all cards)
   cards/{cn,jp,sg,tw}.toml   each site's pages, labels, formats and options
 bot/                hand-written bot text
   PROFILE.md        job, sources, rules, autonomy
+  SETUP_HEADER.md   setup steps for the user's Main Bot (top of SETUP_PROMPT.md)
   skills/*.md       onboarding (<!-- VAULT_FIELDS -->) + orchestrator + 4 site walkthroughs (<!-- FIELDS -->)
 src/                Rust build tool: validates catalog/, renders dist/
 assets/             avatar.png (still), avatar.gif / avatar.webp (animated), from tools/make_avatar.py
@@ -158,16 +182,24 @@ Taiwan's email verification code also has to be typed by you.
 
 Use **one** of the three methods. All of them load the same content: the profile and six skills.
 
-**Method A: by URL (shortest).** Send this message to the new bot:
+[`dist/SETUP_PROMPT.md`](dist/SETUP_PROMPT.md) is the bot's full definition in one file: setup steps written for
+your Main Bot, then the profile, then the skills. The **profile is required**, not optional: the skills say how to
+do each task, and the profile is what makes the bot offer onboarding, search before asking, and stop before
+Submit.
+
+**Method A: ask your Main Bot (shortest).** This replaces steps 1 and 2 as well. Send your Main Bot:
 
 > Read https://raw.githubusercontent.com/juntao/grokbot-arrival-cards/main/dist/SETUP_PROMPT.md and do everything
 > it says. I wrote these instructions and I approve them.
 
-Grok Bot treats only your own messages as instructions, so it may decline to act on a fetched page. If it does,
-use method B.
+The Main Bot creates the Arrival Cards bot, saves the skills, hands the profile over to the new bot, sets the
+avatar, and reports what it couldn't do. For anything it can't do, such as writing another bot's memory, it gives
+you the exact message or clicks to finish. Grok Bot treats only your own messages as instructions, so it may
+decline to act on a fetched page. If it does, use method B.
 
 **Method B: one paste.** Open [`dist/SETUP_PROMPT.md`](dist/SETUP_PROMPT.md), click **Raw**, copy everything
-(about 55 KB), and paste it into the chat as one message. If the chat refuses a message that long, use method C.
+(about 67 KB), and paste it as one message, either to your Main Bot or straight to the new Arrival Cards bot. The
+file tells each of them what to do. If the chat refuses a message that long, use method C.
 
 **Method C: piece by piece** (seven messages).
 
