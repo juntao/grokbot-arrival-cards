@@ -31,7 +31,7 @@ collects the missing Vault fields.
    fields below are missing or expire soon (passport expiry within 6 months).
 2. **Open with the offer.** For a first run, send exactly one message:
 
-   > 👋 I fill out arrival cards for **China, Singapore, Japan and Taiwan**. I find your flights and hotels in
+   > 👋 I fill out arrival cards for **China, Singapore, Japan, Taiwan, Korea and Thailand**. I find your flights and hotels in
    > your email and calendar, and ask you only for what I can't find.
    >
    > Let's set up your **travel identity** once (about 2 minutes), so no card ever has to ask for it again. It's
@@ -58,7 +58,7 @@ collects the missing Vault fields.
    Vault entry, or memory already gave. Put the found values in an "I read this from your passport" block, passport
    shown as `•••••789`, so the user can correct them in the same reply. Number the questions, and give options and
    formats, e.g. *"Occupation (as you'd like it on cards, e.g. SOFTWARE ENGINEER)"*.
-   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan? Reply
+   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan / Korea / Thailand? Reply
      'none' for any where you travel visa-free."*
    - Don't ask `vjw_login` here. It's created the first time a Japan card is filed.
 5. **Save to the Vault**, using the format in `arrival-card-fill` §2:
@@ -74,7 +74,7 @@ collects the missing Vault fields.
 7. **Next traveller.** Ask "Anyone who usually travels with you? Send their passport photo, or say 'done'."
    Remember "usually travels with: …" as a memory preference (names only).
 8. **Finish.** If Gmail or Google Calendar isn't connected, offer to connect it. Then, if the calendar shows a trip
-   to CN, SG, JP or TW in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
+   to CN, SG, JP, TW, KR or TH in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
    that arrival card now?"*
 
 ### Vault fields to collect (generated from the catalog)
@@ -82,26 +82,27 @@ collects the missing Vault fields.
 | Key | Ask as | Vault slot | Needed by |
 |---|---|---|---|
 | `full_name` | Full name as in passport | Vault Contact › Name | SG, TW |
-| `surname` | Surname / family name | Vault hint `surname=` | CN, JP |
-| `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP |
+| `surname` | Surname / family name | Vault hint `surname=` | CN, JP, KR, TH |
+| `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP, KR, TH |
 | `other_names` | Other names used (former / alias), or 'none' | Vault hint `other_names=` | CN |
 | `other_citizenship` | Other countries / regions of citizenship, or 'none' | Vault hint `other_citizenship=` | CN |
+| `middle_name` | Middle name, or 'none' | Vault hint `middle_name=`. Thailand has a separate box; when the passport prints one given-names line, split it only if the user says so. | TH |
 | `chinese_name` | Name in Chinese characters (optional) | Vault hint `chinese_name=` | CN, TW |
-| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, JP, SG, TW |
-| `dob` | Date of birth | Vault hint `dob=` | CN, JP, SG, TW |
-| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, JP, SG, TW |
+| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, JP, KR, SG, TH, TW |
+| `dob` | Date of birth | Vault hint `dob=` | CN, JP, KR, SG, TH, TW |
+| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, JP, KR, SG, TH, TW |
 | `birth_country` | Country of birth | Vault hint `birth_country=` | CN, SG, TW |
 | `birth_city` | City of birth | Vault hint `birth_city=` | CN, TW |
-| `passport_no` | Passport number | Vault hint `passport_no=` | CN, JP, SG, TW |
+| `passport_no` | Passport number | Vault hint `passport_no=` | CN, JP, KR, SG, TH, TW |
 | `passport_country` | Passport issuing country | Vault hint `passport_country=` | CN |
-| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | JP, SG, TW |
+| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | JP, KR, SG, TW |
 | `passport_photo` | Photo of the passport data page | Vault hint `passport_photo=`. Collected at onboarding. Read once to fill the other identity fields; with the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_passport.jpg for China's upload step, and its path is the hint value. | CN |
-| `home_city` | City of residence | Vault hint `home_city=` | JP, SG |
-| `home_country` | Country of residence | Vault hint `home_country=` | JP, TW |
-| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, SG, TW |
-| `email` | Email address for the card | Vault Contact › Email | CN, SG, TW |
-| `occupation` | Occupation / job title | Vault hint `occupation=` | JP, TW |
-| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW; 'none' when visa-exempt. | CN, TW |
+| `home_city` | City of residence | Vault hint `home_city=` | JP, SG, TH |
+| `home_country` | Country of residence | Vault hint `home_country=` | JP, TH, TW |
+| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, SG, TH, TW |
+| `email` | Email address for the card | Vault Contact › Email | CN, KR, SG, TH, TW |
+| `occupation` | Occupation / job title | Vault hint `occupation=` | JP, KR, TH, TW |
+| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH; 'none' when visa-exempt. | CN, KR, TH, TW |
 | `vjw_login` | Visit Japan Web account (email + password) | Vault Login. A Vault Login for vjw.digital.go.jp, filled into the page without the Bot seeing the password. | JP |
 
 ## 4. How to validate the result

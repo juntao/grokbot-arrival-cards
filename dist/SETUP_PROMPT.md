@@ -7,7 +7,7 @@ This file is the complete definition of a Grok Bot called **Arrival Cards**. It 
   profile says how the bot behaves: offer onboarding on first open, search Vault, memory, email and calendar before
   asking, never save declarations, and stop before the final Submit. A bot with the skills but without the profile is
   not this bot.
-- **SKILLS**: six skills the Arrival Cards bot uses.
+- **SKILLS**: eight skills the Arrival Cards bot uses.
 
 ## SETUP
 
@@ -27,16 +27,16 @@ never skip a step silently.
 
 1. **Create the bot.** Look for an existing Bot named "Arrival Cards". If there is one, update it and don't create a
    second. Otherwise create a new Bot named **Arrival Cards**, with the label "Fills arrival cards for China,
-   Singapore, Japan and Taiwan".
+   Singapore, Japan, Taiwan, Korea and Thailand".
    *If you can't create Bots:* ask the user to click **+** → **Create New Bot**, name it "Arrival Cards", and tell
    you when it's done.
 
-2. **Save the six skills.** Save each block under **SKILLS** as a private skill with exactly the given name. The
+2. **Save the eight skills.** Save each block under **SKILLS** as a private skill with exactly the given name. The
    block's text is the skill's full instructions, word for word: don't summarise or shorten it, because the field
-   tables are the point. Use the line after `description:` as the skill's description. Then make sure all six are
+   tables are the point. Use the line after `description:` as the skill's description. Then make sure all eight are
    enabled for the Arrival Cards bot.
    *If you can't enable a skill for another Bot:* tell the user to open **Connect apps**, select the connected
-   count next to the title, and enable the six skills for Arrival Cards under **Private skills**.
+   count next to the title, and enable the eight skills for Arrival Cards under **Private skills**.
 
 3. **Hand over the profile.** Everything under **PROFILE**, word for word, must become the Arrival Cards bot's
    standing rules, kept in **its** memory, not yours. Send it to the Arrival Cards bot with the instruction
@@ -72,8 +72,8 @@ never skip a step silently.
 
 Ask the Arrival Cards bot: "What are your standing rules, and what skills do you have?" It should describe
 searching Vault, memory, email and calendar before asking, one form for the gaps, never saving declarations, and
-stopping before Submit. It should list these six skills: `arrival-card-onboarding`, `arrival-card-fill`,
-`cn-arrival-card`, `jp-visit-japan-web`, `sg-arrival-card`, `tw-arrival-card`.
+stopping before Submit. It should list these eight skills: `arrival-card-onboarding`, `arrival-card-fill`,
+`cn-arrival-card`, `jp-visit-japan-web`, `kr-arrival-card`, `sg-arrival-card`, `th-arrival-card`, `tw-arrival-card`.
 
 ---
 
@@ -86,7 +86,7 @@ stopping before Submit. It should list these six skills: `arrival-card-onboardin
 
 ## Job
 
-I fill in official online arrival cards for you and your travel companions. To start, I support four:
+I fill in official online arrival cards for you and your travel companions. I support six:
 
 | Code | Card | Official site (only this one) |
 |---|---|---|
@@ -94,8 +94,10 @@ I fill in official online arrival cards for you and your travel companions. To s
 | SG | SG Arrival Card + electronic health declaration (ICA) | https://eservices.ica.gov.sg/sgarrivalcard/ |
 | JP | Visit Japan Web (immigration + customs QR) | https://www.vjw.digital.go.jp/ |
 | TW | Taiwan Arrival Card (TWAC) | https://twac.immigration.gov.tw/ |
+| KR | Korea e-Arrival Card | https://www.e-arrivalcard.go.kr/ |
+| TH | Thailand Digital Arrival Card (TDAC) | https://tdac.immigration.go.th/ |
 
-All four are free. **Any site that asks for payment to "process" one of these cards is a scam.** I only use the
+All six are free. **Any site that asks for payment to "process" one of these cards is a scam.** I only use the
 official URLs above.
 
 ## Sources I use, in this order
@@ -134,14 +136,14 @@ offer again in that conversation.
   question unless you've answered it in this conversation for this trip.
 - **Ask first before final Submit.** I fill every page and stop on the review page. I show you a summary, and I
   press the final Submit / Register only after you reply "submit".
-- **Hand over what only you can do.** CAPTCHAs, passkeys and Cloudflare checks are yours. So are 2-factor codes I
+- **Hand over what only you can do.** CAPTCHAs, passkeys and Cloudflare checks (Thailand always has one) are yours. So are 2-factor codes I
   can't read from your mailbox, and the China passport-photo upload when you haven't given me the photo. For those I
   use **Take control** and wait for "continue".
 - **Never in chat.** I never repeat the full passport number in chat or in memory. I show only the last 3
   characters, for example `•••••789`.
 - **Proof.** After submission I save the confirmation, the QR code or a screenshot under
   `/workspace/arrival-cards/<trip-id>/`. I also forward the official confirmation email to you when there is one.
-- **Timing.** SG opens 3 days before arrival and TW opens 7 days before, both counting the arrival day. CN accepts
+- **Timing.** SG, KR and TH open 3 days before arrival and TW opens 7 days before, all counting the arrival day. CN accepts
   any time before arrival. JP accepts any time, but should be done at least 6 h before departure. If a card isn't open yet, I collect the answers now and offer a
   routine to file it on the day the window opens.
 
@@ -151,7 +153,8 @@ offer again in that conversation.
   identity fields into the Vault.
 - `arrival-card-fill` is the main flow. It identifies the trip, gathers data, presents the gap form, saves the
   answers, and drives the right site skill.
-- `cn-arrival-card`, `sg-arrival-card`, `jp-visit-japan-web`, `tw-arrival-card` are the site walkthroughs: page by
+- `cn-arrival-card`, `sg-arrival-card`, `jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card` and
+  `th-arrival-card` are the site walkthroughs: page by
   page, field by field.
 
 ## Autonomy
@@ -204,7 +207,7 @@ collects the missing Vault fields.
    fields below are missing or expire soon (passport expiry within 6 months).
 2. **Open with the offer.** For a first run, send exactly one message:
 
-   > 👋 I fill out arrival cards for **China, Singapore, Japan and Taiwan**. I find your flights and hotels in
+   > 👋 I fill out arrival cards for **China, Singapore, Japan, Taiwan, Korea and Thailand**. I find your flights and hotels in
    > your email and calendar, and ask you only for what I can't find.
    >
    > Let's set up your **travel identity** once (about 2 minutes), so no card ever has to ask for it again. It's
@@ -231,7 +234,7 @@ collects the missing Vault fields.
    Vault entry, or memory already gave. Put the found values in an "I read this from your passport" block, passport
    shown as `•••••789`, so the user can correct them in the same reply. Number the questions, and give options and
    formats, e.g. *"Occupation (as you'd like it on cards, e.g. SOFTWARE ENGINEER)"*.
-   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan? Reply
+   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan / Korea / Thailand? Reply
      'none' for any where you travel visa-free."*
    - Don't ask `vjw_login` here. It's created the first time a Japan card is filed.
 5. **Save to the Vault**, using the format in `arrival-card-fill` §2:
@@ -247,7 +250,7 @@ collects the missing Vault fields.
 7. **Next traveller.** Ask "Anyone who usually travels with you? Send their passport photo, or say 'done'."
    Remember "usually travels with: …" as a memory preference (names only).
 8. **Finish.** If Gmail or Google Calendar isn't connected, offer to connect it. Then, if the calendar shows a trip
-   to CN, SG, JP or TW in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
+   to CN, SG, JP, TW, KR or TH in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
    that arrival card now?"*
 
 ### Vault fields to collect (generated from the catalog)
@@ -255,26 +258,27 @@ collects the missing Vault fields.
 | Key | Ask as | Vault slot | Needed by |
 |---|---|---|---|
 | `full_name` | Full name as in passport | Vault Contact › Name | SG, TW |
-| `surname` | Surname / family name | Vault hint `surname=` | CN, JP |
-| `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP |
+| `surname` | Surname / family name | Vault hint `surname=` | CN, JP, KR, TH |
+| `given_names` | Given name(s) | Vault hint `given_names=` | CN, JP, KR, TH |
 | `other_names` | Other names used (former / alias), or 'none' | Vault hint `other_names=` | CN |
 | `other_citizenship` | Other countries / regions of citizenship, or 'none' | Vault hint `other_citizenship=` | CN |
+| `middle_name` | Middle name, or 'none' | Vault hint `middle_name=`. Thailand has a separate box; when the passport prints one given-names line, split it only if the user says so. | TH |
 | `chinese_name` | Name in Chinese characters (optional) | Vault hint `chinese_name=` | CN, TW |
-| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, JP, SG, TW |
-| `dob` | Date of birth | Vault hint `dob=` | CN, JP, SG, TW |
-| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, JP, SG, TW |
+| `sex` | Sex as in passport (F / M / X) | Vault hint `sex=` | CN, JP, KR, SG, TH, TW |
+| `dob` | Date of birth | Vault hint `dob=` | CN, JP, KR, SG, TH, TW |
+| `nationality` | Nationality (passport country) | Vault hint `nationality=` | CN, JP, KR, SG, TH, TW |
 | `birth_country` | Country of birth | Vault hint `birth_country=` | CN, SG, TW |
 | `birth_city` | City of birth | Vault hint `birth_city=` | CN, TW |
-| `passport_no` | Passport number | Vault hint `passport_no=` | CN, JP, SG, TW |
+| `passport_no` | Passport number | Vault hint `passport_no=` | CN, JP, KR, SG, TH, TW |
 | `passport_country` | Passport issuing country | Vault hint `passport_country=` | CN |
-| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | JP, SG, TW |
+| `passport_expiry` | Passport date of expiry | Vault hint `passport_expiry=` | JP, KR, SG, TW |
 | `passport_photo` | Photo of the passport data page | Vault hint `passport_photo=`. Collected at onboarding. Read once to fill the other identity fields; with the user's OK a copy is kept at /workspace/arrival-cards/identity/<GIVEN>_<SURNAME>_passport.jpg for China's upload step, and its path is the hint value. | CN |
-| `home_city` | City of residence | Vault hint `home_city=` | JP, SG |
-| `home_country` | Country of residence | Vault hint `home_country=` | JP, TW |
-| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, SG, TW |
-| `email` | Email address for the card | Vault Contact › Email | CN, SG, TW |
-| `occupation` | Occupation / job title | Vault hint `occupation=` | JP, TW |
-| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW; 'none' when visa-exempt. | CN, TW |
+| `home_city` | City of residence | Vault hint `home_city=` | JP, SG, TH |
+| `home_country` | Country of residence | Vault hint `home_country=` | JP, TH, TW |
+| `mobile` | Mobile number with country code | Vault Contact › Phone | CN, SG, TH, TW |
+| `email` | Email address for the card | Vault Contact › Email | CN, KR, SG, TH, TW |
+| `occupation` | Occupation / job title | Vault hint `occupation=` | JP, KR, TH, TW |
+| `visa` | Visa or residence permit for this country (number, or 'none') | Vault hint `visa=`. Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH; 'none' when visa-exempt. | CN, KR, TH, TW |
 | `vjw_login` | Visit Japan Web account (email + password) | Vault Login. A Vault Login for vjw.digital.go.jp, filled into the page without the Bot seeing the password. | JP |
 
 ## 4. How to validate the result
@@ -301,7 +305,7 @@ the apps still to connect, and the offer for the next upcoming trip.
 ````markdown
 ---
 skill: arrival-card-fill
-description: Fill out an official online arrival card for China, Singapore, Japan or Taiwan. First search Vault, memory, email and calendar. Then ask only for what's missing in one form, save the answers back, and drive the official site in the browser up to the final Submit.
+description: Fill out an official online arrival card for China, Singapore, Japan, Taiwan, Korea or Thailand. First search Vault, memory, email and calendar. Then ask only for what's missing in one form, save the answers back, and drive the official site in the browser up to the final Submit.
 ---
 
 # Skill: arrival-card-fill
@@ -309,10 +313,11 @@ description: Fill out an official online arrival card for China, Singapore, Japa
 ## 1. When to use it
 
 The user asks to fill out, file, prepare or "do" an arrival card, entry card, SG Arrival Card, SGAC, Visit Japan Web,
-VJW, TWAC or "China entry card". This also applies when they ask what a trip still needs before landing in CN, SG, JP
-or TW, and when a routine created by this skill fires on the day a card's window opens.
+VJW, TWAC, Korea e-Arrival Card, TDAC or "China entry card". This also applies when they ask what a trip still
+needs before landing in CN, SG, JP, TW, KR or TH, and when a routine created by this skill fires on the day a card's window opens.
 
 Don't use it for visas or e-visas, the UK ETA, K-ETA or other countries. For those, say they're not supported yet.
+A traveller with a valid K-ETA doesn't file the Korea card: see `kr-arrival-card`.
 
 ## 2. Required inputs and access
 
@@ -357,7 +362,7 @@ home_country=SGP
 occupation=SOFTWARE ENGINEER
 employer=ACME PTE LTD
 chinese_name=陈美玲         # optional, used by TW
-visa_CN=none               # or the visa number; per destination: visa_JP, visa_TW
+visa_CN=none               # or the visa number; per destination: visa_JP, visa_TW, visa_KR, visa_TH
 ```
 
 If a newer Grok Bot version offers a dedicated identity or passport entry type in Vault, use that for the passport
@@ -372,7 +377,7 @@ fields and keep the rest as above.
    destination country or city names, "flight", "✈", an airline code plus number, or "hotel".
 3. Search **Gmail** with the queries below, newest first, limited to the last 180 days. Open only messages that
    match the trip's dates or destination.
-   - Flights: `(e-ticket OR "booking confirmation" OR itinerary OR "boarding pass" OR "flight confirmation") (SIN OR Singapore OR PVG OR PEK OR PKX OR Shanghai OR Beijing OR NRT OR HND OR KIX OR Tokyo OR Osaka OR TPE OR Taipei)`
+   - Flights: `(e-ticket OR "booking confirmation" OR itinerary OR "boarding pass" OR "flight confirmation") (SIN OR Singapore OR PVG OR PEK OR PKX OR Shanghai OR Beijing OR NRT OR HND OR KIX OR Tokyo OR Osaka OR TPE OR Taipei OR ICN OR GMP OR Seoul OR PUS OR Busan OR BKK OR DMK OR Bangkok OR HKT OR Phuket OR CNX)`
    - Stays: `(hotel OR booking.com OR agoda OR airbnb OR expedia OR trip.com OR reservation) (confirmation OR confirmed OR itinerary)`
    - Business purpose: `(invitation OR "invitation letter" OR agenda OR conference) <destination>`
 4. Build the trip: the list of entries in order (country, arrival date, airport, flight), plus the stay per country
@@ -382,7 +387,7 @@ fields and keep the rest as above.
 ### Step 2: Resolve every field for each card and each traveller
 
 For each card in the trip, take its field table from the card's skill (`cn-arrival-card`, `sg-arrival-card`,
-`jp-visit-japan-web`, `tw-arrival-card`). For each traveller, resolve every field through its tier:
+`jp-visit-japan-web`, `tw-arrival-card`, `kr-arrival-card`, `th-arrival-card`). For each traveller, resolve every field through its tier:
 
 | Tier | Meaning | Look in, in order | Saved to |
 |---|---|---|---|
@@ -451,6 +456,8 @@ Do this immediately after the user replies, before opening the browser:
 |---|---|---|
 | SG | 3 days before arrival (arrival day included) | Earlier submissions are refused |
 | TW | 7 days before arrival (arrival day included) | A later submission overrides an earlier one |
+| KR | 3 days before arrival, Korea time (arrival day included) | Lapses 72 h after submission, so don't file earlier than needed |
+| TH | 3 days before arrival (arrival day included) | Can't be saved part-way; needs the user for the Cloudflare check |
 | CN | Any time before arrival | Can also be done at the port |
 | JP | Any time | Register at least 6 h before departure |
 
@@ -481,7 +488,7 @@ change."** Press Submit or Register only after that reply.
 ### Step 8: Record the result
 
 - Save the confirmation page, PDF and QR to `/workspace/arrival-cards/<trip-id>/<CC>-<traveller>.png|pdf`.
-- If a confirmation email arrives (SG and TW send one), forward it to the user.
+- If a confirmation email arrives (SG, TW, KR and TH send one), forward it to the user.
 - Write to memory: `Trip <id>: <CC> card submitted <date-time>, ref <reference>`.
 
 ## 4. How to validate the result
@@ -498,7 +505,7 @@ change."** Press Submit or Register only after that reply.
 2. The status: submitted (with reference), waiting on the user (what for), or scheduled (when).
 3. Where the proof is saved, and whether a confirmation email was forwarded.
 4. One line on what was saved to the Vault and memory this time.
-5. What to show at the border: passport, plus the QR code (JP, CN) or nothing extra (SG, TW: it's linked to the
+5. What to show at the border: passport, plus the QR code (JP, CN, TH) or nothing extra (SG, TW, KR: it's linked to the
    passport).
 
 ## 6. What requires approval
@@ -506,7 +513,7 @@ change."** Press Submit or Register only after that reply.
 - The final **Submit / Register / Confirm** on any card. The user replies "submit" after the review summary.
 - Creating a Visit Japan Web account, or any other account.
 - Overwriting an existing Vault value the user didn't just give.
-- Any payment, which should never happen: all four cards are free.
+- Any payment, which should never happen: all six cards are free.
 ````
 
 ### SKILL `cn-arrival-card`
@@ -834,6 +841,137 @@ planned for FY2028 and isn't needed yet.
 - Any Yes answer to a customs question, which the user must give explicitly.
 ````
 
+### SKILL `kr-arrival-card`
+
+````markdown
+---
+skill: kr-arrival-card
+description: Walk the Korea e-Arrival Card on the official site, field by field, from values resolved by arrival-card-fill, reading the email verification code from Gmail. Stops at Check information for the user's 'submit'.
+---
+
+# Skill: kr-arrival-card
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for a foreigner arriving in Korea within
+3 days (Korea time).
+
+First check whether the traveller needs it at all. A traveller with a **valid K-ETA** who isn't entering on a
+visa doesn't file this card: tell them to update their K-ETA record at k-eta.go.kr instead, and stop. Ask if you
+don't know. K-ETA is a separate, paid application and this skill doesn't do it.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value. The card has no health or customs questions.
+- A **contact number in Korea**: the traveller's Korean number, or the hotel's phone from the booking.
+- Gmail, to read the verification code, when the card email is the connected mailbox.
+
+## 3. Sequence of work
+
+1. Open `https://www.e-arrivalcard.go.kr/` and set the language to English. Under **Individual**, choose
+   **Submit**.
+2. **Consent and email.** Tick the three boxes. Type the email in both boxes; the second one blocks paste. Confirm.
+3. **Passport information.** The form takes about 15 seconds to open, under a passport-photo popup. Close the
+   popup and enter the fields by hand, in table order. For several travellers, use **Add declarant** (up to 9; they
+   share the arrival date and flight) and repeat.
+4. **Travel itinerary.**
+   - Arrival: AIR, the date from the datepicker, then the airline from **Check airline** and the flight number.
+     Pad a short number to 3 digits (JQ53 becomes JQ053).
+   - Departure: AIR, the date, and the flight number if known. An approximate date is accepted.
+   - Purpose and Job: pick from the lists; note a mapped job as "chosen for you".
+   - Place of stay: Hotel or Residential. Open the address-search popup, search the hotel's road name or
+     building in English, and pick the matching row: the base address can't be typed. Then type the hotel name
+     in the detailed address.
+   - Contact Information: the number in Korea, digits only.
+5. Go to **Check information**. Stop there and follow step 7 of `arrival-card-fill`.
+6. After "submit": request the verification code and read it from Gmail (it's valid for 5 minutes; three wrong
+   tries force a resend). If the email isn't the connected mailbox, ask the user for the code. Hand over for the
+   CAPTCHA popup with Take control, then submit.
+7. **Save the PDF with the issue number immediately.** The site's own notice says confirmation emails to Gmail
+   and Outlook are sometimes delayed or lost.
+
+### Card facts: Korea e-Arrival Card
+
+- **Official URL (only this one):** https://www.e-arrivalcard.go.kr/
+- **Filing window:** From 3 days before arrival (Korea time), arrival day included: the form accepts arrival dates from today to today+2. Lapses 72 hours after submission. Paper cards are still accepted on arrival.
+- **Who files:** All foreign nationals entering Korea, including visa holders and travellers exempt from K-ETA.
+- **Exempt:** Valid K-ETA holders (unless entering on a visa): they update their K-ETA record instead. Holders of a Korean residence card, permanent resident card or overseas Korean resident card; group-visa tourists; crew; airside transit passengers; Korean citizens.
+- **Last verified:** 2026-11-11: form HTML, inline validators, guides and FAQ of e-arrivalcard.go.kr read directly. No health or customs questions on the card (Q-CODE and customs are separate and only for symptoms / controlled areas / goods over the allowance).
+- **Always the user's (hand over):**
+  - The CAPTCHA popup at submit.
+  - The email verification code at submit (5-minute timer, three wrong tries forces a resend): read from Gmail when the representative email is the connected mailbox, else the user types it.
+  - The final submit (user replies 'submit').
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### 1 · Consent and email
+
+Home → Individual 'Submit'. Tick the three boxes (personal information, terms of use, 14 or older). The email is typed twice and the confirm box blocks paste: type it. The representative must be 14 or older; children are added as extra declarants.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Email / Confirm email | `email` | 🔐 VAULT | yes | Typed twice, max 100 characters. Confirmation emails to Gmail, Outlook and Hotmail are sometimes delayed: always save the PDF. |
+
+#### 2 · Passport information
+
+The form opens after about 15 seconds under a passport-photo popup: close it and enter manually. 'Add declarant' adds up to 9 people who share the arrival date and flight. A warning about duplicate details means an earlier card will be replaced.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Surname (as shown on passport) | `surname` | 🔐 VAULT | yes |  |
+| Given name (as shown on passport) | `given_names` | 🔐 VAULT | yes |  |
+| Date of birth | `dob` | 🔐 VAULT | yes | Year / Month / Day selects |
+| country/region | `nationality` | 🔐 VAULT | yes | Searchable dropdown: type the country name and pick it |
+| Passport number | `passport_no` | 🔐 VAULT | yes |  |
+| Sex | `sex` | 🔐 VAULT | yes | Female / Male / Third gender |
+| Passport expiration date | `passport_expiry` | 🔐 VAULT | yes | Year / Month / Day selects; must be after the arrival date |
+
+#### 3 · Travel itinerary
+
+There is no port-of-entry field, and 'previous departure place' / 'next destination' were removed in March 2026.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Means of arrival | `arrival_flight` | 🧠 RECALL | yes | AIR / SEA |
+| Date of arrival | `arrival_date` | 🧠 RECALL | yes | YYYY-MM-DD datepicker; today to today+2 (Korea time) |
+| Flight number | `arrival_flight` | 🧠 RECALL | yes | 'Check airline' picker, then code + 3-4 digits, e.g. KE000; pad short numbers (JQ53 → JQ053). 'Search travel information' looks the flight up. |
+| Means of departure | `departure_flight` | 🧠 RECALL | yes | AIR / SEA |
+| Date of departure | `departure_date` | 🧠 RECALL | yes | YYYY-MM-DD; an approximate date is accepted |
+| Flight number (departure) | `departure_flight` | 🧠 RECALL | no |  |
+| Purpose of entry | `purpose` | 🧠 RECALL | yes | Tourism (individual) · Tourism (group) · Business · Diplomacy/official duties · Treatment/Medical care · Visit (Family/relatives/friends, etc.) · Meeting/event · Employment · Studies · Sports game · Others (+ text) |
+| Visa Information Lookup | `visa` | 🔐 VAULT | if Entering on a Korean visa | Visa number + Check; fills address and contact from the visa |
+| Intended place of stay | `stay_type` | 🧠 RECALL | yes | Hotel / Residential / Same-day Transit (only when leaving the same or next day; skips the address) |
+| Base address (address-search popup) | `stay_address` | 🧠 RECALL | yes | Not typed: open the KOR/ENG address search, search the road name or building, pick the row. It fills the 5-digit postal code. |
+| Detailed address | `stay_name` | 🧠 RECALL | yes | Hotel name and room/unit, max 200 characters, Korean or English |
+| Contact Information | `stay_phone` | 🧠 RECALL | yes | Digits only: a contact number in Korea. Use the traveller's Korean number if they have one, else the hotel's phone. |
+| Job | `occupation` | 🔐 VAULT | yes | Office worker · Self-employed · Student · Unemployed · Household activities · Public official · Agriculture and livestock industry · Others (+ text); map the Vault value to the closest |
+| Declarant Email | `companions` | 🧠 RECALL | if An added declarant wants their own copy |  |
+
+#### 4 · Check information (stop here)
+
+Screenshot, send the summary, wait for 'submit'. Then: verification code from Gmail (or the user), hand over for the CAPTCHA, submit. Save the PDF with the issue number straight away.
+
+Sources: https://www.e-arrivalcard.go.kr/portal/main/index.do?locale=EN · https://www.e-arrivalcard.go.kr/portal/guide/eacTargetGuide.do
+
+## 4. How to validate the result
+
+The completion page shows an issue number for each traveller and offers the PDF. If a duplicate-details warning
+appeared, the earlier card was replaced: say so.
+
+## 5. What to return
+
+Issue number(s), the saved PDF path, and what to show: the passport only, because the card is matched to it.
+The card lapses 72 hours after submission. To change the purpose, stay or departure later, use **Check and Edit**
+with the issue number, passport number and date of birth.
+
+## 6. What requires approval
+
+- The final submit.
+- Proceeding past a duplicate-details warning, because it deletes an earlier card.
+````
+
 ### SKILL `sg-arrival-card`
 
 ````markdown
@@ -948,6 +1086,142 @@ The card is linked to the passport, so there's no QR to present.
 
 - The final **Submit**.
 - Any answer to a health question that the user didn't give in this chat.
+````
+
+### SKILL `th-arrival-card`
+
+````markdown
+---
+skill: th-arrival-card
+description: Walk the Thailand Digital Arrival Card (TDAC) on the official site, field by field, from values resolved by arrival-card-fill, after the user passes the Cloudflare check. Stops at Preview for the user's 'submit'.
+---
+
+# Skill: th-arrival-card
+
+## 1. When to use it
+
+Called by `arrival-card-fill` after the answers are resolved and saved, for a non-Thai traveller arriving in
+Thailand within 3 days.
+
+## 2. Required inputs and access
+
+- Every 🔐 VAULT and 🧠 RECALL field below has a value, and the user has listed the **countries they stayed in
+  during the two weeks before arrival** in this conversation.
+- **Everything must be ready before you start.** The site can't save progress and sessions time out, so don't open
+  it with questions still open.
+- The user is available for the Cloudflare check on the home page.
+
+## 3. Sequence of work
+
+1. Open `https://tdac.immigration.go.th/`. The home page shows a Cloudflare "verify you are human" check, and the
+   **Arrival Card** button stays disabled until it passes. Use **Take control** and ask the user to complete the
+   check, then say "continue". Never try to get around it.
+2. Click **Arrival Card**. Skip "Retrieve with Passport" and enter by hand.
+3. **Personal Information**, in table order. Autocomplete boxes need 3 typed characters, then a click on the row.
+   The date of birth is three selects: year first.
+4. **Trip & Accommodation Information.**
+   - Country where you boarded: the country of the flight that lands in Thailand, not where the trip began.
+   - Purpose, mode of transport and accommodation type: read the options from the page and pick the closest. If
+     none fits, choose "OTHERS (PLEASE SPECIFY)" and type it.
+   - Departure: fill all of the departure boxes or none. With no onward ticket, leave them all empty.
+   - Accommodation: province first. District and sub-district are needed unless the type is HOTEL. The address is
+     the hotel name and street, in English characters.
+5. **Health Declaration.** Select the countries the user listed. If the yellow-fever question or the symptom list
+   appears and the user hasn't answered it, stop and ask, showing the page's exact options.
+6. For more travellers, choose **Add Other Travelers** (up to 10) and use "Same as Previous Traveler" for the trip
+   and stay. Otherwise choose **Preview**.
+7. On **Preview**, type the email. Stop there and follow step 7 of `arrival-card-fill`.
+8. After "submit": tick the terms, press **Submit**, and download the PDF with the QR code.
+
+If the session times out or the site returns an error on submit (it documents HTTP 429 and "0 Unknown Error"),
+refresh and start again from step 1, which needs the user for the check again. Tell them why.
+
+### Card facts: Thailand Digital Arrival Card (TDAC)
+
+- **Official URL (only this one):** https://tdac.immigration.go.th/
+- **Filing window:** Within 3 days before arrival, arrival day included: the form accepts arrival dates from today to today+3. Cannot be saved part-way: complete it in one go. A later submission replaces an earlier one.
+- **Who files:** All non-Thai nationals entering by air, land or sea, including infants and every visa type.
+- **Exempt:** Transit passengers who do not pass immigration; crew. Border Pass holders per Thai embassy notices.
+- **Last verified:** 2026-11-11: labels and validators from the site's own en.json bundle and form code, User Guide v1.21 (app 2026.10.00). Dropdown option lists are served by the site and were not all verified; the form behind the Cloudflare check has not been walked live.
+- **Always the user's (hand over):**
+  - The Cloudflare 'verify you are human' check on the home page: the 'Arrival Card' button stays disabled until it passes. Always the user's (Take control); never try to get around it.
+  - The final Submit (user replies 'submit').
+
+### Fields, page by page
+
+Tier: 🔐 VAULT = traveller's Vault entry · 🧠 RECALL = memory → email → calendar → derived · ✍️ ASK = ask every time, never saved.
+
+#### Home
+
+Hand over for the Cloudflare check, then click 'Arrival Card'. Entry is English only. Dates are yyyy/mm/dd. Dropdowns autocomplete after 3 typed characters: type, then pick the row. Skip 'Retrieve with Passport' and enter manually.
+
+#### 1 · Personal Information
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Family Name | `surname` | 🔐 VAULT | yes | A-Z and spaces, max 60; '-' if none |
+| First Name | `given_names` | 🔐 VAULT | yes | A-Z and spaces, max 60 |
+| Middle Name | `middle_name` | 🔐 VAULT | no |  |
+| Passport No. | `passport_no` | 🔐 VAULT | yes |  |
+| Nationality/Citizenship | `nationality` | 🔐 VAULT | yes | Autocomplete 'CODE: NAME', e.g. 'SGP: SINGAPOREAN' |
+| Date of Birth | `dob` | 🔐 VAULT | yes | yyyy / mm / dd selects; month and day unlock after the year |
+| Occupation | `occupation` | 🔐 VAULT | yes | Free text, max 100, no digits |
+| Gender | `sex` | 🔐 VAULT | yes | Radio: MALE / FEMALE / UNDEFINED |
+| Visa No. | `visa` | 🔐 VAULT | no |  |
+| Country/Territory of Residence | `home_country` | 🔐 VAULT | yes | Autocomplete 'CODE: NAME' |
+| City/State of Residence | `home_city` | 🔐 VAULT | yes | Enabled after the country; text with suggestions |
+| Phone No. | `mobile` | 🔐 VAULT | yes | Phone code (digits) + number (digits) |
+
+#### 2 · Trip & Accommodation Information
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Date of Arrival | `arrival_date` | 🧠 RECALL | yes | yyyy/mm/dd; today to today+3 |
+| Country/Territory where you Boarded | `origin` | 🧠 RECALL | yes | Autocomplete: the country of the flight that lands in Thailand |
+| Purpose of Travel | `purpose` | 🧠 RECALL | yes | Dropdown read from the page (HOLIDAY, BUSINESS, MEETING, EDUCATION, … OTHERS (PLEASE SPECIFY) + text) |
+| Mode of Travel / Mode of Transport | `arrival_flight` | 🧠 RECALL | yes | AIR → COMMERCIAL FLIGHT; LAND / SEA options read from the page |
+| Flight No./Vehicle No. | `arrival_flight` | 🧠 RECALL | yes | The flight that lands in Thailand, e.g. TG414 |
+| Date of Departure | `departure_date` | 🧠 RECALL | no |  |
+| Departure Mode of Travel / Mode of Transport / Flight No. | `departure_flight` | 🧠 RECALL | no | All-or-nothing: once one departure box is filled the rest become required; 'Clear' resets them |
+| I am a transit passenger, I don't stay in Thailand. | `stay_type` | 🧠 RECALL | if Departure is the day after arrival and the traveller does not stay | Checkbox; skips accommodation |
+| Type of Accommodation in Thailand | `stay_type` | 🧠 RECALL | yes | HOTEL · YOUTH HOSTEL · GUEST HOUSE · FRIEND'S HOUSE · APARTMENT · OTHERS (PLEASE SPECIFY) |
+| Province | `stay_address` | 🧠 RECALL | yes | Autocomplete, e.g. BANGKOK, PHUKET |
+| District, Area / Sub-District, Sub-Area / Post Code | `stay_address` | 🧠 RECALL | if Required unless the type is HOTEL | Autocompletes; the post code fills itself |
+| Address | `stay_name` | 🧠 RECALL | yes | Hotel name and street address, English characters only, max 215 |
+
+#### 3 · Health Declaration
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Please list the name of the countries/territories where you stayed within two weeks before arrival | `recent_travel_14d` | ✍️ ASK | yes | Multi-select autocomplete, up to 30 |
+| Do you have Yellow Fever Vaccination Certificate? | `yellow_fever_cert` | ✍️ ASK | if Shown only for yellow-fever-list countries | Radio + Date of Vaccination; certificate upload optional |
+| Please select the following symptoms listed you have had in past two weeks. | `health_symptoms` | ✍️ ASK | if Shown only with the yellow-fever question | Checkboxes read from the page, including a no-symptoms option: ask the user with the page's exact list |
+
+#### 4 · Preview (stop here)
+
+'Add Other Travelers' (up to 10; 'Same as Previous Traveler' copies trip and stay) before Preview. Screenshot, send the summary, wait for 'submit'. Then tick the terms and Submit. Download the PDF with the QR code; the same arrives by email.
+
+| Site label | Key | Tier | Req | Format / options |
+|---|---|---|---|---|
+| Please specify an email to send Thailand Digital Arrival Card | `email` | 🔐 VAULT | yes | One email, max 50 |
+
+Sources: https://tdac.immigration.go.th/manual/en/index.html · https://tdac.immigration.go.th/manual/en/faq.html
+
+## 4. How to validate the result
+
+The page shows a "TH Digital Arrival Card No." and the PDF downloads. The same PDF arrives by email, and the
+email says whether the traveller can use the automated gates.
+
+## 5. What to return
+
+Card number(s), the saved PDF path, the gate status from the email, and what to show: passport plus the QR code.
+A wrong name, nationality or date of birth can't be edited: submit a new card, and the latest one counts. Other
+fields can be changed with **Update Arrival Card** on the home page.
+
+## 6. What requires approval
+
+- The final **Submit**.
+- Any answer on the health declaration that the user didn't give in this chat.
 ````
 
 ### SKILL `tw-arrival-card`

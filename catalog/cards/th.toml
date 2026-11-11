@@ -1,0 +1,153 @@
+code = "TH"
+name = "Thailand Digital Arrival Card (TDAC)"
+skill = "th-arrival-card"
+url = "https://tdac.immigration.go.th/"
+window = "Within 3 days before arrival, arrival day included: the form accepts arrival dates from today to today+3. Cannot be saved part-way: complete it in one go. A later submission replaces an earlier one."
+who = "All non-Thai nationals entering by air, land or sea, including infants and every visa type."
+exempt = "Transit passengers who do not pass immigration; crew. Border Pass holders per Thai embassy notices."
+handoffs = [
+  "The Cloudflare 'verify you are human' check on the home page: the 'Arrival Card' button stays disabled until it passes. Always the user's (Take control); never try to get around it.",
+  "The final Submit (user replies 'submit').",
+]
+verified = "2026-11-11: labels and validators from the site's own en.json bundle and form code, User Guide v1.21 (app 2026.10.00). Dropdown option lists are served by the site and were not all verified; the form behind the Cloudflare check has not been walked live."
+sources = [
+  "https://tdac.immigration.go.th/manual/en/index.html",
+  "https://tdac.immigration.go.th/manual/en/faq.html",
+]
+
+[[page]]
+title = "Home"
+notes = "Hand over for the Cloudflare check, then click 'Arrival Card'. Entry is English only. Dates are yyyy/mm/dd. Dropdowns autocomplete after 3 typed characters: type, then pick the row. Skip 'Retrieve with Passport' and enter manually."
+
+[[page]]
+title = "1 · Personal Information"
+[[page.field]]
+label = "Family Name"
+key = "surname"
+format = "A-Z and spaces, max 60; '-' if none"
+[[page.field]]
+label = "First Name"
+key = "given_names"
+format = "A-Z and spaces, max 60"
+[[page.field]]
+label = "Middle Name"
+key = "middle_name"
+required = false
+[[page.field]]
+label = "Passport No."
+key = "passport_no"
+[[page.field]]
+label = "Nationality/Citizenship"
+key = "nationality"
+format = "Autocomplete 'CODE: NAME', e.g. 'SGP: SINGAPOREAN'"
+[[page.field]]
+label = "Date of Birth"
+key = "dob"
+format = "yyyy / mm / dd selects; month and day unlock after the year"
+[[page.field]]
+label = "Occupation"
+key = "occupation"
+format = "Free text, max 100, no digits"
+[[page.field]]
+label = "Gender"
+key = "sex"
+format = "Radio: MALE / FEMALE / UNDEFINED"
+[[page.field]]
+label = "Visa No."
+key = "visa"
+required = false
+[[page.field]]
+label = "Country/Territory of Residence"
+key = "home_country"
+format = "Autocomplete 'CODE: NAME'"
+[[page.field]]
+label = "City/State of Residence"
+key = "home_city"
+format = "Enabled after the country; text with suggestions"
+[[page.field]]
+label = "Phone No."
+key = "mobile"
+format = "Phone code (digits) + number (digits)"
+
+[[page]]
+title = "2 · Trip & Accommodation Information"
+[[page.field]]
+label = "Date of Arrival"
+key = "arrival_date"
+format = "yyyy/mm/dd; today to today+3"
+[[page.field]]
+label = "Country/Territory where you Boarded"
+key = "origin"
+format = "Autocomplete: the country of the flight that lands in Thailand"
+[[page.field]]
+label = "Purpose of Travel"
+key = "purpose"
+format = "Dropdown read from the page (HOLIDAY, BUSINESS, MEETING, EDUCATION, … OTHERS (PLEASE SPECIFY) + text)"
+[[page.field]]
+label = "Mode of Travel / Mode of Transport"
+key = "arrival_flight"
+format = "AIR → COMMERCIAL FLIGHT; LAND / SEA options read from the page"
+[[page.field]]
+label = "Flight No./Vehicle No."
+key = "arrival_flight"
+format = "The flight that lands in Thailand, e.g. TG414"
+[[page.field]]
+label = "Date of Departure"
+key = "departure_date"
+required = false
+[[page.field]]
+label = "Departure Mode of Travel / Mode of Transport / Flight No."
+key = "departure_flight"
+required = false
+format = "All-or-nothing: once one departure box is filled the rest become required; 'Clear' resets them"
+[[page.field]]
+label = "I am a transit passenger, I don't stay in Thailand."
+key = "stay_type"
+required = false
+when = "Departure is the day after arrival and the traveller does not stay"
+format = "Checkbox; skips accommodation"
+[[page.field]]
+label = "Type of Accommodation in Thailand"
+key = "stay_type"
+format = "HOTEL · YOUTH HOSTEL · GUEST HOUSE · FRIEND'S HOUSE · APARTMENT · OTHERS (PLEASE SPECIFY)"
+[[page.field]]
+label = "Province"
+key = "stay_address"
+format = "Autocomplete, e.g. BANGKOK, PHUKET"
+[[page.field]]
+label = "District, Area / Sub-District, Sub-Area / Post Code"
+key = "stay_address"
+required = false
+when = "Required unless the type is HOTEL"
+format = "Autocompletes; the post code fills itself"
+[[page.field]]
+label = "Address"
+key = "stay_name"
+format = "Hotel name and street address, English characters only, max 215"
+
+[[page]]
+title = "3 · Health Declaration"
+[[page.field]]
+label = "Please list the name of the countries/territories where you stayed within two weeks before arrival"
+key = "recent_travel_14d"
+format = "Multi-select autocomplete, up to 30"
+[[page.field]]
+label = "Do you have Yellow Fever Vaccination Certificate?"
+key = "yellow_fever_cert"
+required = false
+when = "Shown only for yellow-fever-list countries"
+format = "Radio + Date of Vaccination; certificate upload optional"
+[[page.field]]
+label = "Please select the following symptoms listed you have had in past two weeks."
+key = "health_symptoms"
+required = false
+when = "Shown only with the yellow-fever question"
+format = "Checkboxes read from the page, including a no-symptoms option: ask the user with the page's exact list"
+
+[[page]]
+title = "4 · Preview (stop here)"
+notes = "'Add Other Travelers' (up to 10; 'Same as Previous Traveler' copies trip and stay) before Preview. Screenshot, send the summary, wait for 'submit'. Then tick the terms and Submit. Download the PDF with the QR code; the same arrives by email."
+[[page.field]]
+label = "Please specify an email to send Thailand Digital Arrival Card"
+key = "email"
+format = "One email, max 50"

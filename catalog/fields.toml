@@ -43,6 +43,13 @@ tier = "vault"
 vault_slot = "hint"
 
 [[field]]
+key = "middle_name"
+label = "Middle name, or 'none'"
+tier = "vault"
+vault_slot = "hint"
+note = "Thailand has a separate box; when the passport prints one given-names line, split it only if the user says so."
+
+[[field]]
 key = "chinese_name"
 label = "Name in Chinese characters (optional)"
 tier = "vault"
@@ -138,7 +145,7 @@ key = "visa"
 label = "Visa or residence permit for this country (number, or 'none')"
 tier = "vault"
 vault_slot = "hint"
-note = "Stored per destination as visa_CN / visa_JP / visa_TW; 'none' when visa-exempt."
+note = "Stored per destination as visa_CN / visa_JP / visa_TW / visa_KR / visa_TH; 'none' when visa-exempt."
 
 [[field]]
 key = "vjw_login"
@@ -383,3 +390,15 @@ key = "customs_goods_detail"
 label = "Itemised goods to declare (alcohol bottles, cigarettes, perfume, other goods with value)"
 tier = "ask"
 note = "Only when a customs question is answered Yes."
+
+[[field]]
+key = "recent_travel_14d"
+label = "Countries / territories where you stayed within two weeks before arrival (list them)"
+tier = "ask"
+note = "Thailand asks this. The bot may suggest trips found in email/calendar as a starting list, but the user confirms."
+
+[[field]]
+key = "yellow_fever_cert"
+label = "Do you have a Yellow Fever Vaccination Certificate (and its vaccination date)?"
+tier = "ask"
+note = "Thailand shows this only when a visited country, the boarding country or the nationality is on its yellow-fever list."

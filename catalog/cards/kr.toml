@@ -1,0 +1,121 @@
+code = "KR"
+name = "Korea e-Arrival Card"
+skill = "kr-arrival-card"
+url = "https://www.e-arrivalcard.go.kr/"
+window = "From 3 days before arrival (Korea time), arrival day included: the form accepts arrival dates from today to today+2. Lapses 72 hours after submission. Paper cards are still accepted on arrival."
+who = "All foreign nationals entering Korea, including visa holders and travellers exempt from K-ETA."
+exempt = "Valid K-ETA holders (unless entering on a visa): they update their K-ETA record instead. Holders of a Korean residence card, permanent resident card or overseas Korean resident card; group-visa tourists; crew; airside transit passengers; Korean citizens."
+handoffs = [
+  "The CAPTCHA popup at submit.",
+  "The email verification code at submit (5-minute timer, three wrong tries forces a resend): read from Gmail when the representative email is the connected mailbox, else the user types it.",
+  "The final submit (user replies 'submit').",
+]
+verified = "2026-11-11: form HTML, inline validators, guides and FAQ of e-arrivalcard.go.kr read directly. No health or customs questions on the card (Q-CODE and customs are separate and only for symptoms / controlled areas / goods over the allowance)."
+sources = [
+  "https://www.e-arrivalcard.go.kr/portal/main/index.do?locale=EN",
+  "https://www.e-arrivalcard.go.kr/portal/guide/eacTargetGuide.do",
+]
+
+[[page]]
+title = "1 · Consent and email"
+notes = "Home → Individual 'Submit'. Tick the three boxes (personal information, terms of use, 14 or older). The email is typed twice and the confirm box blocks paste: type it. The representative must be 14 or older; children are added as extra declarants."
+[[page.field]]
+label = "Email / Confirm email"
+key = "email"
+format = "Typed twice, max 100 characters. Confirmation emails to Gmail, Outlook and Hotmail are sometimes delayed: always save the PDF."
+
+[[page]]
+title = "2 · Passport information"
+notes = "The form opens after about 15 seconds under a passport-photo popup: close it and enter manually. 'Add declarant' adds up to 9 people who share the arrival date and flight. A warning about duplicate details means an earlier card will be replaced."
+[[page.field]]
+label = "Surname (as shown on passport)"
+key = "surname"
+[[page.field]]
+label = "Given name (as shown on passport)"
+key = "given_names"
+[[page.field]]
+label = "Date of birth"
+key = "dob"
+format = "Year / Month / Day selects"
+[[page.field]]
+label = "country/region"
+key = "nationality"
+format = "Searchable dropdown: type the country name and pick it"
+[[page.field]]
+label = "Passport number"
+key = "passport_no"
+[[page.field]]
+label = "Sex"
+key = "sex"
+format = "Female / Male / Third gender"
+[[page.field]]
+label = "Passport expiration date"
+key = "passport_expiry"
+format = "Year / Month / Day selects; must be after the arrival date"
+
+[[page]]
+title = "3 · Travel itinerary"
+notes = "There is no port-of-entry field, and 'previous departure place' / 'next destination' were removed in March 2026."
+[[page.field]]
+label = "Means of arrival"
+key = "arrival_flight"
+format = "AIR / SEA"
+[[page.field]]
+label = "Date of arrival"
+key = "arrival_date"
+format = "YYYY-MM-DD datepicker; today to today+2 (Korea time)"
+[[page.field]]
+label = "Flight number"
+key = "arrival_flight"
+format = "'Check airline' picker, then code + 3-4 digits, e.g. KE000; pad short numbers (JQ53 → JQ053). 'Search travel information' looks the flight up."
+[[page.field]]
+label = "Means of departure"
+key = "departure_flight"
+format = "AIR / SEA"
+[[page.field]]
+label = "Date of departure"
+key = "departure_date"
+format = "YYYY-MM-DD; an approximate date is accepted"
+[[page.field]]
+label = "Flight number (departure)"
+key = "departure_flight"
+required = false
+[[page.field]]
+label = "Purpose of entry"
+key = "purpose"
+format = "Tourism (individual) · Tourism (group) · Business · Diplomacy/official duties · Treatment/Medical care · Visit (Family/relatives/friends, etc.) · Meeting/event · Employment · Studies · Sports game · Others (+ text)"
+[[page.field]]
+label = "Visa Information Lookup"
+key = "visa"
+required = false
+when = "Entering on a Korean visa"
+format = "Visa number + Check; fills address and contact from the visa"
+[[page.field]]
+label = "Intended place of stay"
+key = "stay_type"
+format = "Hotel / Residential / Same-day Transit (only when leaving the same or next day; skips the address)"
+[[page.field]]
+label = "Base address (address-search popup)"
+key = "stay_address"
+format = "Not typed: open the KOR/ENG address search, search the road name or building, pick the row. It fills the 5-digit postal code."
+[[page.field]]
+label = "Detailed address"
+key = "stay_name"
+format = "Hotel name and room/unit, max 200 characters, Korean or English"
+[[page.field]]
+label = "Contact Information"
+key = "stay_phone"
+format = "Digits only: a contact number in Korea. Use the traveller's Korean number if they have one, else the hotel's phone."
+[[page.field]]
+label = "Job"
+key = "occupation"
+format = "Office worker · Self-employed · Student · Unemployed · Household activities · Public official · Agriculture and livestock industry · Others (+ text); map the Vault value to the closest"
+[[page.field]]
+label = "Declarant Email"
+key = "companions"
+required = false
+when = "An added declarant wants their own copy"
+
+[[page]]
+title = "4 · Check information (stop here)"
+notes = "Screenshot, send the summary, wait for 'submit'. Then: verification code from Gmail (or the user), hand over for the CAPTCHA, submit. Save the PDF with the issue number straight away."

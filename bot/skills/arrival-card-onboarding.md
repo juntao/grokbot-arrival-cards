@@ -31,7 +31,7 @@ collects the missing Vault fields.
    fields below are missing or expire soon (passport expiry within 6 months).
 2. **Open with the offer.** For a first run, send exactly one message:
 
-   > 👋 I fill out arrival cards for **China, Singapore, Japan and Taiwan**. I find your flights and hotels in
+   > 👋 I fill out arrival cards for **China, Singapore, Japan, Taiwan, Korea and Thailand**. I find your flights and hotels in
    > your email and calendar, and ask you only for what I can't find.
    >
    > Let's set up your **travel identity** once (about 2 minutes), so no card ever has to ask for it again. It's
@@ -58,7 +58,7 @@ collects the missing Vault fields.
    Vault entry, or memory already gave. Put the found values in an "I read this from your passport" block, passport
    shown as `•••••789`, so the user can correct them in the same reply. Number the questions, and give options and
    formats, e.g. *"Occupation (as you'd like it on cards, e.g. SOFTWARE ENGINEER)"*.
-   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan? Reply
+   - Ask `visa` only per country: *"Do you hold a visa or residence permit for China / Japan / Taiwan / Korea / Thailand? Reply
      'none' for any where you travel visa-free."*
    - Don't ask `vjw_login` here. It's created the first time a Japan card is filed.
 5. **Save to the Vault**, using the format in `arrival-card-fill` §2:
@@ -74,7 +74,7 @@ collects the missing Vault fields.
 7. **Next traveller.** Ask "Anyone who usually travels with you? Send their passport photo, or say 'done'."
    Remember "usually travels with: …" as a memory preference (names only).
 8. **Finish.** If Gmail or Google Calendar isn't connected, offer to connect it. Then, if the calendar shows a trip
-   to CN, SG, JP or TW in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
+   to CN, SG, JP, TW, KR or TH in the next 60 days, offer: *"I see you're flying to Tokyo on 3 Dec. Want me to prepare
    that arrival card now?"*
 
 <!-- VAULT_FIELDS -->
